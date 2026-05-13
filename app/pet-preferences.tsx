@@ -3,6 +3,14 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { Text } from '@/src/components/atoms/Text';
 
+import IconBell from '@/assets/icons/icon-bell.svg';
+import IconWhatsapp from '@/assets/icons/icon-whatsapp.svg';
+import IconEmail from '@/assets/icons/icon-email.svg';
+import IconVaccine from '@/assets/icons/icon-vaccine.svg';
+import IconConsult from '@/assets/icons/icon-consult.svg';
+import IconMedicine from '@/assets/icons/icon-medicine.svg';
+import IconWorm from '@/assets/icons/icon-worm.svg';
+
 export default function PetPreferences() {
   const [notificacao, setNotificacao] = useState(true);
   const [whatsapp, setWhatsapp] = useState(true);
@@ -16,52 +24,116 @@ export default function PetPreferences() {
     <ScrollView
       style={{ flex: 1, backgroundColor: '#FFFFFF' }}
       contentContainerStyle={{
-        paddingHorizontal: 24,
+        paddingHorizontal: 36,
         paddingTop: 60,
         paddingBottom: 34,
       }}
+      showsVerticalScrollIndicator={false}
     >
       <TouchableOpacity onPress={() => router.back()}>
-        <Text size={28} color="#111827">‹</Text>
+        <Text size={40} color="#111827">
+          ‹
+        </Text>
       </TouchableOpacity>
 
-      <Text size={26} weight="700" color="#111827" style={{ marginTop: 12 }}>
+      <Text
+        size={30}
+        weight="700"
+        color="#111827"
+        style={{ marginTop: 34 }}
+      >
         Preferências e{'\n'}lembretes
       </Text>
 
-      <Text size={15} color="#6B7280" style={{ marginTop: 8, marginBottom: 24 }}>
-        Escolha como deseja receber lembretes e alertas importantes.
+      <Text
+        size={18}
+        color="#444"
+        style={{ marginTop: 10, marginBottom: 38 }}
+      >
+        Escolha como deseja receber{'\n'}
+        lembretes e alertas importantes
       </Text>
 
-      <Text size={17} weight="700" color="#111827" style={{ marginBottom: 12 }}>
+      <Text
+        size={22}
+        weight="700"
+        color="#111827"
+        style={{ marginBottom: 24 }}
+      >
         Receber lembretes por
       </Text>
 
-      <Option label="Notificações" value={notificacao} onValueChange={setNotificacao} />
-      <Option label="WhatsApp" value={whatsapp} onValueChange={setWhatsapp} />
-      <Option label="E-mail" value={email} onValueChange={setEmail} />
+      <Option
+        icon={<IconBell width={26} height={26} />}
+        label="Notificações"
+        description="Recomendado"
+        value={notificacao}
+        onValueChange={setNotificacao}
+      />
 
-      <Text size={17} weight="700" color="#111827" style={{ marginTop: 20, marginBottom: 12 }}>
-        Lembretes para
+      <Option
+        icon={<IconWhatsapp width={26} height={26} />}
+        label="WhatsApp"
+        value={whatsapp}
+        onValueChange={setWhatsapp}
+      />
+
+      <Option
+        icon={<IconEmail width={26} height={26} />}
+        label="E-mail"
+        value={email}
+        onValueChange={setEmail}
+      />
+
+      <Text
+        size={22}
+        weight="700"
+        color="#111827"
+        style={{ marginTop: 20, marginBottom: 24 }}
+      >
+        Lembretes  para
       </Text>
 
-      <Option label="Vacinas" value={vacinas} onValueChange={setVacinas} />
-      <Option label="Consulta" value={consulta} onValueChange={setConsulta} />
-      <Option label="Medicamentos" value={medicamentos} onValueChange={setMedicamentos} />
-      <Option label="Vermífugos" value={vermifugos} onValueChange={setVermifugos} />
+      <Option
+        icon={<IconVaccine width={26} height={26} />}
+        label="Vacinas"
+        value={vacinas}
+        onValueChange={setVacinas}
+      />
+
+      <Option
+        icon={<IconConsult width={26} height={26} />}
+        label="Consulta"
+        value={consulta}
+        onValueChange={setConsulta}
+      />
+
+      <Option
+        icon={<IconMedicine width={26} height={26} />}
+        label="Medicamentos"
+        value={medicamentos}
+        onValueChange={setMedicamentos}
+      />
+
+      <Option
+        icon={<IconWorm width={26} height={26} />}
+        label="Vermífugos"
+        value={vermifugos}
+        onValueChange={setVermifugos}
+      />
 
       <TouchableOpacity
         onPress={() => router.push('/pet-success')}
         style={{
-          height: 56,
+          height: 64,
           backgroundColor: '#0A66C2',
           borderRadius: 16,
           alignItems: 'center',
           justifyContent: 'center',
-          marginTop: 26,
+          marginTop: 32,
         }}
       >
-        <Text size={17} weight="700" color="#FFFFFF">
+        <Text size={22} weight="700" color="#FFFFFF">
           Salvar e continuar
         </Text>
       </TouchableOpacity>
@@ -69,21 +141,60 @@ export default function PetPreferences() {
   );
 }
 
-function Option({ label, value, onValueChange }: any) {
+type OptionProps = {
+  icon: React.ReactNode;
+  label: string;
+  description?: string;
+  value: boolean;
+  onValueChange: (value: boolean) => void;
+};
+
+function Option({
+  icon,
+  label,
+  description,
+  value,
+  onValueChange,
+}: OptionProps) {
   return (
     <View
       style={{
-        height: 48,
+        minHeight: 64,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        marginBottom: 8,
       }}
     >
-      <Text size={16} weight="600" color="#111827">
-        {label}
-      </Text>
+      <View
+        style={{
+          width: 44,
+          alignItems: 'center',
+          marginRight: 24,
+        }}
+      >
+        {icon}
+      </View>
 
-      <Switch value={value} onValueChange={onValueChange} />
+      <View style={{ flex: 1 }}>
+        <Text size={20} weight="700" color="#111827">
+          {label}
+        </Text>
+
+        {description && (
+          <Text size={16} color="#6B7280" style={{ marginTop: 4 }}>
+            {description}
+          </Text>
+        )}
+      </View>
+
+      <Switch
+        value={value}
+        onValueChange={onValueChange}
+        trackColor={{ false: '#8E8E93', true: '#0A66C2' }}
+        thumbColor="#FFFFFF"
+        ios_backgroundColor="#8E8E93"
+      />
     </View>
   );
 }

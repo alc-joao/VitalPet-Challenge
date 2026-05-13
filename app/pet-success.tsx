@@ -1,6 +1,16 @@
-import { View, TouchableOpacity, Image } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+
+import LogoBlue from '@/assets/logos/logo-blue.svg';
+import IconCheck from '@/assets/icons/check-green.svg';
+
+const items = [
+  'Saúde em dia',
+  'Vacinas e consultas',
+  'Alertas inteligentes',
+  'Histórico completo',
+];
 
 export default function PetSuccess() {
   return (
@@ -8,49 +18,80 @@ export default function PetSuccess() {
       style={{
         flex: 1,
         backgroundColor: '#FFFFFF',
-        paddingHorizontal: 24,
-        paddingTop: 70,
-        paddingBottom: 34,
-        alignItems: 'center',
+        paddingHorizontal: 36,
+        paddingTop: 30,
+        paddingBottom: 30,
       }}
     >
-      <Image
-        source={require('@/assets/logos/logo-blue.svg')}
-        style={{ width: 170, height: 100 }}
-        resizeMode="contain"
-      />
+      <TouchableOpacity onPress={() => router.back()}>
+        <Text size={40} color="#111827">
+          ‹
+        </Text>
+      </TouchableOpacity>
 
-      <Text size={28} weight="700" color="#111827" align="center" style={{ marginTop: 60 }}>
+      <View style={{ alignItems: 'center', marginTop: 30 }}>
+        <LogoBlue width={170} height={170} />
+      </View>
+
+      <Text
+        size={30}
+        weight="700"
+        color="#000000"
+        align="center"
+        style={{ marginTop: 30 }}
+      >
         Tudo pronto! 🎉
       </Text>
 
-      <Text size={17} color="#6B7280" align="center" style={{ marginTop: 14, marginBottom: 34 }}>
-        Agora você pode acompanhar tudo do seu pet em um só lugar.
+      <Text
+        size={20}
+        color="#333333"
+        align="center"
+        style={{
+          marginTop: 22,
+          marginBottom: 30,
+          lineHeight: 28,
+        }}
+      >
+        Agora você pode acompanhar{'\n'}
+        tudo do seu pet em um só lugar.
       </Text>
 
-      {['Saúde em dia', 'Vacinas e consultas', 'Alertas inteligentes', 'Histórico completo'].map((item) => (
-        <View
-          key={item}
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            width: '100%',
-            marginBottom: 18,
-            paddingLeft: 34,
-          }}
-        >
-          <Text size={18}>✅</Text>
-          <Text size={16} weight="600" color="#111827" style={{ marginLeft: 12 }}>
-            {item}
-          </Text>
-        </View>
-      ))}
+      <View style={{ paddingLeft: 30 }}>
+        {items.map(item => (
+          <View
+            key={item}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: 28,
+            }}
+          >
+            <View
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: 19,
+                backgroundColor: '#D8FFD9',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: 25,
+              }}
+            >
+              <IconCheck width={18} height={18} />
+            </View>
+
+            <Text size={20} weight="700" color="#000000">
+              {item}
+            </Text>
+          </View>
+        ))}
+      </View>
 
       <TouchableOpacity
         onPress={() => router.replace('/tutor-home')}
         style={{
-          width: '100%',
-          height: 56,
+          height: 64,
           backgroundColor: '#0A66C2',
           borderRadius: 16,
           alignItems: 'center',
@@ -58,7 +99,7 @@ export default function PetSuccess() {
           marginTop: 'auto',
         }}
       >
-        <Text size={17} weight="700" color="#FFFFFF">
+        <Text size={22} weight="700" color="#FFFFFF">
           Salvar e continuar
         </Text>
       </TouchableOpacity>
