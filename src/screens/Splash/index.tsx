@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, Image, ActivityIndicator } from 'react-native';
 import { router } from 'expo-router';
-import { Text } from '@/src/components/atoms/Text';
 
 export function SplashScreen() {
   useEffect(() => {
@@ -22,25 +21,15 @@ export function SplashScreen() {
         padding: 24,
       }}
     >
-      <Text size={62}>🐾</Text>
-
-      <Text
-        size={34}
-        weight="700"
-        color="#FFFFFF"
-        style={{ marginTop: 16 }}
-      >
-        VitalPet
-      </Text>
-
-      <Text
-        size={16}
-        color="#D9E8FF"
-        align="center"
-        style={{ marginTop: 8, marginBottom: 28 }}
-      >
-        Let’s care together
-      </Text>
+      <Image
+        source={require('@/assets/logos/logo-white.svg')}
+        style={{
+          width: 220,
+          height: 220,
+          marginBottom: 20,
+        }}
+        resizeMode="contain"
+      />
 
       <ActivityIndicator size="large" color="#FFFFFF" />
     </View>
