@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { Text } from '@/src/components/atoms/Text';
 
 export default function PetHealth() {
-  const [peso, setPeso] = useState('Macho');
-  const [porte, setPorte] = useState('Grande');
-  const [condicao, setCondicao] = useState('Não');
+  const [peso, setPeso] = useState('');
+  const [porte, setPorte] = useState('');
+  const [condicao, setCondicao] = useState('');
 
   return (
     <View
@@ -19,20 +19,48 @@ export default function PetHealth() {
       }}
     >
       <TouchableOpacity onPress={() => router.back()}>
-        <Text size={28} color="#111827">‹</Text>
+        <Text size={28} color="#111827">
+          ‹
+        </Text>
       </TouchableOpacity>
 
-      <Text size={26} weight="700" color="#111827" style={{ marginTop: 12 }}>
+      <Text
+        size={28}
+        weight="700"
+        color="#111827"
+        style={{ marginTop: 12 }}
+      >
         Informações de{'\n'}saúde
       </Text>
 
-      <Text size={15} color="#6B7280" style={{ marginTop: 8, marginBottom: 34 }}>
-        Esses lembretes nos ajudam a cuidar melhor do seu pet.
+      <Text
+        size={15}
+        color="#6B7280"
+        style={{ marginTop: 8, marginBottom: 28 }}
+      >
+        Nos ajude a cuidar melhor do seu pet com informações importantes.
       </Text>
 
-      <Input label="Peso (kg)" value={peso} onChangeText={setPeso} />
-      <Input label="Porte" value={porte} onChangeText={setPorte} />
-      <Input label="Possui alguma condição especial?" value={condicao} onChangeText={setCondicao} />
+      <Input
+        label="Peso"
+        placeholder="Ex: 12kg"
+        value={peso}
+        onChangeText={setPeso}
+      />
+
+      <Input
+        label="Porte"
+        placeholder="Ex: Médio"
+        value={porte}
+        onChangeText={setPorte}
+      />
+
+      <Input
+        label="Condição especial?"
+        placeholder="Ex: Não"
+        value={condicao}
+        onChangeText={setCondicao}
+      />
 
       <TouchableOpacity
         onPress={() => router.push('/pet-preferences')}
@@ -53,24 +81,44 @@ export default function PetHealth() {
   );
 }
 
-function Input(props: any) {
+type InputProps = {
+  label: string;
+  placeholder: string;
+  value: string;
+  onChangeText: (text: string) => void;
+};
+
+function Input({
+  label,
+  placeholder,
+  value,
+  onChangeText,
+}: InputProps) {
   return (
     <View style={{ marginBottom: 18 }}>
-      <Text size={14} weight="600" color="#111827" style={{ marginBottom: 6 }}>
-        {props.label}
+      <Text
+        size={14}
+        weight="600"
+        color="#111827"
+        style={{ marginBottom: 8 }}
+      >
+        {label}
       </Text>
 
       <TextInput
-        {...props}
+        placeholder={placeholder}
+        placeholderTextColor="#9CA3AF"
+        value={value}
+        onChangeText={onChangeText}
         style={{
           height: 54,
           borderWidth: 1,
           borderColor: '#D1D5DB',
-          borderRadius: 12,
-          paddingHorizontal: 14,
-          fontSize: 15,
+          borderRadius: 14,
+          paddingHorizontal: 16,
+          fontSize: 16,
         }}
       />
     </View>
   );
-}
+} 

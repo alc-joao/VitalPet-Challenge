@@ -6,7 +6,7 @@ import { Text } from '@/src/components/atoms/Text';
 export default function Onboarding() {
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      <View style={{ flex: 0.72, position: 'relative' }}>
+      <View style={{ flex: 1, position: 'relative' }}>
         <Image
           source={require('@/assets/images/background.png')}
           style={{
@@ -18,24 +18,25 @@ export default function Onboarding() {
 
         <LinearGradient
           colors={[
-            'rgba(14, 23, 39, 0)',
-            'rgba(252, 252, 252, 0.48)',
-            '#FCFCFC',
+            'rgba(255,255,255,0)',
+            'rgba(255,255,255,0.55)',
+            '#FFFFFF',
+            '#FFFFFF',
           ]}
-          locations={[0, 0.36, 0.48]}
+          locations={[0, 0.58, 0.72, 1]}
           style={{
             position: 'absolute',
             left: 0,
             right: 0,
             bottom: 0,
-            height: 240,
+            height: '48%',
           }}
         />
 
         <View
           style={{
             position: 'absolute',
-            top: 60,
+            top: 72,
             width: '100%',
             alignItems: 'center',
           }}
@@ -49,59 +50,47 @@ export default function Onboarding() {
             resizeMode="contain"
           />
         </View>
-      </View>
 
-      <View
-        style={{
-          flex: 0.28,
-          backgroundColor: '#FFFFFF',
-          marginTop: -35,
-          borderTopLeftRadius: 34,
-          borderTopRightRadius: 34,
-          paddingHorizontal: 28,
-          paddingTop: 20,
-          paddingBottom: 30,
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <View>
-          <Text
-            size={30}
-            weight="700"
-            color="#075BAD"
-            align="center"
-          >
+        <View
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 56,
+            paddingHorizontal: 32,
+            alignItems: 'center',
+          }}
+        >
+          <Text size={36} weight="700" color="#075BAD" align="center">
             Bem Vindo(a) ao{'\n'}Clyvo VitalPet
           </Text>
 
           <Text
-            size={17}
+            size={21}
             color="#0A66C2"
             align="center"
-            style={{ marginTop: 8 }}
+            style={{ marginTop: 8, marginBottom: 34 }}
           >
             Um cuidado com seu pet
           </Text>
-        </View>
 
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => router.push('/choose-profile')}
-          style={{
-            width: '100%',
-            height: 58,
-            backgroundColor: '#0A66C2',
-            borderRadius: 18,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: 18,
-          }}
-        >
-          <Text size={18} weight="700" color="#FFFFFF">
-            Começar
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.85}
+            onPress={() => router.push('/choose-profile')}
+            style={{
+              width: '100%',
+              height: 60,
+              backgroundColor: '#0A66C2',
+              borderRadius: 20,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Text size={22} weight="700" color="#FFFFFF">
+              Começar
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

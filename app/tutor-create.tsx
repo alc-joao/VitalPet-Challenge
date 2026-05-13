@@ -4,10 +4,11 @@ import { useState } from 'react';
 import { Text } from '@/src/components/atoms/Text';
 
 export default function TutorCreate() {
-  const [nome, setNome] = useState('João Victor');
-  const [cpf, setCpf] = useState('000.000.000-00');
-  const [email, setEmail] = useState('joao@gmail.com');
+  const [nome, setNome] = useState('');
+  const [cpf, setCpf] = useState('');
+  const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
 
   return (
     <ScrollView
@@ -19,7 +20,13 @@ export default function TutorCreate() {
       }}
       showsVerticalScrollIndicator={false}
     >
-      <View style={{ alignItems: 'center', marginBottom: 24 }}>
+      <TouchableOpacity onPress={() => router.back()}>
+        <Text size={28} color="#111827">
+          ‹
+        </Text>
+      </TouchableOpacity>
+
+      <View style={{ alignItems: 'center', marginBottom: 22 }}>
         <Image
           source={require('@/assets/logos/logo-blue.svg')}
           style={{ width: 120, height: 80 }}
@@ -27,19 +34,56 @@ export default function TutorCreate() {
         />
       </View>
 
-      <Text size={28} weight="700" color="#111827">
-        Criar sua Conta
+      <Text size={30} weight="700" color="#111827">
+        Criar sua conta
       </Text>
 
-      <Text size={15} color="#6B7280" style={{ marginTop: 8, marginBottom: 22 }}>
-        Preencha seus dados pra começar a cuidar do seu pet.
+      <Text
+        size={15}
+        color="#6B7280"
+        style={{ marginTop: 8, marginBottom: 24 }}
+      >
+        Preencha seus dados para começar sua jornada no VitalPet.
       </Text>
 
-      <Input label="Nome Completo" value={nome} onChangeText={setNome} />
-      <Input label="CPF" value={cpf} onChangeText={setCpf} />
-      <Input label="Email" value={email} onChangeText={setEmail} />
-      <Input label="Senha" value={senha} onChangeText={setSenha} secureTextEntry />
-      <Input label="Confirme Senha" value={senha} onChangeText={setSenha} secureTextEntry />
+      <Input
+        label="Nome Completo"
+        placeholder="Digite seu nome"
+        value={nome}
+        onChangeText={setNome}
+      />
+
+      <Input
+        label="CPF"
+        placeholder="000.000.000-00"
+        value={cpf}
+        onChangeText={setCpf}
+        keyboardType="numeric"
+      />
+
+      <Input
+        label="Email"
+        placeholder="Digite seu email"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+      />
+
+      <Input
+        label="Senha"
+        placeholder="Digite sua senha"
+        value={senha}
+        onChangeText={setSenha}
+        secureTextEntry
+      />
+
+      <Input
+        label="Confirmar Senha"
+        placeholder="Digite novamente"
+        value={confirmarSenha}
+        onChangeText={setConfirmarSenha}
+        secureTextEntry
+      />
 
       <TouchableOpacity
         onPress={() => router.push('/pet-form')}
@@ -60,23 +104,48 @@ export default function TutorCreate() {
   );
 }
 
-function Input(props: any) {
+type InputProps = {
+  label: string;
+  placeholder: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  keyboardType?: any;
+  secureTextEntry?: boolean;
+};
+
+function Input({
+  label,
+  placeholder,
+  value,
+  onChangeText,
+  keyboardType,
+  secureTextEntry,
+}: InputProps) {
   return (
-    <View style={{ marginBottom: 14 }}>
-      <Text size={14} weight="600" color="#111827" style={{ marginBottom: 6 }}>
-        {props.label}
+    <View style={{ marginBottom: 16 }}>
+      <Text
+        size={14}
+        weight="600"
+        color="#111827"
+        style={{ marginBottom: 8 }}
+      >
+        {label}
       </Text>
 
       <TextInput
-        {...props}
+        placeholder={placeholder}
         placeholderTextColor="#9CA3AF"
+        value={value}
+        onChangeText={onChangeText}
+        keyboardType={keyboardType}
+        secureTextEntry={secureTextEntry}
         style={{
-          height: 52,
+          height: 54,
           borderWidth: 1,
           borderColor: '#D1D5DB',
-          borderRadius: 12,
-          paddingHorizontal: 14,
-          fontSize: 15,
+          borderRadius: 14,
+          paddingHorizontal: 16,
+          fontSize: 16,
         }}
       />
     </View>

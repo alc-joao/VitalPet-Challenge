@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
-import { View, Image, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { router } from 'expo-router';
+import { Text } from '@/src/components/atoms/Text';
+import LogoWhite from '@/assets/logos/logo-white.svg';
 
 export function SplashScreen() {
   useEffect(() => {
@@ -15,21 +17,26 @@ export function SplashScreen() {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#0A66C2',
+        backgroundColor: '#2F67C8',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 24,
+        paddingHorizontal: 24,
       }}
     >
-      <Image
-        source={require('@/assets/logos/logo-white.svg')}
+      <LogoWhite width={230} height={170} />
+
+      <Text
+        size={24}
+        color="#FFFFFF"
+        align="center"
         style={{
-          width: 220,
-          height: 220,
-          marginBottom: 20,
+          marginTop: 28,
+          marginBottom: 42,
+          letterSpacing: 0.2,
         }}
-        resizeMode="contain"
-      />
+      >
+        Um cuidado com seu pet
+      </Text>
 
       <ActivityIndicator size="large" color="#FFFFFF" />
     </View>

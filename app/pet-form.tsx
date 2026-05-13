@@ -1,151 +1,151 @@
-import { View, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
-import { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { router } from 'expo-router';
+import { useState } from 'react';
 import { Text } from '@/src/components/atoms/Text';
 
 export default function PetForm() {
   const [nome, setNome] = useState('');
-  const [idade, setIdade] = useState('');
-  const [peso, setPeso] = useState('');
-
-  useEffect(() => {
-    carregarDados();
-  }, []);
-
-  async function carregarDados() {
-    const petSalvo = await AsyncStorage.getItem('petData');
-
-    if (petSalvo) {
-      const pet = JSON.parse(petSalvo);
-      setNome(pet.nome);
-      setIdade(pet.idade);
-      setPeso(pet.peso);
-    }
-  }
-
-  async function salvarDados() {
-    const pet = { nome, idade, peso };
-
-    await AsyncStorage.setItem('petData', JSON.stringify(pet));
-
-    Alert.alert('Sucesso', 'Dados do pet salvos com sucesso!');
-    router.push('/pet-profile');
-  }
+  const [especie, setEspecie] = useState('');
+  const [raca, setRaca] = useState('');
+  const [nascimento, setNascimento] = useState('');
 
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: '#FFFFFF' }}
       contentContainerStyle={{
         paddingHorizontal: 24,
-        paddingTop: 70,
-        paddingBottom: 40,
+        paddingTop: 60,
+        paddingBottom: 34,
       }}
+      showsVerticalScrollIndicator={false}
     >
-      <Text size={30} weight="700" color="#111827" align="center">
-        Cadastre seu Pet
+      <TouchableOpacity onPress={() => router.back()}>
+        <Text size={28} color="#111827">
+          ‹
+        </Text>
+      </TouchableOpacity>
+
+      <Text
+        size={28}
+        weight="700"
+        color="#111827"
+        style={{ marginTop: 12 }}
+      >
+        Vamos cadastrar{'\n'}seu pet
       </Text>
 
       <Text
-        size={16}
+        size={15}
         color="#6B7280"
-        align="center"
-        style={{ marginTop: 10, marginBottom: 34 }}
+        style={{ marginTop: 8, marginBottom: 26 }}
       >
-        Preencha as informações principais
+        Adicione as principais informações para personalizar sua experiência.
       </Text>
 
-      <View style={{ gap: 18 }}>
-        <View>
-          <Text size={15} weight="600" style={{ marginBottom: 8 }}>
-            Nome do pet
-          </Text>
-
-          <TextInput
-            placeholder="Ex: Thor"
-            value={nome}
-            onChangeText={setNome}
-            style={{
-              height: 56,
-              borderWidth: 1,
-              borderColor: '#D1D5DB',
-              borderRadius: 16,
-              paddingHorizontal: 16,
-              fontSize: 16,
-            }}
-          />
-        </View>
-
-        <View>
-          <Text size={15} weight="600" style={{ marginBottom: 8 }}>
-            Idade
-          </Text>
-
-          <TextInput
-            placeholder="Ex: 3"
-            keyboardType="numeric"
-            value={idade}
-            onChangeText={setIdade}
-            style={{
-              height: 56,
-              borderWidth: 1,
-              borderColor: '#D1D5DB',
-              borderRadius: 16,
-              paddingHorizontal: 16,
-              fontSize: 16,
-            }}
-          />
-        </View>
-
-        <View>
-          <Text size={15} weight="600" style={{ marginBottom: 8 }}>
-            Peso (kg)
-          </Text>
-
-          <TextInput
-            placeholder="Ex: 12"
-            keyboardType="numeric"
-            value={peso}
-            onChangeText={setPeso}
-            style={{
-              height: 56,
-              borderWidth: 1,
-              borderColor: '#D1D5DB',
-              borderRadius: 16,
-              paddingHorizontal: 16,
-              fontSize: 16,
-            }}
-          />
-        </View>
-      </View>
-
-      <TouchableOpacity
-        onPress={salvarDados}
+      <View
         style={{
-          marginTop: 30,
-          height: 58,
-          backgroundColor: '#0A66C2',
-          borderRadius: 18,
+          width: 96,
+          height: 96,
+          borderRadius: 48,
+          borderWidth: 2,
+          borderColor: '#0A66C2',
+          alignSelf: 'center',
           alignItems: 'center',
           justifyContent: 'center',
+          marginBottom: 28,
         }}
       >
-        <Text size={18} weight="700" color="#FFFFFF">
-          Salvar Pet
+        <Text size={28}>📷</Text>
+        <Text size={11} color="#0A66C2">
+          Adicionar Foto
         </Text>
-      </TouchableOpacity>
+      </View>
+
+      <Input
+        label="Nome do pet"
+        placeholder="Ex: Thor"
+        value={nome}
+        onChangeText={setNome}
+      />
+
+      <Input
+        label="Espécie"
+        placeholder="Ex: Cachorro"
+        value={especie}
+        onChangeText={setEspecie}
+      />
+
+      <Input
+        label="Raça"
+        placeholder="Ex: Golden Retriever"
+        value={raca}
+        onChangeText={setRaca}
+      />
+
+      <Input
+        label="Data de nascimento"
+        placeholder="DD/MM/AAAA"
+        value={nascimento}
+        onChangeText={setNascimento}
+      />
 
       <TouchableOpacity
-        onPress={() => router.back()}
+        onPress={() => router.push('/pet-health')}
         style={{
-          marginTop: 18,
+          height: 56,
+          backgroundColor: '#0A66C2',
+          borderRadius: 16,
           alignItems: 'center',
+          justifyContent: 'center',
+          marginTop: 18,
         }}
       >
-        <Text size={15} color="#6B7280">
-          ← Voltar
+        <Text size={17} weight="700" color="#FFFFFF">
+          Continuar
         </Text>
       </TouchableOpacity>
     </ScrollView>
+  );
+}
+
+type InputProps = {
+  label: string;
+  placeholder: string;
+  value: string;
+  onChangeText: (text: string) => void;
+};
+
+function Input({
+  label,
+  placeholder,
+  value,
+  onChangeText,
+}: InputProps) {
+  return (
+    <View style={{ marginBottom: 16 }}>
+      <Text
+        size={14}
+        weight="600"
+        color="#111827"
+        style={{ marginBottom: 8 }}
+      >
+        {label}
+      </Text>
+
+      <TextInput
+        placeholder={placeholder}
+        placeholderTextColor="#9CA3AF"
+        value={value}
+        onChangeText={onChangeText}
+        style={{
+          height: 54,
+          borderWidth: 1,
+          borderColor: '#D1D5DB',
+          borderRadius: 14,
+          paddingHorizontal: 16,
+          fontSize: 16,
+        }}
+      />
+    </View>
   );
 }

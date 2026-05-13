@@ -1,51 +1,43 @@
-import { View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import LogoBlue from '@/assets/logos/logo-blue.svg';
+import TutorIcon from '@/assets/icons/profile-tutor.svg';
+import ClinicIcon from '@/assets/icons/profile-clinic.svg';
+import ChangeLaterIcon from '@/assets/icons/change-later.svg';
 
 export default function ChooseProfile() {
   return (
-    <ScrollView
-      style={{ flex: 1, backgroundColor: '#FFFFFF' }}
-      contentContainerStyle={{
-        paddingHorizontal: 24,
-        paddingTop: 70,
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#FCFCFC',
+        paddingTop: 62,
+        paddingHorizontal: 22,
         paddingBottom: 34,
       }}
-      showsVerticalScrollIndicator={false}
     >
       <View style={{ alignItems: 'center', marginBottom: 34 }}>
-        <Image
-          source={require('@/assets/logos/logo-blue.svg')}
-          style={{
-            width: 170,
-            height: 90,
-          }}
-          resizeMode="contain"
-        />
+        <LogoBlue width={165} height={110} />
+
+        <Text size={31} weight="700" color="#111827" align="center">
+          Como você deseja{'\n'}usar o VitalPet?
+        </Text>
+
+        <Text
+          size={17}
+          color="#111827"
+          align="center"
+          style={{ marginTop: 14, opacity: 0.85 }}
+        >
+          Escolha seu perfil para continuar
+        </Text>
       </View>
 
-      <Text
-        size={34}
-        weight="700"
-        color="#111827"
-        align="center"
-      >
-        Como você deseja{'\n'}usar o VitalPet?
-      </Text>
-
-      <Text
-        size={16}
-        color="#6B7280"
-        align="center"
-        style={{ marginTop: 10, marginBottom: 34 }}
-      >
-        Escolha seu perfil para continuar
-      </Text>
-
       <ProfileCard
-        image={require('@/assets/icons/profile-tutor.svg')}
+        icon={<TutorIcon width={40} height={40} />}
         title="Tutor / Uso pessoal"
-        description="Monitore saúde, rotina e bem-estar do seu pet"
+        description={'Monitore saúde, rotina e\nbem-estar do seu pet'}
         buttonText="Continuar como Tutor"
         onPress={() => router.push('/tutor-login')}
       />
@@ -53,30 +45,40 @@ export default function ChooseProfile() {
       <View style={{ height: 22 }} />
 
       <ProfileCard
-        image={require('@/assets/icons/profile-clinic.svg')}
+        icon={<ClinicIcon width={40} height={40} />}
         title="Clínica / Veterinário"
-        description="Gerencie pacientes, alertas e acompanhamentos"
+        description={'Gerencie pacientes, alertas\ne acompanhamentos'}
         buttonText="Continuar como clínica"
         onPress={() => router.push('/clinic-login')}
       />
 
       <TouchableOpacity
-        onPress={() => router.back()}
+        activeOpacity={0.8}
         style={{
-          marginTop: 28,
+          marginTop: 'auto',
+          flexDirection: 'row',
           alignItems: 'center',
+          justifyContent: 'center',
+          paddingVertical: 18,
         }}
       >
-        <Text size={15} color="#0A66C2" weight="600">
-          ↩ Posso mudar depois
+        <ChangeLaterIcon width={24} height={24} />
+
+        <Text
+          size={16}
+          weight="600"
+          color="#0A66C2"
+          style={{ marginLeft: 10 }}
+        >
+          Posso mudar depois
         </Text>
       </TouchableOpacity>
-    </ScrollView>
+    </View>
   );
 }
 
 type ProfileCardProps = {
-  image: any;
+  icon: React.ReactNode;
   title: string;
   description: string;
   buttonText: string;
@@ -84,7 +86,7 @@ type ProfileCardProps = {
 };
 
 function ProfileCard({
-  image,
+  icon,
   title,
   description,
   buttonText,
@@ -94,8 +96,8 @@ function ProfileCard({
     <View
       style={{
         borderWidth: 1.5,
-        borderColor: '#0A66C2',
-        borderRadius: 28,
+        borderColor: '#3B82F6',
+        borderRadius: 24,
         padding: 20,
         backgroundColor: '#FFFFFF',
       }}
@@ -104,39 +106,32 @@ function ProfileCard({
         style={{
           flexDirection: 'row',
           alignItems: 'flex-start',
-          marginBottom: 24,
+          marginBottom: 22,
         }}
       >
         <View
           style={{
-            width: 74,
-            height: 74,
+            width: 70,
+            height: 70,
             borderRadius: 18,
-            backgroundColor: '#EAF2FF',
+            backgroundColor: '#EEF4FF',
             alignItems: 'center',
             justifyContent: 'center',
             marginRight: 18,
           }}
         >
-          <Image
-            source={image}
-            style={{
-              width: 38,
-              height: 38,
-            }}
-            resizeMode="contain"
-          />
+          {icon}
         </View>
 
         <View style={{ flex: 1 }}>
-          <Text size={26} weight="700" color="#111827">
+          <Text size={23} weight="700" color="#111827">
             {title}
           </Text>
 
           <Text
-            size={16}
-            color="#374151"
-            style={{ marginTop: 8, lineHeight: 24 }}
+            size={15}
+            color="#111827"
+            style={{ marginTop: 8, lineHeight: 24, opacity: 0.9 }}
           >
             {description}
           </Text>
@@ -144,32 +139,23 @@ function ProfileCard({
       </View>
 
       <TouchableOpacity
-        activeOpacity={0.9}
+        activeOpacity={0.85}
         onPress={onPress}
         style={{
-          height: 62,
+          height: 60,
           backgroundColor: '#0A66C2',
-          borderRadius: 31,
+          borderRadius: 20,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          paddingHorizontal: 24,
         }}
       >
-        <Text
-          size={20}
-          weight="700"
-          color="#FFFFFF"
-        >
+        <Text size={17} weight="600" color="#FFFFFF">
           {buttonText}
         </Text>
 
-        <Text
-          size={34}
-          color="#FFFFFF"
-          style={{ marginLeft: 12 }}
-        >
-          ›
+        <Text size={30} color="#FFFFFF" style={{ marginLeft: 16 }}>
+          
         </Text>
       </TouchableOpacity>
     </View>
