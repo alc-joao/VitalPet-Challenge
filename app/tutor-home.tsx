@@ -7,7 +7,7 @@ import IconPlus from '@/assets/icons/icon-plus.svg';
 import IconArrowRight from '@/assets/icons/icon-arrow-right.svg';
 
 import IconHome from '@/assets/icons/icon-home.svg';
-import IconPaw from '@/assets/icons/icon-paw.svg';
+import IconScore from '@/assets/icons/icon-score.svg';
 import IconCalendar from '@/assets/icons/icon-calendar.svg';
 import IconChat from '@/assets/icons/icon-chat.svg';
 import IconMore from '@/assets/icons/icon-more.svg';
@@ -77,9 +77,7 @@ export default function TutorHome() {
             onPress={() =>
               router.push({
                 pathname: '/pet-detail',
-                params: {
-                  pet: 'rex',
-                },
+                params: { pet: 'rex' },
               })
             }
           />
@@ -93,9 +91,7 @@ export default function TutorHome() {
             onPress={() =>
               router.push({
                 pathname: '/pet-detail',
-                params: {
-                  pet: 'iron',
-                },
+                params: { pet: 'iron' },
               })
             }
           />
@@ -132,10 +128,7 @@ export default function TutorHome() {
             >
               <Image
                 source={PetBanho}
-                style={{
-                  width: 32,
-                  height: 32,
-                }}
+                style={{ width: 32, height: 32 }}
                 resizeMode="contain"
               />
             </View>
@@ -154,25 +147,10 @@ export default function TutorHome() {
         </Text>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <QuickAction
-            icon={<IconConsult width={28} height={28} />}
-            label="Consultas"
-          />
-
-          <QuickAction
-            icon={<IconVaccine width={28} height={28} />}
-            label="Vacinas"
-          />
-
-          <QuickAction
-            icon={<IconMedicine width={28} height={28} />}
-            label="Medicações"
-          />
-
-          <QuickAction
-            icon={<IconEmergency width={28} height={28} />}
-            label="Emergência"
-          />
+          <QuickAction icon={<IconConsult width={28} height={28} />} label="Consultas" />
+          <QuickAction icon={<IconVaccine width={28} height={28} />} label="Vacinas" />
+          <QuickAction icon={<IconMedicine width={28} height={28} />} label="Medicações" />
+          <QuickAction icon={<IconEmergency width={28} height={28} />} label="Emergência" />
         </View>
       </ScrollView>
 
@@ -192,14 +170,7 @@ function RoundImage({ source, size }: { source: any; size: number }) {
         backgroundColor: '#E5E7EB',
       }}
     >
-      <Image
-        source={source}
-        style={{
-          width: size,
-          height: size,
-        }}
-        resizeMode="cover"
-      />
+      <Image source={source} style={{ width: size, height: size }} resizeMode="cover" />
     </View>
   );
 }
@@ -282,11 +253,7 @@ function PetCard({
           marginTop: 14,
         }}
       >
-        <Text
-          size={12}
-          weight="700"
-          color={healthy ? '#008047' : '#6B6B00'}
-        >
+        <Text size={12} weight="700" color={healthy ? '#008047' : '#6B6B00'}>
           {status}
         </Text>
       </View>
@@ -398,13 +365,7 @@ function ReminderCard({
   );
 }
 
-function QuickAction({
-  icon,
-  label,
-}: {
-  icon: React.ReactNode;
-  label: string;
-}) {
+function QuickAction({ icon, label }: { icon: React.ReactNode; label: string }) {
   return (
     <TouchableOpacity
       style={{
@@ -451,7 +412,11 @@ function BottomNav() {
       }}
     >
       <TabItem icon={<IconHome width={31} height={31} />} label="Home" active />
-      <TabItem icon={<IconPaw width={31} height={31} />} label="Pets" />
+      <TabItem
+        icon={<IconScore width={31} height={31} />}
+        label="Score"
+        onPress={() => router.push('/score-home')}
+      />
       <TabItem icon={<IconCalendar width={31} height={31} />} label="Histórico" />
       <TabItem icon={<IconChat width={31} height={31} />} label="Chat" />
       <TabItem icon={<IconMore width={31} height={31} />} label="Mais" />
@@ -463,13 +428,17 @@ function TabItem({
   icon,
   label,
   active,
+  onPress,
 }: {
   icon: React.ReactNode;
   label: string;
   active?: boolean;
+  onPress?: () => void;
 }) {
   return (
     <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.8}
       style={{
         width: 70,
         height: 76,

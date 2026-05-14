@@ -2,6 +2,8 @@ import { View, TouchableOpacity, ScrollView, Image, Dimensions } from 'react-nat
 import { router, useLocalSearchParams } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
 
+import IconBack from '@/assets/icons/icon-back.svg';
+
 import IconConsult from '@/assets/icons/icon-consult.svg';
 import IconVaccine from '@/assets/icons/icon-vaccine.svg';
 import IconWorm from '@/assets/icons/icon-worm.svg';
@@ -64,10 +66,16 @@ export default function PetDetail() {
           alignItems: 'center',
         }}
       >
-        <TouchableOpacity onPress={() => router.back()}>
-          <Text size={42} color="#000000">
-            ‹
-          </Text>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          style={{
+            width: 24,
+            height: 28,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <IconBack width={13} height={22} />
         </TouchableOpacity>
 
         <TouchableOpacity>
