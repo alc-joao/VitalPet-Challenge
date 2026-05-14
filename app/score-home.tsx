@@ -42,13 +42,7 @@ export default function ScoreHome() {
           paddingBottom: 140,
         }}
       >
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-          }}
-        >
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <View>
             <Text size={28} weight="700" color="#111827">
               Score de Saúde
@@ -189,7 +183,12 @@ function BottomNav() {
         active
       />
 
-      <TabItem icon={<IconCalendar width={31} height={31} />} label="Histórico" />
+      <TabItem
+        icon={<IconCalendar width={31} height={31} />}
+        label="Histórico"
+        onPress={() => router.push('/history-home')}
+      />
+
       <TabItem icon={<IconChat width={31} height={31} />} label="Chat" />
       <TabItem icon={<IconMore width={31} height={31} />} label="Mais" />
     </View>
@@ -200,6 +199,7 @@ function TabItem({ icon, label, active, onPress }: any) {
   return (
     <TouchableOpacity
       onPress={onPress}
+      activeOpacity={0.8}
       style={{
         width: 70,
         height: 76,

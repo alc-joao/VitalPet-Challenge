@@ -42,13 +42,7 @@ export default function TutorHome() {
           paddingBottom: 140,
         }}
       >
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-          }}
-        >
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <View>
             <Text size={24} weight="700" color="#111827">
               Olá, João!
@@ -412,12 +406,19 @@ function BottomNav() {
       }}
     >
       <TabItem icon={<IconHome width={31} height={31} />} label="Home" active />
+
       <TabItem
         icon={<IconScore width={31} height={31} />}
         label="Score"
         onPress={() => router.push('/score-home')}
       />
-      <TabItem icon={<IconCalendar width={31} height={31} />} label="Histórico" />
+
+      <TabItem
+        icon={<IconCalendar width={31} height={31} />}
+        label="Histórico"
+        onPress={() => router.push('/history-home')}
+      />
+
       <TabItem icon={<IconChat width={31} height={31} />} label="Chat" />
       <TabItem icon={<IconMore width={31} height={31} />} label="Mais" />
     </View>
