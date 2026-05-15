@@ -64,7 +64,12 @@ export default function MoreHome() {
               João Victor Alcântara
             </Text>
 
-            <Text size={14} weight="600" color="#7D7D7D" style={{ marginTop: 3 }}>
+            <Text
+              size={14}
+              weight="600"
+              color="#7D7D7D"
+              style={{ marginTop: 3 }}
+            >
               joaopessoal@gmail.com
             </Text>
           </View>
@@ -72,22 +77,56 @@ export default function MoreHome() {
 
         <Divider />
 
-        <MenuItem icon={<IconUserData width={24} height={24} />} label="Meus Dados" />
-        <MenuItem icon={<IconPets width={24} height={24} />} label="Meus pets" />
+        <MenuItem
+          icon={<IconUserData width={24} height={24} />}
+          label="Meus Dados"
+          onPress={() => router.push('/my-data')}
+        />
+
+        <MenuItem
+          icon={<IconPets width={24} height={24} />}
+          label="Meus pets"
+          onPress={() => router.push('/score-home')}
+        />
+
         <MenuItem
           icon={<IconPlan width={24} height={24} />}
           label="Planos e Assinatura"
           rightText="Plano Premium"
         />
-        <MenuItem icon={<IconAward width={24} height={24} />} label="Conquistas" />
-        <MenuItem icon={<IconStore width={24} height={24} />} label="Loja de recompensas" />
-        <MenuItem icon={<IconRanking width={24} height={24} />} label="Ranking de amigos" />
-        <MenuItem icon={<IconShare width={24} height={24} />} label="Compartilhar app" />
+
+        <MenuItem
+          icon={<IconAward width={24} height={24} />}
+          label="Conquistas"
+        />
+
+        <MenuItem
+          icon={<IconStore width={24} height={24} />}
+          label="Loja de recompensas"
+        />
+
+        <MenuItem
+          icon={<IconRanking width={24} height={24} />}
+          label="Ranking de amigos"
+        />
+
+        <MenuItem
+          icon={<IconShare width={24} height={24} />}
+          label="Compartilhar app"
+        />
 
         <Divider />
 
-        <MenuItem icon={<IconSettings width={24} height={24} />} label="Configurações" />
-        <MenuItem icon={<IconHelp width={24} height={24} />} label="Central de ajuda" />
+        <MenuItem
+          icon={<IconSettings width={24} height={24} />}
+          label="Configurações"
+        />
+
+        <MenuItem
+          icon={<IconHelp width={24} height={24} />}
+          label="Central de ajuda"
+        />
+
         <MenuItem
           icon={<IconInfo width={24} height={24} />}
           label="Sobre o App"
@@ -141,13 +180,16 @@ function MenuItem({
   icon,
   label,
   rightText,
+  onPress,
 }: {
   icon: React.ReactNode;
   label: string;
   rightText?: string;
+  onPress?: () => void;
 }) {
   return (
     <TouchableOpacity
+      onPress={onPress}
       activeOpacity={0.8}
       style={{
         height: 44,
@@ -226,7 +268,11 @@ function BottomNav() {
         onPress={() => router.push('/chat-home')}
       />
 
-      <TabItem icon={<IconMore width={30} height={30} />} label="Mais" active />
+      <TabItem
+        icon={<IconMore width={30} height={30} />}
+        label="Mais"
+        active
+      />
     </View>
   );
 }

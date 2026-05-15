@@ -141,10 +141,29 @@ export default function TutorHome() {
         </Text>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <QuickAction icon={<IconConsult width={28} height={28} />} label="Consultas" />
-          <QuickAction icon={<IconVaccine width={28} height={28} />} label="Vacinas" />
-          <QuickAction icon={<IconMedicine width={28} height={28} />} label="Medicações" />
-          <QuickAction icon={<IconEmergency width={28} height={28} />} label="Emergência" />
+          <QuickAction
+            icon={<IconConsult width={28} height={28} />}
+            label="Consultas"
+            onPress={() => router.push('/consults-home')}
+          />
+
+          <QuickAction
+            icon={<IconVaccine width={28} height={28} />}
+            label="Vacinas"
+            onPress={() => router.push('/vaccines-home')}
+          />
+
+          <QuickAction
+            icon={<IconMedicine width={28} height={28} />}
+            label="Medicações"
+            onPress={() => router.push('/medications-home')}
+          />
+
+          <QuickAction
+            icon={<IconEmergency width={28} height={28} />}
+            label="Emergência"
+            onPress={() => router.push('/emergency-home')}
+          />
         </View>
       </ScrollView>
 
@@ -359,9 +378,19 @@ function ReminderCard({
   );
 }
 
-function QuickAction({ icon, label }: { icon: React.ReactNode; label: string }) {
+function QuickAction({
+  icon,
+  label,
+  onPress,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  onPress: () => void;
+}) {
   return (
     <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.85}
       style={{
         width: quickCardWidth,
         height: 104,
