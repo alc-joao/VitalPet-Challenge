@@ -17,20 +17,20 @@ export default function ChatHome() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingHorizontal: 30,
-          paddingTop: 66,
-          paddingBottom: 230,
+          paddingHorizontal: 28,
+          paddingTop: 70,
+          paddingBottom: 250,
         }}
       >
-        <Text size={28} weight="700" color="#0F172A">
+        <Text size={24} weight="700" color="#0F172A">
           Assistente VitalPet
         </Text>
 
-        <Text size={18} color="#7D7D7D" style={{ marginTop: 6 }}>
+        <Text size={16} color="#7D7D7D" style={{ marginTop: 6 }}>
           Tire dúvidas sobre a saúde do seu pet
         </Text>
 
-        <View style={{ marginTop: 48 }}>
+        <View style={{ marginTop: 38 }}>
           <BotMessage
             text={'Olá! Sou o assistente VitalPet.\nComo posso ajudar você hoje?'}
             time="09:30"
@@ -52,7 +52,8 @@ export default function ChatHome() {
           <View
             style={{
               flexDirection: 'row',
-              justifyContent: 'space-between',
+              justifyContent: 'center',
+              gap: 8,
               marginTop: 12,
             }}
           >
@@ -68,16 +69,17 @@ export default function ChatHome() {
           position: 'absolute',
           left: 30,
           right: 30,
-          bottom: 116,
-          height: 62,
+          bottom: 106,
+          height: 54,
           borderWidth: 1,
           borderColor: '#BDBDBD',
-          borderRadius: 31,
+          borderRadius: 28,
           backgroundColor: '#FFFFFF',
           flexDirection: 'row',
           alignItems: 'center',
-          paddingLeft: 24,
-          paddingRight: 6,
+          paddingLeft: 20,
+          paddingRight: 5,
+          zIndex: 10,
         }}
       >
         <TextInput
@@ -85,22 +87,22 @@ export default function ChatHome() {
           placeholderTextColor="#8A8A8A"
           style={{
             flex: 1,
-            fontSize: 16,
+            fontSize: 15,
             color: '#111827',
           }}
         />
 
         <TouchableOpacity
           style={{
-            width: 52,
-            height: 52,
-            borderRadius: 26,
+            width: 46,
+            height: 46,
+            borderRadius: 23,
             backgroundColor: '#0A66C2',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <IconSend width={28} height={28} />
+          <IconSend width={26} height={26} />
         </TouchableOpacity>
       </View>
 
@@ -123,44 +125,44 @@ function BotMessage({
       style={{
         flexDirection: 'row',
         alignItems: 'flex-start',
-        marginBottom: 28,
+        marginBottom: 26,
       }}
     >
       <View
         style={{
-          width: 58,
-          height: 58,
-          borderRadius: 29,
+          width: 42,
+          height: 42,
+          borderRadius: 21,
           backgroundColor: '#E8F1FF',
           alignItems: 'center',
           justifyContent: 'center',
-          marginRight: 10,
+          marginRight: 8,
         }}
       >
-        <IconChatBubble width={30} height={30} />
+        <IconChatBubble width={24} height={24} />
       </View>
 
       <View
         style={{
-          maxWidth: 378,
-          minHeight: large ? 252 : 112,
+          width: large ? 264 : 264,
+          minHeight: large ? 238 : 80,
           backgroundColor: '#E6F3FF',
-          borderRadius: 18,
-          paddingHorizontal: 18,
-          paddingTop: 16,
-          paddingBottom: 12,
+          borderRadius: 16,
+          paddingHorizontal: 14,
+          paddingTop: 12,
+          paddingBottom: 10,
           shadowColor: '#000',
-          shadowOffset: { width: 3, height: 5 },
+          shadowOffset: { width: 2, height: 4 },
           shadowOpacity: 0.22,
-          shadowRadius: 4,
+          shadowRadius: 3,
           elevation: 5,
         }}
       >
-        <Text size={16} weight="600" color="#000000" style={{ lineHeight: 23 }}>
+        <Text size={14} weight="600" color="#000000" style={{ lineHeight: 20 }}>
           {text}
         </Text>
 
-        <Text size={14} color="#7D7D7D" style={{ marginTop: 10 }}>
+        <Text size={13} color="#7D7D7D" style={{ marginTop: 8 }}>
           {time}
         </Text>
       </View>
@@ -173,29 +175,29 @@ function UserMessage({ text, time }: { text: string; time: string }) {
     <View
       style={{
         alignItems: 'flex-end',
-        marginBottom: 28,
+        marginBottom: 26,
       }}
     >
       <View
         style={{
-          width: 390,
+          width: 265,
           backgroundColor: '#0A66C2',
-          borderRadius: 18,
-          paddingHorizontal: 22,
-          paddingTop: 18,
-          paddingBottom: 14,
+          borderRadius: 16,
+          paddingHorizontal: 18,
+          paddingTop: 14,
+          paddingBottom: 12,
           shadowColor: '#000',
-          shadowOffset: { width: 3, height: 5 },
+          shadowOffset: { width: 2, height: 4 },
           shadowOpacity: 0.22,
-          shadowRadius: 4,
+          shadowRadius: 3,
           elevation: 5,
         }}
       >
-        <Text size={16} color="#FFFFFF" style={{ lineHeight: 23 }}>
+        <Text size={14} color="#FFFFFF" style={{ lineHeight: 20 }}>
           {text}
         </Text>
 
-        <Text size={15} color="#FFFFFF" style={{ marginTop: 12 }}>
+        <Text size={13} color="#FFFFFF" style={{ marginTop: 10 }}>
           {time}
         </Text>
       </View>
@@ -207,22 +209,22 @@ function Suggestion({ label }: { label: string }) {
   return (
     <TouchableOpacity
       style={{
-        height: 30,
+        height: 26,
         borderWidth: 1,
         borderColor: '#CFCFCF',
-        borderRadius: 8,
+        borderRadius: 7,
         backgroundColor: '#FFFFFF',
-        paddingHorizontal: 10,
+        paddingHorizontal: 8,
         alignItems: 'center',
         justifyContent: 'center',
         shadowColor: '#000',
         shadowOffset: { width: 2, height: 3 },
-        shadowOpacity: 0.2,
+        shadowOpacity: 0.18,
         shadowRadius: 2,
         elevation: 4,
       }}
     >
-      <Text size={12} weight="700" color="#0A66C2">
+      <Text size={11} weight="700" color="#0A66C2">
         {label}
       </Text>
     </TouchableOpacity>
@@ -237,38 +239,40 @@ function BottomNav() {
         left: 0,
         right: 0,
         bottom: 0,
-        height: 100,
+        height: 86,
         backgroundColor: '#FFFFFF',
         borderTopWidth: 1,
         borderTopColor: '#E5E7EB',
         paddingHorizontal: 28,
-        paddingTop: 10,
+        paddingTop: 8,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        zIndex: 99,
+        elevation: 99,
       }}
     >
       <TabItem
-        icon={<IconHome width={31} height={31} />}
+        icon={<IconHome width={30} height={30} />}
         label="Home"
         onPress={() => router.push('/tutor-home')}
       />
 
       <TabItem
-        icon={<IconScore width={31} height={31} />}
+        icon={<IconScore width={30} height={30} />}
         label="Score"
         onPress={() => router.push('/score-home')}
       />
 
       <TabItem
-        icon={<IconCalendar width={31} height={31} />}
+        icon={<IconCalendar width={30} height={30} />}
         label="Histórico"
         onPress={() => router.push('/history-home')}
       />
 
-      <TabItem icon={<IconChat width={31} height={31} />} label="Chat" active />
+      <TabItem icon={<IconChat width={30} height={30} />} label="Chat" active />
 
       <TabItem
-        icon={<IconMore width={31} height={31} />}
+        icon={<IconMore width={30} height={30} />}
         label="Mais"
         onPress={() => router.push('/more-home')}
       />
@@ -281,10 +285,11 @@ function TabItem({ icon, label, active, onPress }: any) {
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.8}
+      disabled={active}
       style={{
-        width: 70,
-        height: 76,
-        borderRadius: 14,
+        width: 60,
+        height: 70,
+        borderRadius: 12,
         backgroundColor: active ? '#E8F1FF' : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
@@ -293,10 +298,10 @@ function TabItem({ icon, label, active, onPress }: any) {
       {icon}
 
       <Text
-        size={12}
+        size={11}
         weight="700"
         color={active ? '#0A66C2' : '#7D7D7D'}
-        style={{ marginTop: 4 }}
+        style={{ marginTop: 3 }}
       >
         {label}
       </Text>

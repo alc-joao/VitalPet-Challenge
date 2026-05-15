@@ -8,7 +8,8 @@ import IconCalendar from '@/assets/icons/icon-calendar.svg';
 import IconChat from '@/assets/icons/icon-chat.svg';
 import IconMore from '@/assets/icons/icon-more.svg';
 
-import IconUser from '@/assets/icons/icon-user.svg';
+import ProfileTutorWhite from '@/assets/icons/profile-tutor-white.svg';
+
 import IconUserData from '@/assets/icons/icon-user-data.svg';
 import IconPets from '@/assets/icons/icon-pets.svg';
 import IconPlan from '@/assets/icons/icon-plan.svg';
@@ -28,12 +29,12 @@ export default function MoreHome() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingHorizontal: 26,
+          paddingHorizontal: 28,
           paddingTop: 64,
           paddingBottom: 140,
         }}
       >
-        <Text size={30} weight="700" color="#111827">
+        <Text size={28} weight="700" color="#111827">
           Mais
         </Text>
 
@@ -41,29 +42,29 @@ export default function MoreHome() {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            marginTop: 28,
+            marginTop: 24,
             marginBottom: 24,
           }}
         >
           <View
             style={{
-              width: 62,
-              height: 62,
-              borderRadius: 31,
+              width: 54,
+              height: 54,
+              borderRadius: 27,
               backgroundColor: '#000000',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <IconUser width={52} height={52} />
+            <ProfileTutorWhite width={42} height={42} />
           </View>
 
-          <View style={{ marginLeft: 16 }}>
-            <Text size={22} weight="700" color="#000000">
+          <View style={{ marginLeft: 16, flex: 1 }}>
+            <Text size={17} weight="700" color="#000000">
               João Victor Alcântara
             </Text>
 
-            <Text size={16} weight="600" color="#7D7D7D">
+            <Text size={14} weight="600" color="#7D7D7D" style={{ marginTop: 3 }}>
               joaopessoal@gmail.com
             </Text>
           </View>
@@ -71,24 +72,24 @@ export default function MoreHome() {
 
         <Divider />
 
-        <MenuItem icon={<IconUserData width={26} height={26} />} label="Meus Dados" />
-        <MenuItem icon={<IconPets width={26} height={26} />} label="Meus pets" />
+        <MenuItem icon={<IconUserData width={24} height={24} />} label="Meus Dados" />
+        <MenuItem icon={<IconPets width={24} height={24} />} label="Meus pets" />
         <MenuItem
-          icon={<IconPlan width={26} height={26} />}
+          icon={<IconPlan width={24} height={24} />}
           label="Planos e Assinatura"
           rightText="Plano Premium"
         />
-        <MenuItem icon={<IconAward width={26} height={26} />} label="Conquistas" />
-        <MenuItem icon={<IconStore width={26} height={26} />} label="Loja de recompensas" />
-        <MenuItem icon={<IconRanking width={26} height={26} />} label="Ranking de amigos" />
-        <MenuItem icon={<IconShare width={26} height={26} />} label="Compartilhar app" />
+        <MenuItem icon={<IconAward width={24} height={24} />} label="Conquistas" />
+        <MenuItem icon={<IconStore width={24} height={24} />} label="Loja de recompensas" />
+        <MenuItem icon={<IconRanking width={24} height={24} />} label="Ranking de amigos" />
+        <MenuItem icon={<IconShare width={24} height={24} />} label="Compartilhar app" />
 
         <Divider />
 
-        <MenuItem icon={<IconSettings width={26} height={26} />} label="Configurações" />
-        <MenuItem icon={<IconHelp width={26} height={26} />} label="Central de ajuda" />
+        <MenuItem icon={<IconSettings width={24} height={24} />} label="Configurações" />
+        <MenuItem icon={<IconHelp width={24} height={24} />} label="Central de ajuda" />
         <MenuItem
-          icon={<IconInfo width={26} height={26} />}
+          icon={<IconInfo width={24} height={24} />}
           label="Sobre o App"
           rightText="Versão 1.00"
         />
@@ -96,19 +97,22 @@ export default function MoreHome() {
         <Divider />
 
         <TouchableOpacity
+          activeOpacity={0.8}
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            height: 54,
-            marginTop: 8,
+            height: 46,
+            marginTop: 4,
           }}
         >
-          <IconLogout width={26} height={26} />
+          <View style={{ width: 30, alignItems: 'center' }}>
+            <IconLogout width={24} height={24} />
+          </View>
 
           <Text
-            size={18}
+            size={16}
             weight="700"
-            color="#FF2E2E"
+            color="#FF3B30"
             style={{ marginLeft: 16 }}
           >
             Sair da conta
@@ -146,7 +150,7 @@ function MenuItem({
     <TouchableOpacity
       activeOpacity={0.8}
       style={{
-        height: 50,
+        height: 44,
         flexDirection: 'row',
         alignItems: 'center',
       }}
@@ -154,7 +158,7 @@ function MenuItem({
       <View style={{ width: 30, alignItems: 'center' }}>{icon}</View>
 
       <Text
-        size={18}
+        size={16}
         weight="700"
         color="#7D7D7D"
         style={{ marginLeft: 16, flex: 1 }}
@@ -164,7 +168,7 @@ function MenuItem({
 
       {rightText && (
         <Text
-          size={14}
+          size={12}
           weight="600"
           color="#7D7D7D"
           style={{ marginRight: 12 }}
@@ -173,7 +177,7 @@ function MenuItem({
         </Text>
       )}
 
-      <IconArrowRight width={18} height={18} />
+      <IconArrowRight width={16} height={16} />
     </TouchableOpacity>
   );
 }
@@ -186,41 +190,43 @@ function BottomNav() {
         left: 0,
         right: 0,
         bottom: 0,
-        height: 100,
+        height: 86,
         backgroundColor: '#FFFFFF',
         borderTopWidth: 1,
         borderTopColor: '#E5E7EB',
         paddingHorizontal: 28,
-        paddingTop: 10,
+        paddingTop: 8,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        zIndex: 99,
+        elevation: 99,
       }}
     >
       <TabItem
-        icon={<IconHome width={31} height={31} />}
+        icon={<IconHome width={30} height={30} />}
         label="Home"
         onPress={() => router.push('/tutor-home')}
       />
 
       <TabItem
-        icon={<IconScore width={31} height={31} />}
+        icon={<IconScore width={30} height={30} />}
         label="Score"
         onPress={() => router.push('/score-home')}
       />
 
       <TabItem
-        icon={<IconCalendar width={31} height={31} />}
+        icon={<IconCalendar width={30} height={30} />}
         label="Histórico"
         onPress={() => router.push('/history-home')}
       />
 
       <TabItem
-        icon={<IconChat width={31} height={31} />}
+        icon={<IconChat width={30} height={30} />}
         label="Chat"
         onPress={() => router.push('/chat-home')}
       />
 
-      <TabItem icon={<IconMore width={31} height={31} />} label="Mais" active />
+      <TabItem icon={<IconMore width={30} height={30} />} label="Mais" active />
     </View>
   );
 }
@@ -230,10 +236,11 @@ function TabItem({ icon, label, active, onPress }: any) {
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.8}
+      disabled={active}
       style={{
-        width: 70,
-        height: 76,
-        borderRadius: 14,
+        width: 60,
+        height: 70,
+        borderRadius: 12,
         backgroundColor: active ? '#E8F1FF' : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
@@ -242,10 +249,10 @@ function TabItem({ icon, label, active, onPress }: any) {
       {icon}
 
       <Text
-        size={12}
+        size={11}
         weight="700"
         color={active ? '#0A66C2' : '#7D7D7D'}
-        style={{ marginTop: 4 }}
+        style={{ marginTop: 3 }}
       >
         {label}
       </Text>

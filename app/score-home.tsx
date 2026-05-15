@@ -169,6 +169,8 @@ function BottomNav() {
         paddingTop: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        zIndex: 99,
+        elevation: 99,
       }}
     >
       <TabItem
@@ -189,8 +191,17 @@ function BottomNav() {
         onPress={() => router.push('/history-home')}
       />
 
-      <TabItem icon={<IconChat width={31} height={31} />} label="Chat" />
-      <TabItem icon={<IconMore width={31} height={31} />} label="Mais" />
+      <TabItem
+        icon={<IconChat width={31} height={31} />}
+        label="Chat"
+        onPress={() => router.push('/chat-home')}
+      />
+
+      <TabItem
+        icon={<IconMore width={31} height={31} />}
+        label="Mais"
+        onPress={() => router.push('/more-home')}
+      />
     </View>
   );
 }
@@ -200,6 +211,7 @@ function TabItem({ icon, label, active, onPress }: any) {
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.8}
+      disabled={active}
       style={{
         width: 70,
         height: 76,
