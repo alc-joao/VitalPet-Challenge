@@ -60,8 +60,8 @@ export default function HistoryHome() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingHorizontal: 36,
-          paddingTop: 62,
+          paddingHorizontal: 25,
+          paddingTop: 50,
           paddingBottom: 140,
         }}
       >

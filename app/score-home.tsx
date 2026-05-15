@@ -37,8 +37,8 @@ export default function ScoreHome() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingHorizontal: 24,
-          paddingTop: 64,
+          paddingHorizontal: 25,
+          paddingTop: 50,
           paddingBottom: 140,
         }}
       >
