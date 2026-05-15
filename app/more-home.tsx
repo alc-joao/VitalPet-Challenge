@@ -8,7 +8,7 @@ import IconCalendar from '@/assets/icons/icon-calendar.svg';
 import IconChat from '@/assets/icons/icon-chat.svg';
 import IconMore from '@/assets/icons/icon-more.svg';
 
-import ProfileTutorWhite from '@/assets/icons/profile-tutor-white.svg';
+import ProfileTutorWhite from '@/assets/icons/icon-user.svg';
 
 import IconUserData from '@/assets/icons/icon-user-data.svg';
 import IconPets from '@/assets/icons/icon-pets.svg';
@@ -51,7 +51,7 @@ export default function MoreHome() {
               width: 54,
               height: 54,
               borderRadius: 27,
-              backgroundColor: '#000000',
+              backgroundColor: '#ffffff',
               alignItems: 'center',
               justifyContent: 'center',
             }}
