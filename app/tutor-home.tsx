@@ -93,7 +93,10 @@ export default function TutorHome() {
           <AddPetCard />
         </View>
 
-        <SectionHeader title="Próximos lembretes" />
+        <SectionHeader
+          title="Próximos lembretes"
+          onPress={() => router.push('/reminders-home')}
+        />
 
         <ReminderCard
           image={<RoundImage source={PetIron} size={46} />}
@@ -188,7 +191,13 @@ function RoundImage({ source, size }: { source: any; size: number }) {
   );
 }
 
-function SectionHeader({ title }: { title: string }) {
+function SectionHeader({
+  title,
+  onPress,
+}: {
+  title: string;
+  onPress?: () => void;
+}) {
   return (
     <View
       style={{
@@ -203,9 +212,11 @@ function SectionHeader({ title }: { title: string }) {
         {title}
       </Text>
 
-      <Text size={17} weight="700" color="#0A66C2">
-        Ver todos
-      </Text>
+      <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
+        <Text size={17} weight="700" color="#0A66C2">
+          Ver todos
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
