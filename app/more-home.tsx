@@ -24,6 +24,10 @@ import IconLogout from '@/assets/icons/icon-logout.svg';
 import IconArrowRight from '@/assets/icons/icon-arrow-right.svg';
 
 export default function MoreHome() {
+  function handleLogout() {
+    router.replace('/');
+  }
+
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <ScrollView
@@ -48,15 +52,18 @@ export default function MoreHome() {
         >
           <View
             style={{
-              width: 54,
-              height: 54,
-              borderRadius: 27,
-              backgroundColor: '#ffffff',
+              width: 64,
+              height: 64,
+              borderRadius: 32,
+              backgroundColor: '#FFFFFF',
+              borderWidth: 2,
+              borderColor: '#000000',
               alignItems: 'center',
               justifyContent: 'center',
+              overflow: 'hidden',
             }}
           >
-            <ProfileTutorWhite width={42} height={42} />
+            <ProfileTutorWhite width={58} height={58} />
           </View>
 
           <View style={{ marginLeft: 16, flex: 1 }}>
@@ -95,10 +102,7 @@ export default function MoreHome() {
           rightText="Plano Premium"
         />
 
-        <MenuItem
-          icon={<IconAward width={24} height={24} />}
-          label="Conquistas"
-        />
+        <MenuItem icon={<IconAward width={24} height={24} />} label="Conquistas" />
 
         <MenuItem
           icon={<IconStore width={24} height={24} />}
@@ -122,10 +126,7 @@ export default function MoreHome() {
           label="Configurações"
         />
 
-        <MenuItem
-          icon={<IconHelp width={24} height={24} />}
-          label="Central de ajuda"
-        />
+        <MenuItem icon={<IconHelp width={24} height={24} />} label="Central de ajuda" />
 
         <MenuItem
           icon={<IconInfo width={24} height={24} />}
@@ -136,6 +137,7 @@ export default function MoreHome() {
         <Divider />
 
         <TouchableOpacity
+          onPress={handleLogout}
           activeOpacity={0.8}
           style={{
             flexDirection: 'row',
@@ -268,11 +270,7 @@ function BottomNav() {
         onPress={() => router.push('/chat-home')}
       />
 
-      <TabItem
-        icon={<IconMore width={30} height={30} />}
-        label="Mais"
-        active
-      />
+      <TabItem icon={<IconMore width={30} height={30} />} label="Mais" active />
     </View>
   );
 }
