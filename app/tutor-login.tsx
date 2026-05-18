@@ -1,6 +1,7 @@
 import { View, TextInput, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text } from '@/src/components/atoms/Text';
 
 import LogoBlue from '@/assets/logos/logo-blue.svg';
@@ -12,6 +13,47 @@ import AppleIcon from '@/assets/icons/apple.svg';
 
 export default function TutorLogin() {
   const [cpf, setCpf] = useState('');
+
+  useEffect(() => {
+    async function loadStoredCPF() {
+      const storedTutor = await AsyncStorage.getItem('@vitalpet:tutor');
+      const lastCpf = await AsyncStorage.getItem('@vitalpet:lastCpf');
+
+      if (storedTutor) {
+        const tutor = JSON.parse(storedTutor);
+        setCpf(tutor.cpf || '');
+        return;
+      }
+
+      if (lastCpf) {
+        setCpf(lastCpf);
+      }
+    }
+
+    loadStoredCPF();
+  }, []);
+
+  const formatCPF = (value: string) => {
+    const numericValue = value.replace(/\D/g, '').slice(0, 11);
+
+    if (numericValue.length <= 3) return numericValue;
+    if (numericValue.length <= 6) {
+      return `${numericValue.slice(0, 3)}.${numericValue.slice(3)}`;
+    }
+    if (numericValue.length <= 9) {
+      return `${numericValue.slice(0, 3)}.${numericValue.slice(3, 6)}.${numericValue.slice(6)}`;
+    }
+
+    return `${numericValue.slice(0, 3)}.${numericValue.slice(3, 6)}.${numericValue.slice(
+      6,
+      9
+    )}-${numericValue.slice(9, 11)}`;
+  };
+
+  async function handleTutorLogin() {
+    await AsyncStorage.setItem('@vitalpet:lastCpf', cpf);
+    router.push('/tutor-home');
+  }
 
   return (
     <View
@@ -55,12 +97,7 @@ export default function TutorLogin() {
         Acompanhe a saúde, vacinas,{'\n'}consultas e alertas e um só lugar.
       </Text>
 
-      <Text
-        size={16}
-        weight="600"
-        color="#111827"
-        style={{ marginBottom: 10 }}
-      >
+      <Text size={16} weight="600" color="#111827" style={{ marginBottom: 10 }}>
         CPF
       </Text>
 
@@ -69,7 +106,7 @@ export default function TutorLogin() {
         placeholderTextColor="#8C8C8C"
         keyboardType="numeric"
         value={cpf}
-        onChangeText={setCpf}
+        onChangeText={(text) => setCpf(formatCPF(text))}
         style={{
           height: 70,
           borderWidth: 1.3,
@@ -93,12 +130,7 @@ export default function TutorLogin() {
       >
         <ShieldIcon width={24} height={24} />
 
-        <Text
-          size={16}
-          weight="500"
-          color="#7A7A7A"
-          style={{ marginLeft: 12 }}
-        >
+        <Text size={16} weight="500" color="#7A7A7A" style={{ marginLeft: 12 }}>
           Seus dados estão protegidos e seguros.
         </Text>
       </View>
@@ -130,10 +162,9 @@ export default function TutorLogin() {
         </Text>
       </View>
 
-      {/* ENTRAR COMO TUTOR -> HOME */}
       <TouchableOpacity
         activeOpacity={0.85}
-        onPress={() => router.push('/tutor-home')}
+        onPress={handleTutorLogin}
         style={{
           height: 60,
           backgroundColor: '#0A66C2',
@@ -146,12 +177,7 @@ export default function TutorLogin() {
       >
         <TutorIcon width={30} height={30} />
 
-        <Text
-          size={21}
-          weight="600"
-          color="#FFFFFF"
-          style={{ marginLeft: 18 }}
-        >
+        <Text size={21} weight="600" color="#FFFFFF" style={{ marginLeft: 18 }}>
           Entrar como Tutor
         </Text>
       </TouchableOpacity>
@@ -163,49 +189,29 @@ export default function TutorLogin() {
           marginBottom: 20,
         }}
       >
-        <View
-          style={{
-            flex: 1,
-            height: 1.2,
-            backgroundColor: '#8D8D8D',
-          }}
-        />
+        <View style={{ flex: 1, height: 1.2, backgroundColor: '#8D8D8D' }} />
 
-        <Text
-          size={17}
-          weight="600"
-          color="#7B7B7B"
-          style={{ marginHorizontal: 18 }}
-        >
+        <Text size={17} weight="600" color="#7B7B7B" style={{ marginHorizontal: 18 }}>
           Ou
         </Text>
 
-        <View
-          style={{
-            flex: 1,
-            height: 1.2,
-            backgroundColor: '#8D8D8D',
-          }}
-        />
+        <View style={{ flex: 1, height: 1.2, backgroundColor: '#8D8D8D' }} />
       </View>
 
-      {/* GOOGLE -> HOME */}
       <SocialButton
         icon={<GoogleIcon width={30} height={30} />}
         title="Continue com Google"
-        onPress={() => router.push('/tutor-home')}
+        onPress={handleTutorLogin}
       />
 
       <View style={{ height: 14 }} />
 
-      {/* APPLE -> HOME */}
       <SocialButton
         icon={<AppleIcon width={30} height={30} />}
         title="Continue com Apple"
-        onPress={() => router.push('/tutor-home')}
+        onPress={handleTutorLogin}
       />
 
-      {/* INSCREVER-SE -> CREATE */}
       <TouchableOpacity
         onPress={() => router.push('/tutor-create')}
         style={{
@@ -250,12 +256,7 @@ function SocialButton({
     >
       {icon}
 
-      <Text
-        size={19}
-        weight="700"
-        color="#111827"
-        style={{ marginLeft: 18 }}
-      >
+      <Text size={19} weight="700" color="#111827" style={{ marginLeft: 18 }}>
         {title}
       </Text>
     </TouchableOpacity>

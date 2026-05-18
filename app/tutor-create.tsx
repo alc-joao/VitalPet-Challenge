@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text } from '@/src/components/atoms/Text';
 
 import LogoIconBlue from '@/assets/logos/logo-icon-blue.svg';
@@ -29,67 +30,61 @@ export default function TutorCreate() {
   const cpfValido = cpfNumeros.length === 11;
   const emailValido = email.includes('@') && email.includes('.');
   const senhaValida = senha.length >= 6;
-  const confirmarSenhaValida =
-    confirmarSenha.length >= 6 && senha === confirmarSenha;
+  const confirmarSenhaValida = confirmarSenha.length >= 6 && senha === confirmarSenha;
 
   const formatCPF = (value: string) => {
     const numericValue = value.replace(/\D/g, '').slice(0, 11);
 
     if (numericValue.length <= 3) return numericValue;
-    if (numericValue.length <= 6)
+    if (numericValue.length <= 6) {
       return `${numericValue.slice(0, 3)}.${numericValue.slice(3)}`;
-    if (numericValue.length <= 9)
-      return `${numericValue.slice(0, 3)}.${numericValue.slice(
-        3,
-        6
-      )}.${numericValue.slice(6)}`;
+    }
+    if (numericValue.length <= 9) {
+      return `${numericValue.slice(0, 3)}.${numericValue.slice(3, 6)}.${numericValue.slice(6)}`;
+    }
 
-    return `${numericValue.slice(0, 3)}.${numericValue.slice(
-      3,
-      6
-    )}.${numericValue.slice(6, 9)}-${numericValue.slice(9, 11)}`;
+    return `${numericValue.slice(0, 3)}.${numericValue.slice(3, 6)}.${numericValue.slice(
+      6,
+      9
+    )}-${numericValue.slice(9, 11)}`;
   };
 
-  function handleCreateAccount() {
+  async function handleCreateAccount() {
     if (!nomeValido) {
-      Alert.alert(
-        'Nome incompleto',
-        'Digite seu nome completo com pelo menos 3 letras.'
-      );
+      Alert.alert('Nome incompleto', 'Digite seu nome completo com pelo menos 3 letras.');
       return;
     }
 
     if (!cpfValido) {
-      Alert.alert(
-        'CPF incompleto',
-        'Digite um CPF válido com 11 números.'
-      );
+      Alert.alert('CPF incompleto', 'Digite um CPF válido com 11 números.');
       return;
     }
 
     if (!emailValido) {
-      Alert.alert(
-        'Email inválido',
-        'Digite um email válido para continuar.'
-      );
+      Alert.alert('Email inválido', 'Digite um email válido para continuar.');
       return;
     }
 
     if (!senhaValida) {
-      Alert.alert(
-        'Senha inválida',
-        'A senha precisa ter pelo menos 6 caracteres.'
-      );
+      Alert.alert('Senha inválida', 'A senha precisa ter pelo menos 6 caracteres.');
       return;
     }
 
     if (!confirmarSenhaValida) {
-      Alert.alert(
-        'Senhas diferentes',
-        'A confirmação de senha precisa ser igual à senha.'
-      );
+      Alert.alert('Senhas diferentes', 'A confirmação de senha precisa ser igual à senha.');
       return;
     }
+
+    const tutorData = {
+      nome: nome.trim(),
+      cpf,
+      email: email.trim(),
+    };
+
+    await AsyncStorage.setItem('@vitalpet:tutor', JSON.stringify(tutorData));
+    await AsyncStorage.setItem('@vitalpet:lastCpf', cpf);
+
+    Alert.alert('Conta criada!', 'Seus dados foram salvos no aplicativo.');
 
     router.push('/pet-form');
   }
@@ -279,11 +274,7 @@ function Input({
 
         {eyeIcon && (
           <TouchableOpacity onPress={onToggleEye}>
-            {showEye ? (
-              <EyeOpen width={22} height={22} />
-            ) : (
-              <EyeClosed width={22} height={22} />
-            )}
+            {showEye ? <EyeOpen width={22} height={22} /> : <EyeClosed width={22} height={22} />}
           </TouchableOpacity>
         )}
       </View>

@@ -100,6 +100,7 @@ export default function MoreHome() {
           icon={<IconPlan width={24} height={24} />}
           label="Planos e Assinatura"
           rightText="Plano Premium"
+          onPress={() => router.push('/plans-home')}
         />
 
         <MenuItem icon={<IconAward width={24} height={24} />} label="Conquistas" />
