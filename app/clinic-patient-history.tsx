@@ -156,7 +156,7 @@ export default function ClinicPatientHistory() {
 
         <TouchableOpacity
           activeOpacity={0.85}
-          onPress={() => router.push('/clinic-new-appointment')}
+          onPress={() => router.push('/clinic-reminders')}
           style={{
             marginTop: 28,
             height: 58,
@@ -167,7 +167,7 @@ export default function ClinicPatientHistory() {
           }}
         >
           <Text size={18} weight="700" color="#FFFFFF">
-            Exportar histórico
+            Ver lembretes
           </Text>
         </TouchableOpacity>
       </ScrollView>
@@ -191,11 +191,7 @@ function FilterButton({ label, active }: any) {
         justifyContent: 'center',
       }}
     >
-      <Text
-        size={14}
-        weight="700"
-        color={active ? '#FFFFFF' : '#6B7280'}
-      >
+      <Text size={14} weight="700" color={active ? '#FFFFFF' : '#6B7280'}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -226,11 +222,7 @@ function BottomNav() {
         onPress={() => router.push('/clinic-home')}
       />
 
-      <TabItem
-        icon={<IconPets width={28} height={28} />}
-        label="Pacientes"
-        active
-      />
+      <TabItem icon={<IconPets width={28} height={28} />} label="Pacientes" active />
 
       <TabItem
         icon={<IconCalendar width={28} height={28} />}
@@ -241,11 +233,13 @@ function BottomNav() {
       <TabItem
         icon={<IconFinance width={28} height={28} />}
         label="Financeiro"
+        onPress={() => router.push('/clinic-finance')}
       />
 
       <TabItem
         icon={<IconMore width={28} height={28} />}
         label="Mais"
+        onPress={() => router.push('/clinic-profile')}
       />
     </View>
   );
