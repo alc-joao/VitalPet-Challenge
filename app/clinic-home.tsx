@@ -10,9 +10,9 @@ import IconCalendar from '@/assets/icons/icon-calendar.svg';
 import IconFinance from '@/assets/icons/icon-finance.svg';
 import IconMore from '@/assets/icons/icon-more.svg';
 
-import IconConsult from '@/assets/icons/icon-consult.svg';
-import IconVaccine from '@/assets/icons/icon-vaccine.svg';
-import IconMedicine from '@/assets/icons/icon-medicine.svg';
+import IconAlert from '@/assets/icons/icon-alert.svg';
+import IconReturn from '@/assets/icons/icon-return.svg';
+import IconConsultation from '@/assets/icons/icon-consutation.svg';
 
 const PetRex = require('@/assets/images/pitbul.png');
 const PetIron = require('@/assets/images/rotwailler.png');
@@ -120,9 +120,9 @@ export default function ClinicHome() {
                 marginBottom: 6,
               }}
             >
-              <SmallMetric icon={<IconConsult width={25} height={25} />} label="Novos" value="8" />
-              <SmallMetric icon={<IconMedicine width={25} height={25} />} label="Retornos" value="3" />
-              <SmallMetric icon={<IconCalendar width={25} height={25} />} label="Consultas" value="1" />
+              <SmallMetric icon={<IconAlert width={25} height={25} />} label="Novos" value="8" />
+              <SmallMetric icon={<IconReturn width={25} height={25} />} label="Retornos" value="3" />
+              <SmallMetric icon={<IconConsultation width={25} height={25} />} label="Consultas" value="1" />
             </View>
           </View>
         </View>
@@ -161,6 +161,11 @@ export default function ClinicHome() {
 
         <View style={{ flexDirection: 'row', gap: 10 }}>
           <IndicatorCard title="Pacientes ativos" value="256" />
+          <IndicatorCard title="Vacinas aplicadas" value="18" />
+        </View>
+
+        <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
+          <IndicatorCard title="Retornos hoje" value="7" />
 
           <TouchableOpacity
             activeOpacity={0.8}
@@ -181,32 +186,6 @@ export default function ClinicHome() {
 
             <Text size={24} weight="700" color="#111827" style={{ marginTop: 8 }}>
               11
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
-          <IndicatorCard title="Retornos hoje" value="7" />
-
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => router.push('/clinic-emergency')}
-            style={{
-              flex: 1,
-              height: 84,
-              borderWidth: 1,
-              borderColor: '#E5E7EB',
-              borderRadius: 14,
-              padding: 14,
-              backgroundColor: '#FFFFFF',
-            }}
-          >
-            <Text size={13} weight="700" color="#7D7D7D">
-              Emergências
-            </Text>
-
-            <Text size={24} weight="700" color="#111827" style={{ marginTop: 8 }}>
-              3
             </Text>
           </TouchableOpacity>
         </View>
@@ -328,7 +307,12 @@ function AppointmentRow({ item }: { item: any }) {
         />
       </View>
 
-      <Text size={15} weight="700" color="#111827" style={{ flex: 1 }}>
+      <Text
+        size={15}
+        weight="700"
+        color="#111827"
+        style={{ flex: 1 }}
+      >
         {item.name}
       </Text>
 
