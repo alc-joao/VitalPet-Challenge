@@ -218,11 +218,13 @@ function BottomNav() {
       <TabItem
         icon={<IconFinance width={28} height={28} />}
         label="Financeiro"
+        onPress={() => router.push('/clinic-finance')}
       />
 
       <TabItem
         icon={<IconMore width={28} height={28} />}
         label="Mais"
+        onPress={() => router.push('/clinic-profile')}
       />
     </View>
   );
@@ -232,6 +234,7 @@ function TabItem({ icon, label, active, onPress }: any) {
   return (
     <TouchableOpacity
       onPress={onPress}
+      activeOpacity={0.8}
       disabled={active}
       style={{
         width: 68,
