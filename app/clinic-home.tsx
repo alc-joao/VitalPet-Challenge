@@ -161,12 +161,54 @@ export default function ClinicHome() {
 
         <View style={{ flexDirection: 'row', gap: 10 }}>
           <IndicatorCard title="Pacientes ativos" value="256" />
-          <IndicatorCard title="Vacinas aplicadas" value="18" />
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => router.push('/clinic-exams')}
+            style={{
+              flex: 1,
+              height: 84,
+              borderWidth: 1,
+              borderColor: '#E5E7EB',
+              borderRadius: 14,
+              padding: 14,
+              backgroundColor: '#FFFFFF',
+            }}
+          >
+            <Text size={13} weight="700" color="#7D7D7D">
+              Exames realizados
+            </Text>
+
+            <Text size={24} weight="700" color="#111827" style={{ marginTop: 8 }}>
+              11
+            </Text>
+          </TouchableOpacity>
         </View>
 
         <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
           <IndicatorCard title="Retornos hoje" value="7" />
-          <IndicatorCard title="Exames realizados" value="11" />
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => router.push('/clinic-emergency')}
+            style={{
+              flex: 1,
+              height: 84,
+              borderWidth: 1,
+              borderColor: '#E5E7EB',
+              borderRadius: 14,
+              padding: 14,
+              backgroundColor: '#FFFFFF',
+            }}
+          >
+            <Text size={13} weight="700" color="#7D7D7D">
+              Emergências
+            </Text>
+
+            <Text size={24} weight="700" color="#111827" style={{ marginTop: 8 }}>
+              3
+            </Text>
+          </TouchableOpacity>
         </View>
 
         <Text
@@ -286,12 +328,7 @@ function AppointmentRow({ item }: { item: any }) {
         />
       </View>
 
-      <Text
-        size={15}
-        weight="700"
-        color="#111827"
-        style={{ flex: 1 }}
-      >
+      <Text size={15} weight="700" color="#111827" style={{ flex: 1 }}>
         {item.name}
       </Text>
 
