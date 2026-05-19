@@ -139,11 +139,17 @@ export default function ClinicPatientDetail() {
           </View>
 
           <View style={{ flexDirection: 'row', gap: 12, marginTop: 12 }}>
-            <InfoCard
-              icon={<IconVaccine width={22} height={22} />}
-              title="Última vacina"
-              value="20/04/2025"
-            />
+            <TouchableOpacity
+              onPress={() => router.push('/clinic-vaccines')}
+              activeOpacity={0.85}
+              style={{ flex: 1 }}
+            >
+              <InfoCard
+                icon={<IconVaccine width={22} height={22} />}
+                title="Última vacina"
+                value="20/04/2025"
+              />
+            </TouchableOpacity>
 
             <InfoCard
               icon={<IconMedicine width={22} height={22} />}

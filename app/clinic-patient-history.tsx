@@ -3,53 +3,42 @@ import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
 
 import IconBack from '@/assets/icons/icon-back.svg';
-import IconArrow from '@/assets/icons/icon-arrow-right.svg';
-
 import IconHome from '@/assets/icons/icon-home.svg';
 import IconPets from '@/assets/icons/icon-pets.svg';
 import IconCalendar from '@/assets/icons/icon-calendar.svg';
+import IconFinance from '@/assets/icons/icon-finance.svg';
 import IconMore from '@/assets/icons/icon-more.svg';
-import IconChat from '@/assets/icons/icon-chat.svg';
-
-import IconConsult from '@/assets/icons/icon-consult.svg';
-import IconVaccine from '@/assets/icons/icon-vaccine.svg';
-import IconMedicine from '@/assets/icons/icon-medicine.svg';
 
 const historyItems = [
   {
     date: '10/05/2025',
     title: 'Consulta veterinária',
-    subtitle: 'Dr. João Vitor\nCheck-up anual',
-    color: '#6D28D9',
-    icon: <IconConsult width={20} height={20} />,
+    subtitle: 'Dr. João Vitor • Check-up anual',
+    color: '#7C3AED',
   },
   {
     date: '20/04/2025',
     title: 'Vacina múltipla',
     subtitle: 'V8 • Protocolo anual',
-    color: '#22C55E',
-    icon: <IconVaccine width={20} height={20} />,
+    color: '#16A34A',
   },
   {
     date: '27/03/2025',
     title: 'Vermífugo',
     subtitle: 'Drontal Plus',
-    color: '#FB923C',
-    icon: <IconMedicine width={20} height={20} />,
+    color: '#F97316',
   },
   {
-    date: '15/03/2025',
+    date: '18/03/2025',
     title: 'Exame de sangue',
     subtitle: 'Hemograma completo',
     color: '#8B5CF6',
-    icon: <IconConsult width={20} height={20} />,
   },
   {
-    date: '10/01/2025',
+    date: '15/01/2025',
     title: 'Banho e tosa',
     subtitle: 'Higiene completa',
-    color: '#FB7185',
-    icon: <IconMedicine width={20} height={20} />,
+    color: '#EF4444',
   },
 ];
 
@@ -61,7 +50,7 @@ export default function ClinicPatientHistory() {
         contentContainerStyle={{
           paddingHorizontal: 24,
           paddingTop: 58,
-          paddingBottom: 150,
+          paddingBottom: 140,
         }}
       >
         <TouchableOpacity
@@ -70,20 +59,20 @@ export default function ClinicPatientHistory() {
             width: 36,
             height: 36,
             justifyContent: 'center',
-            marginBottom: 12,
+            marginBottom: 10,
           }}
         >
           <IconBack width={24} height={24} />
         </TouchableOpacity>
 
-        <Text size={28} weight="700" color="#111827">
+        <Text size={34} weight="700" color="#111827">
           Histórico de Thor
         </Text>
 
         <View
           style={{
             flexDirection: 'row',
-            gap: 8,
+            gap: 10,
             marginTop: 22,
             marginBottom: 24,
           }}
@@ -94,34 +83,91 @@ export default function ClinicPatientHistory() {
           <FilterButton label="Exames" />
         </View>
 
-        <View style={{ paddingLeft: 14 }}>
-          {historyItems.map((item, index) => (
-            <TimelineItem
-              key={`${item.date}-${item.title}`}
-              item={item}
-              last={index === historyItems.length - 1}
-            />
-          ))}
-        </View>
+        {historyItems.map((item, index) => (
+          <View
+            key={index}
+            style={{
+              flexDirection: 'row',
+              marginBottom: 18,
+            }}
+          >
+            <View
+              style={{
+                width: 30,
+                alignItems: 'center',
+              }}
+            >
+              <View
+                style={{
+                  width: 18,
+                  height: 18,
+                  borderRadius: 9,
+                  backgroundColor: item.color,
+                }}
+              />
+
+              {index < historyItems.length - 1 && (
+                <View
+                  style={{
+                    width: 3,
+                    flex: 1,
+                    backgroundColor: '#E5E7EB',
+                    marginTop: 4,
+                  }}
+                />
+              )}
+            </View>
+
+            <View style={{ flex: 1 }}>
+              <Text
+                size={13}
+                weight="700"
+                color="#6B7280"
+                style={{ marginBottom: 6 }}
+              >
+                {item.date}
+              </Text>
+
+              <TouchableOpacity
+                activeOpacity={0.85}
+                style={{
+                  borderWidth: 1,
+                  borderColor: '#E5E7EB',
+                  borderRadius: 16,
+                  padding: 16,
+                }}
+              >
+                <Text size={18} weight="700" color="#111827">
+                  {item.title}
+                </Text>
+
+                <Text
+                  size={14}
+                  weight="600"
+                  color="#6B7280"
+                  style={{ marginTop: 6 }}
+                >
+                  {item.subtitle}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ))}
 
         <TouchableOpacity
           activeOpacity={0.85}
+          onPress={() => router.push('/clinic-new-appointment')}
           style={{
-            marginTop: 34,
+            marginTop: 28,
             height: 58,
-            borderRadius: 14,
+            borderRadius: 16,
             backgroundColor: '#6D28D9',
             alignItems: 'center',
             justifyContent: 'center',
-            shadowColor: '#000',
-            shadowOffset: { width: 2, height: 4 },
-            shadowOpacity: 0.18,
-            shadowRadius: 4,
-            elevation: 5,
           }}
         >
           <Text size={18} weight="700" color="#FFFFFF">
-            Exportar Histórico
+            Exportar histórico
           </Text>
         </TouchableOpacity>
       </ScrollView>
@@ -131,118 +177,28 @@ export default function ClinicPatientHistory() {
   );
 }
 
-function FilterButton({ label, active }: { label: string; active?: boolean }) {
+function FilterButton({ label, active }: any) {
   return (
     <TouchableOpacity
-      activeOpacity={0.85}
       style={{
-        height: 34,
-        paddingHorizontal: 17,
-        borderRadius: 18,
+        paddingHorizontal: 16,
+        height: 40,
+        borderRadius: 20,
         backgroundColor: active ? '#6D28D9' : '#FFFFFF',
         borderWidth: 1,
-        borderColor: active ? '#6D28D9' : '#E5E7EB',
+        borderColor: active ? '#6D28D9' : '#D1D5DB',
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
       <Text
-        size={13}
+        size={14}
         weight="700"
         color={active ? '#FFFFFF' : '#6B7280'}
       >
         {label}
       </Text>
     </TouchableOpacity>
-  );
-}
-
-function TimelineItem({ item, last }: { item: any; last?: boolean }) {
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        minHeight: 104,
-      }}
-    >
-      <View
-        style={{
-          width: 42,
-          alignItems: 'center',
-        }}
-      >
-        <View
-          style={{
-            width: 38,
-            height: 38,
-            borderRadius: 19,
-            borderWidth: 3,
-            borderColor: item.color,
-            backgroundColor: '#FFFFFF',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 2,
-          }}
-        >
-          {item.icon}
-        </View>
-
-        {!last && (
-          <View
-            style={{
-              width: 3,
-              flex: 1,
-              backgroundColor: item.color,
-              opacity: 0.35,
-              marginTop: 4,
-            }}
-          />
-        )}
-      </View>
-
-      <View style={{ flex: 1, marginLeft: 12 }}>
-        <Text
-          size={13}
-          weight="700"
-          color="#6B7280"
-          style={{ marginBottom: 8 }}
-        >
-          {item.date}
-        </Text>
-
-        <TouchableOpacity
-          activeOpacity={0.85}
-          style={{
-            minHeight: 72,
-            borderWidth: 1,
-            borderColor: '#E5E7EB',
-            borderRadius: 14,
-            backgroundColor: '#FFFFFF',
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 16,
-            paddingVertical: 10,
-          }}
-        >
-          <View style={{ flex: 1 }}>
-            <Text size={17} weight="700" color="#111827">
-              {item.title}
-            </Text>
-
-            <Text
-              size={13}
-              weight="600"
-              color="#7D7D7D"
-              style={{ marginTop: 3, lineHeight: 17 }}
-            >
-              {item.subtitle}
-            </Text>
-          </View>
-
-          <IconArrow width={18} height={18} />
-        </TouchableOpacity>
-      </View>
-    </View>
   );
 }
 
@@ -265,34 +221,31 @@ function BottomNav() {
       }}
     >
       <TabItem
-        icon={<IconHome width={30} height={30} />}
+        icon={<IconHome width={28} height={28} />}
         label="Home"
         onPress={() => router.push('/clinic-home')}
       />
 
       <TabItem
-        icon={<IconPets width={30} height={30} />}
+        icon={<IconPets width={28} height={28} />}
         label="Pacientes"
         active
-        onPress={() => router.push('/clinic-patients')}
       />
 
       <TabItem
-        icon={<IconCalendar width={30} height={30} />}
+        icon={<IconCalendar width={28} height={28} />}
         label="Agenda"
         onPress={() => router.push('/clinic-schedule')}
       />
 
       <TabItem
-        icon={<IconChat width={30} height={30} />}
+        icon={<IconFinance width={28} height={28} />}
         label="Financeiro"
-        onPress={() => router.push('/clinic-finance')}
       />
 
       <TabItem
-        icon={<IconMore width={30} height={30} />}
+        icon={<IconMore width={28} height={28} />}
         label="Mais"
-        onPress={() => router.push('/clinic-profile')}
       />
     </View>
   );
@@ -302,7 +255,6 @@ function TabItem({ icon, label, active, onPress }: any) {
   return (
     <TouchableOpacity
       onPress={onPress}
-      activeOpacity={0.8}
       disabled={active}
       style={{
         width: 68,
@@ -319,7 +271,7 @@ function TabItem({ icon, label, active, onPress }: any) {
         size={11}
         weight="700"
         color={active ? '#6D28D9' : '#7D7D7D'}
-        style={{ marginTop: 3 }}
+        style={{ marginTop: 4 }}
       >
         {label}
       </Text>

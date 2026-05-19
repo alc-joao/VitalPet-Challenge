@@ -2,7 +2,6 @@ import { View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
 
-import IconBack from '@/assets/icons/icon-back.svg';
 import IconHome from '@/assets/icons/icon-home.svg';
 import IconPets from '@/assets/icons/icon-pets.svg';
 import IconCalendar from '@/assets/icons/icon-calendar.svg';
@@ -10,12 +9,8 @@ import IconFinance from '@/assets/icons/icon-finance.svg';
 import IconMore from '@/assets/icons/icon-more.svg';
 
 const PetThor = require('@/assets/images/pitbul.png');
-const PetMel = require('@/assets/images/rotwailler.png');
-const PetBuddy = require('@/assets/images/pitbul.png');
-const PetLuna = require('@/assets/images/rotwailler.png');
-const PetRex = require('@/assets/images/pitbul.png');
 
-const weekDays = [
+const scheduleDays = [
   { day: 'Seg', date: '19' },
   { day: 'Ter', date: '20', active: true },
   { day: 'Qua', date: '21' },
@@ -24,41 +19,11 @@ const weekDays = [
 ];
 
 const appointments = [
-  {
-    time: '08:00',
-    pet: 'Thor Martins',
-    tutor: 'Consulta',
-    type: 'Consulta',
-    image: PetThor,
-  },
-  {
-    time: '09:00',
-    pet: 'Mel',
-    tutor: 'Retorno',
-    type: 'Retorno',
-    image: PetMel,
-  },
-  {
-    time: '10:00',
-    pet: 'Buddy',
-    tutor: 'Vacina',
-    type: 'Vacina',
-    image: PetBuddy,
-  },
-  {
-    time: '11:00',
-    pet: 'Luna',
-    tutor: 'Consulta',
-    type: 'Consulta',
-    image: PetLuna,
-  },
-  {
-    time: '14:00',
-    pet: 'Rex',
-    tutor: 'Exame',
-    type: 'Exame',
-    image: PetRex,
-  },
+  { hour: '08:00', pet: 'Thor Martins', type: 'Consulta' },
+  { hour: '09:00', pet: 'Mel', type: 'Retorno' },
+  { hour: '10:00', pet: 'Buddy', type: 'Vacina' },
+  { hour: '11:00', pet: 'Luna', type: 'Consulta' },
+  { hour: '14:00', pet: 'Rex', type: 'Exame' },
 ];
 
 export default function ClinicSchedule() {
@@ -72,49 +37,37 @@ export default function ClinicSchedule() {
           paddingBottom: 140,
         }}
       >
-        <TouchableOpacity
-          onPress={() => router.push('/clinic-home')}
-          style={{
-            width: 36,
-            height: 36,
-            justifyContent: 'center',
-            marginBottom: 12,
-          }}
-        >
-          <IconBack width={24} height={24} />
-        </TouchableOpacity>
-
-        <Text size={28} weight="700" color="#111827">
+        <Text size={34} weight="700" color="#111827">
           Agenda de hoje
         </Text>
 
         <Text
           size={16}
-          weight="600"
+          weight="500"
           color="#6B7280"
-          style={{ marginTop: 4 }}
+          style={{ marginTop: 6 }}
         >
           Quinta, 20 de Maio
         </Text>
 
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{
-            gap: 10,
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
             marginTop: 24,
-            paddingBottom: 4,
+            backgroundColor: '#F9FAFB',
+            borderRadius: 18,
+            padding: 8,
           }}
         >
-          {weekDays.map(item => (
-            <TouchableOpacity
-              key={item.date}
-              activeOpacity={0.85}
+          {scheduleDays.map((item, index) => (
+            <View
+              key={index}
               style={{
-                width: 66,
-                height: 74,
-                borderRadius: 18,
-                backgroundColor: item.active ? '#6D28D9' : '#F3F4F6',
+                width: 58,
+                height: 72,
+                borderRadius: 16,
+                backgroundColor: item.active ? '#6D28D9' : 'transparent',
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
@@ -128,25 +81,84 @@ export default function ClinicSchedule() {
               </Text>
 
               <Text
-                size={24}
+                size={22}
                 weight="700"
                 color={item.active ? '#FFFFFF' : '#111827'}
                 style={{ marginTop: 4 }}
               >
                 {item.date}
               </Text>
-            </TouchableOpacity>
+            </View>
           ))}
-        </ScrollView>
+        </View>
 
-        <View style={{ marginTop: 26 }}>
-          {appointments.map(item => (
-            <AppointmentCard key={`${item.time}-${item.pet}`} item={item} />
+        <View style={{ marginTop: 24 }}>
+          {appointments.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              activeOpacity={0.85}
+              onPress={() => router.push('/clinic-patient-detail')}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                borderWidth: 1,
+                borderColor: '#E5E7EB',
+                borderRadius: 18,
+                padding: 14,
+                marginBottom: 14,
+              }}
+            >
+              <Text
+                size={16}
+                weight="700"
+                color="#111827"
+                style={{ width: 58 }}
+              >
+                {item.hour}
+              </Text>
+
+              <View
+                style={{
+                  width: 52,
+                  height: 52,
+                  borderRadius: 26,
+                  overflow: 'hidden',
+                  marginRight: 14,
+                  backgroundColor: '#E5E7EB',
+                }}
+              >
+                <Image
+                  source={PetThor}
+                  style={{ width: 52, height: 52 }}
+                  resizeMode="cover"
+                />
+              </View>
+
+              <View style={{ flex: 1 }}>
+                <Text size={17} weight="700" color="#111827">
+                  {item.pet}
+                </Text>
+
+                <Text
+                  size={14}
+                  weight="600"
+                  color="#6B7280"
+                  style={{ marginTop: 4 }}
+                >
+                  {item.type}
+                </Text>
+              </View>
+
+              <Text size={14} weight="700" color="#9CA3AF">
+                {item.type}
+              </Text>
+            </TouchableOpacity>
           ))}
         </View>
 
         <TouchableOpacity
           activeOpacity={0.85}
+          onPress={() => router.push('/clinic-new-appointment')}
           style={{
             marginTop: 34,
             height: 58,
@@ -154,11 +166,6 @@ export default function ClinicSchedule() {
             backgroundColor: '#6D28D9',
             alignItems: 'center',
             justifyContent: 'center',
-            shadowColor: '#000',
-            shadowOffset: { width: 2, height: 4 },
-            shadowOpacity: 0.18,
-            shadowRadius: 4,
-            elevation: 5,
           }}
         >
           <Text size={18} weight="700" color="#FFFFFF">
@@ -169,74 +176,6 @@ export default function ClinicSchedule() {
 
       <BottomNav />
     </View>
-  );
-}
-
-function AppointmentCard({ item }: { item: any }) {
-  return (
-    <TouchableOpacity
-      activeOpacity={0.85}
-      onPress={() => router.push('/clinic-patient-detail')}
-      style={{
-        minHeight: 92,
-        borderWidth: 1,
-        borderColor: '#E5E7EB',
-        borderRadius: 18,
-        backgroundColor: '#FFFFFF',
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: 16,
-        marginBottom: 14,
-      }}
-    >
-      <Text
-        size={18}
-        weight="700"
-        color="#111827"
-        style={{ width: 64 }}
-      >
-        {item.time}
-      </Text>
-
-      <View
-        style={{
-          width: 54,
-          height: 54,
-          borderRadius: 27,
-          overflow: 'hidden',
-          backgroundColor: '#E5E7EB',
-          marginRight: 14,
-        }}
-      >
-        <Image
-          source={item.image}
-          style={{
-            width: 54,
-            height: 54,
-          }}
-          resizeMode="cover"
-        />
-      </View>
-
-      <View style={{ flex: 1 }}>
-        <Text size={18} weight="700" color="#111827">
-          {item.pet}
-        </Text>
-
-        <Text
-          size={14}
-          weight="600"
-          color="#6B7280"
-          style={{ marginTop: 4 }}
-        >
-          {item.tutor}
-        </Text>
-      </View>
-
-      <Text size={14} weight="700" color="#9CA3AF">
-        {item.type}
-      </Text>
-    </TouchableOpacity>
   );
 }
 
@@ -259,33 +198,31 @@ function BottomNav() {
       }}
     >
       <TabItem
-        icon={<IconHome width={30} height={30} />}
+        icon={<IconHome width={28} height={28} />}
         label="Home"
         onPress={() => router.push('/clinic-home')}
       />
 
       <TabItem
-        icon={<IconPets width={30} height={30} />}
+        icon={<IconPets width={28} height={28} />}
         label="Pacientes"
         onPress={() => router.push('/clinic-patients')}
       />
 
       <TabItem
-        icon={<IconCalendar width={30} height={30} />}
+        icon={<IconCalendar width={28} height={28} />}
         label="Agenda"
         active
       />
 
       <TabItem
-        icon={<IconFinance width={30} height={30} />}
+        icon={<IconFinance width={28} height={28} />}
         label="Financeiro"
-        onPress={() => router.push('/clinic-finance')}
       />
 
       <TabItem
-        icon={<IconMore width={30} height={30} />}
+        icon={<IconMore width={28} height={28} />}
         label="Mais"
-        onPress={() => router.push('/clinic-profile')}
       />
     </View>
   );
@@ -295,7 +232,6 @@ function TabItem({ icon, label, active, onPress }: any) {
   return (
     <TouchableOpacity
       onPress={onPress}
-      activeOpacity={0.8}
       disabled={active}
       style={{
         width: 68,
@@ -312,7 +248,7 @@ function TabItem({ icon, label, active, onPress }: any) {
         size={11}
         weight="700"
         color={active ? '#6D28D9' : '#7D7D7D'}
-        style={{ marginTop: 3 }}
+        style={{ marginTop: 4 }}
       >
         {label}
       </Text>
