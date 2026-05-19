@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+
 import LogoWhite from '@/assets/logos/logo-white.svg';
 
 export function SplashScreen() {

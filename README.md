@@ -1,50 +1,248 @@
-# Welcome to your Expo app 👋
+# VitalPet
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Integrantes
 
-## Get started
+- João Victor Alcântara — RM562707
+- Phillipo Barbosa — RM565399
+- Vitor Madrigrano — RM564191
+- Eduardo Martins — RM562259
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+# Descrição do Projeto
 
-2. Start the app
+O VitalPet é um aplicativo mobile desenvolvido em React Native com Expo, criado com o objetivo de facilitar o gerenciamento de cuidados veterinários para tutores e clínicas veterinárias.
 
-   ```bash
-   npx expo start
-   ```
+O aplicativo possui dois fluxos principais:
 
-In the output, you'll find options to open the app in a
+- Fluxo Tutor
+- Fluxo Clínica Veterinária
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+A aplicação simula funcionalidades reais de um sistema veterinário moderno, incluindo:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- gerenciamento de pacientes;
+- consultas;
+- vacinas;
+- exames;
+- emergências;
+- financeiro;
+- relatórios;
+- planos e assinaturas.
 
-## Get a fresh project
+O projeto foi desenvolvido como protótipo funcional para o Challenge de Mobile Application Development da FIAP.
 
-When you're ready, run:
+---
+
+# Funcionalidades
+
+## Tutor
+
+- Escolha de perfil
+- Cadastro de tutor
+- Home do tutor
+- Cadastro de pets
+- Perfil do pet
+- Histórico veterinário
+- Vacinas
+- Consultas
+- Lembretes
+- Medicações
+- Planos
+- Chat
+- Score do pet
+
+---
+
+## Clínica
+
+- Login da clínica
+- Cadastro da clínica
+- Dashboard da clínica
+- Agenda veterinária
+- Pacientes
+- Detalhes do paciente
+- Histórico clínico
+- Prescrições
+- Exames
+- Vacinas
+- Emergências
+- Financeiro
+- Relatórios
+- Planos e assinaturas
+- Controle administrativo
+
+---
+
+# Tecnologias Utilizadas
+
+- React Native
+- Expo
+- Expo Router
+- TypeScript
+- AsyncStorage
+- React Native SVG
+
+---
+
+# Estrutura de Pastas
 
 ```bash
-npm run reset-project
+app/
+├── _layout.tsx
+├── index.tsx
+├── onboarding.tsx
+├── choose-profile.tsx
+
+├── tutor-login.tsx
+├── tutor-create.tsx
+├── tutor-home.tsx
+├── pet-form.tsx
+├── pet-success.tsx
+├── pet-profile.tsx
+├── pet-detail.tsx
+├── pet-health.tsx
+├── pet-preferences.tsx
+├── pet-score-detail.tsx
+├── chat-home.tsx
+├── consults-home.tsx
+├── emergency-home.tsx
+├── history-home.tsx
+├── medications-home.tsx
+├── more-home.tsx
+├── my-data.tsx
+├── plans-home.tsx
+├── reminders-home.tsx
+├── score-home.tsx
+├── vaccines-home.tsx
+
+├── clinic-login.tsx
+├── clinic-create.tsx
+├── clinic-home.tsx
+├── clinic-profile.tsx
+├── clinic-patients.tsx
+├── clinic-patient-detail.tsx
+├── clinic-patient-history.tsx
+├── clinic-schedule.tsx
+├── clinic-new-appointment.tsx
+├── clinic-vaccines.tsx
+├── clinic-exams.tsx
+├── clinic-prescription.tsx
+├── clinic-reminders.tsx
+├── clinic-emergency.tsx
+├── clinic-finance.tsx
+├── clinic-finance-entries.tsx
+├── clinic-reports.tsx
+└── clinic-plans.tsx
+
+assets/
+├── icons/
+├── images/
+├── logos/
+└── favicon.png
+
+src/
+├── components/
+│   └── atoms/
+│       ├── Button/
+│       ├── CardOption/
+│       ├── Input/
+│       ├── Logo/
+│       └── Text/
+├── constants/
+└── @types/
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+# Organização das Telas
 
-To learn more about developing your project with Expo, look at the following resources:
+O projeto está organizado em dois fluxos principais:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Fluxo Tutor
 
-## Join the community
+Telas voltadas para o usuário tutor, permitindo cadastro, gerenciamento de pets, lembretes, vacinas, consultas, saúde do pet e dados pessoais.
 
-Join our community of developers creating universal apps.
+---
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Fluxo Clínica
+
+Telas voltadas para clínicas veterinárias, permitindo gerenciamento de pacientes, agenda, atendimentos, exames, vacinas, emergências, financeiro, relatórios e planos de assinatura.
+
+---
+
+# Navegação
+
+O projeto utiliza Expo Router para gerenciamento de rotas e navegação entre telas.
+
+Fluxos implementados:
+
+- Navegação Tutor
+- Navegação Clínica
+- Navegação por Bottom Tab
+- Navegação entre formulários e detalhes
+
+---
+
+# Manipulação de Estado
+
+O aplicativo utiliza:
+
+- useState
+- formulários controlados
+- validações visuais
+- renderização dinâmica de dados
+
+---
+
+# Persistência Local
+
+O projeto utiliza AsyncStorage para persistência de dados locais, permitindo:
+
+- salvar informações do usuário;
+- restaurar dados após reiniciar o aplicativo;
+- manter preferências e formulários preenchidos.
+
+---
+
+# Como Executar o Projeto
+
+## Instalar dependências
+
+```bash
+yarn
+```
+
+ou
+
+```bash
+npm install
+```
+
+---
+
+## Rodar o projeto
+
+```bash
+npx expo start
+```
+
+---
+
+## Executar no celular
+
+1. Instale o aplicativo Expo Go
+2. Escaneie o QR Code gerado no terminal
+
+---
+
+# Repositório
+
+```txt
+https://github.com/alc-joao/VitalPet-Challenge.git
+```
+
+---
+
+# Observações
+
+Este projeto possui fins acadêmicos e foi desenvolvido para demonstração prática de conceitos de desenvolvimento mobile utilizando React Native com Expo.
