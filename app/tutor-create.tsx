@@ -25,6 +25,9 @@ export default function TutorCreate() {
   const [showSenha, setShowSenha] = useState(false);
   const [showConfirmarSenha, setShowConfirmarSenha] = useState(false);
 
+  const [erro, setErro] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const nomeValido = nome.trim().length >= 3;
   const cpfNumeros = cpf.replace(/\D/g, '');
   const cpfValido = cpfNumeros.length === 11;
@@ -50,43 +53,60 @@ export default function TutorCreate() {
   };
 
   async function handleCreateAccount() {
+    setErro('');
+
     if (!nomeValido) {
-      Alert.alert('Nome incompleto', 'Digite seu nome completo com pelo menos 3 letras.');
+      setErro('Digite seu nome com pelo menos 3 letras.');
       return;
     }
 
     if (!cpfValido) {
-      Alert.alert('CPF incompleto', 'Digite um CPF válido com 11 números.');
+      setErro('Digite um CPF válido com 11 números.');
       return;
     }
 
     if (!emailValido) {
-      Alert.alert('Email inválido', 'Digite um email válido para continuar.');
+      setErro('Digite um email válido.');
       return;
     }
 
     if (!senhaValida) {
-      Alert.alert('Senha inválida', 'A senha precisa ter pelo menos 6 caracteres.');
+      setErro('A senha precisa ter pelo menos 6 caracteres.');
       return;
     }
 
     if (!confirmarSenhaValida) {
-      Alert.alert('Senhas diferentes', 'A confirmação de senha precisa ser igual à senha.');
+      setErro('As senhas precisam ser iguais.');
       return;
     }
 
-    const tutorData = {
-      nome: nome.trim(),
-      cpf,
-      email: email.trim(),
-    };
+    try {
+      setLoading(true);
 
-    await AsyncStorage.setItem('@vitalpet:tutor', JSON.stringify(tutorData));
-    await AsyncStorage.setItem('@vitalpet:lastCpf', cpf);
+      const tutorData = {
+        nome: nome.trim(),
+        cpf,
+        email: email.trim(),
+      };
 
-    Alert.alert('Conta criada!', 'Seus dados foram salvos no aplicativo.');
+      await AsyncStorage.setItem('@vitalpet:tutor', JSON.stringify(tutorData));
+      await AsyncStorage.setItem('@vitalpet:lastCpf', cpf);
 
-    router.push('/pet-form');
+      Alert.alert(
+        'Conta criada!',
+        'Seus dados foram salvos no aplicativo.',
+        [
+          {
+            text: 'Continuar',
+            onPress: () => router.push('/pet-form'),
+          },
+        ]
+      );
+    } catch (error) {
+      setErro('Não foi possível criar a conta. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -163,12 +183,30 @@ export default function TutorCreate() {
         showEye={showConfirmarSenha}
       />
 
+      {!!erro && (
+        <View
+          style={{
+            backgroundColor: '#FFECEC',
+            borderWidth: 1,
+            borderColor: '#FFB4B4',
+            borderRadius: 12,
+            padding: 12,
+            marginBottom: 12,
+          }}
+        >
+          <Text size={14} weight="700" color="#B00020">
+            {erro}
+          </Text>
+        </View>
+      )}
+
       <TouchableOpacity
         activeOpacity={0.85}
         onPress={handleCreateAccount}
+        disabled={loading}
         style={{
           height: 60,
-          backgroundColor: '#0A66C2',
+          backgroundColor: loading ? '#7AAFE3' : '#0A66C2',
           borderRadius: 16,
           alignItems: 'center',
           justifyContent: 'center',
@@ -176,7 +214,7 @@ export default function TutorCreate() {
         }}
       >
         <Text size={21} weight="700" color="#FFFFFF">
-          Criar conta
+          {loading ? 'Criando conta...' : 'Criar conta'}
         </Text>
       </TouchableOpacity>
 
@@ -262,11 +300,12 @@ function Input({
           placeholderTextColor="#777777"
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
+          autoCapitalize="none"
           style={{
             flex: 1,
             fontSize: 18,
             fontWeight: '600',
-            color: '#777777',
+            color: '#111827',
           }}
         />
 
@@ -274,7 +313,11 @@ function Input({
 
         {eyeIcon && (
           <TouchableOpacity onPress={onToggleEye}>
-            {showEye ? <EyeOpen width={22} height={22} /> : <EyeClosed width={22} height={22} />}
+            {showEye ? (
+              <EyeOpen width={22} height={22} />
+            ) : (
+              <EyeClosed width={22} height={22} />
+            )}
           </TouchableOpacity>
         )}
       </View>

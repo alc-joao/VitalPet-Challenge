@@ -1,6 +1,14 @@
-import { View, TouchableOpacity, Switch, ScrollView } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Switch,
+  ScrollView,
+  Alert,
+} from 'react-native';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { Text } from '@/src/components/atoms/Text';
 
 import IconBack from '@/assets/icons/icon-back.svg';
@@ -12,9 +20,46 @@ import IconCalendar from '@/assets/icons/icon-calendar.svg';
 import IconChat from '@/assets/icons/icon-chat.svg';
 import IconMore from '@/assets/icons/icon-more.svg';
 
+type TutorData = {
+  nome: string;
+  cpf: string;
+  email: string;
+};
+
 export default function MyData() {
   const [lembretes, setLembretes] = useState(true);
   const [promocoes, setPromocoes] = useState(true);
+
+  const [nome, setNome] = useState('Carregando...');
+  const [email, setEmail] = useState('Carregando...');
+  const [cpf, setCpf] = useState('Carregando...');
+
+  useEffect(() => {
+    loadTutorData();
+  }, []);
+
+  async function loadTutorData() {
+    try {
+      const tutorStorage = await AsyncStorage.getItem('@vitalpet:tutor');
+
+      if (tutorStorage) {
+        const tutor: TutorData = JSON.parse(tutorStorage);
+
+        setNome(tutor.nome || 'Não informado');
+        setEmail(tutor.email || 'Não informado');
+        setCpf(tutor.cpf || 'Não informado');
+      } else {
+        setNome('Nenhum dado salvo');
+        setEmail('Nenhum dado salvo');
+        setCpf('Nenhum dado salvo');
+      }
+    } catch (error) {
+      Alert.alert(
+        'Erro',
+        'Não foi possível carregar os dados salvos.'
+      );
+    }
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
@@ -58,14 +103,26 @@ export default function MyData() {
 
         <SectionBox>
           <RowItem
+            label="Nome"
+            value={nome}
+            border
+          />
+
+          <RowItem
+            label="CPF"
+            value={cpf}
+            border
+          />
+
+          <RowItem
             label="E-mail"
-            value="joaopessoal@gmail.com"
+            value={email}
             border
           />
 
           <RowItem
             label="Senha"
-            value=""
+            value="••••••••"
           />
         </SectionBox>
 
@@ -150,7 +207,7 @@ function RowItem({
     <TouchableOpacity
       activeOpacity={0.8}
       style={{
-        minHeight: 52,
+        minHeight: 58,
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 14,
@@ -172,7 +229,11 @@ function RowItem({
           size={14}
           weight="500"
           color="#7D7D7D"
-          style={{ marginRight: 12 }}
+          style={{
+            marginRight: 12,
+            maxWidth: 180,
+          }}
+          numberOfLines={1}
         >
           {value}
         </Text>

@@ -3,6 +3,8 @@ import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Text } from '@/src/components/atoms/Text';
 
+import LogoWhite from '@/assets/logos/logo-white.svg';
+
 export default function Onboarding() {
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
@@ -41,14 +43,7 @@ export default function Onboarding() {
             alignItems: 'center',
           }}
         >
-          <Image
-            source={require('@/assets/logos/logo-white.svg')}
-            style={{
-              width: 190,
-              height: 120,
-            }}
-            resizeMode="contain"
-          />
+          <LogoWhite width={190} height={120} />
         </View>
 
         <View
