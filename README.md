@@ -243,6 +243,14 @@ https://github.com/alc-joao/VitalPet-Challenge.git
 
 ---
 
+# Link Vídeo Pitch
+
+```txt
+https://www.youtube.com/watch?v=KMTkmrL5NeE
+```
+
+---
+
 # Observações
 
 Este projeto possui fins acadêmicos e foi desenvolvido para demonstração prática de conceitos de desenvolvimento mobile utilizando React Native com Expo.

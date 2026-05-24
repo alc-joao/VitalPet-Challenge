@@ -1,4 +1,4 @@
-import { View, TextInput, TouchableOpacity } from 'react-native';
+import { View, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -25,9 +25,7 @@ export default function TutorLogin() {
         return;
       }
 
-      if (lastCpf) {
-        setCpf(lastCpf);
-      }
+      if (lastCpf) setCpf(lastCpf);
     }
 
     loadStoredCPF();
@@ -37,9 +35,7 @@ export default function TutorLogin() {
     const numericValue = value.replace(/\D/g, '').slice(0, 11);
 
     if (numericValue.length <= 3) return numericValue;
-    if (numericValue.length <= 6) {
-      return `${numericValue.slice(0, 3)}.${numericValue.slice(3)}`;
-    }
+    if (numericValue.length <= 6) return `${numericValue.slice(0, 3)}.${numericValue.slice(3)}`;
     if (numericValue.length <= 9) {
       return `${numericValue.slice(0, 3)}.${numericValue.slice(3, 6)}.${numericValue.slice(6)}`;
     }
@@ -56,177 +52,188 @@ export default function TutorLogin() {
   }
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: '#FCFCFC',
-        paddingHorizontal: 28,
-        paddingTop: 20,
-        paddingBottom: 26,
-      }}
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: '#FCFCFC' }}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <View
-        style={{
-          alignItems: 'center',
-          marginBottom: 30,
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingHorizontal: 28,
+          paddingTop: 14,
+          paddingBottom: 24,
         }}
       >
-        <LogoBlue width={170} height={110} />
-      </View>
+        <View style={{ alignItems: 'center', marginBottom: 14 }}>
+          <LogoBlue width={130} height={72} />
+        </View>
 
-      <Text
-        size={32}
-        weight="700"
-        color="#111827"
-        style={{
-          lineHeight: 36,
-          marginBottom: 10,
-        }}
-      >
-        Cuide melhor{'\n'}do seu pet com{'\n'}VitalPet
-      </Text>
-
-      <Text
-        size={18}
-        color="#111827"
-        style={{
-          lineHeight: 20,
-          marginBottom: 22,
-        }}
-      >
-        Acompanhe a saúde, vacinas,{'\n'}consultas e alertas e um só lugar.
-      </Text>
-
-      <Text size={16} weight="600" color="#111827" style={{ marginBottom: 10 }}>
-        CPF
-      </Text>
-
-      <TextInput
-        placeholder="000.000.000-00"
-        placeholderTextColor="#8C8C8C"
-        keyboardType="numeric"
-        value={cpf}
-        onChangeText={(text) => setCpf(formatCPF(text))}
-        style={{
-          height: 70,
-          borderWidth: 1.3,
-          borderColor: '#BDBDBD',
-          borderRadius: 16,
-          paddingHorizontal: 20,
-          fontSize: 18,
-          fontWeight: '600',
-          color: '#111827',
-          backgroundColor: '#FFFFFF',
-          marginBottom: 14,
-        }}
-      />
-
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginBottom: 20,
-        }}
-      >
-        <ShieldIcon width={24} height={24} />
-
-        <Text size={16} weight="500" color="#7A7A7A" style={{ marginLeft: 12 }}>
-          Seus dados estão protegidos e seguros.
+        <Text
+          size={28}
+          weight="700"
+          color="#111827"
+          style={{
+            lineHeight: 32,
+            marginBottom: 8,
+          }}
+        >
+          Cuide melhor{'\n'}do seu pet com{'\n'}VitalPet
         </Text>
-      </View>
-
-      <View
-        style={{
-          backgroundColor: '#DCEBFA',
-          borderRadius: 18,
-          paddingVertical: 10,
-          paddingHorizontal: 18,
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginBottom: 28,
-        }}
-      >
-        <SecurityLock width={30} height={30} />
 
         <Text
           size={16}
-          weight="500"
-          color="#0A66C2"
+          color="#111827"
           style={{
-            flex: 1,
-            marginLeft: 18,
-            lineHeight: 23,
+            lineHeight: 19,
+            marginBottom: 18,
           }}
         >
-          Utilizamos seu CPF pra garantir mais segurança e personalizar sua experiência.
-        </Text>
-      </View>
-
-      <TouchableOpacity
-        activeOpacity={0.85}
-        onPress={handleTutorLogin}
-        style={{
-          height: 60,
-          backgroundColor: '#0A66C2',
-          borderRadius: 20,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: 20,
-        }}
-      >
-        <TutorIcon width={30} height={30} />
-
-        <Text size={21} weight="600" color="#FFFFFF" style={{ marginLeft: 18 }}>
-          Entrar como Tutor
-        </Text>
-      </TouchableOpacity>
-
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginBottom: 20,
-        }}
-      >
-        <View style={{ flex: 1, height: 1.2, backgroundColor: '#8D8D8D' }} />
-
-        <Text size={17} weight="600" color="#7B7B7B" style={{ marginHorizontal: 18 }}>
-          Ou
+          Acompanhe a saúde, vacinas,{'\n'}consultas e alertas e um só lugar.
         </Text>
 
-        <View style={{ flex: 1, height: 1.2, backgroundColor: '#8D8D8D' }} />
-      </View>
+        <Text size={15} weight="600" color="#111827" style={{ marginBottom: 8 }}>
+          CPF
+        </Text>
 
-      <SocialButton
-        icon={<GoogleIcon width={30} height={30} />}
-        title="Continue com Google"
-        onPress={handleTutorLogin}
-      />
+        <TextInput
+          placeholder="000.000.000-00"
+          placeholderTextColor="#8C8C8C"
+          keyboardType="numeric"
+          value={cpf}
+          onChangeText={(text) => setCpf(formatCPF(text))}
+          style={{
+            height: 48,
+            borderWidth: 1.3,
+            borderColor: '#BDBDBD',
+            borderRadius: 16,
+            paddingHorizontal: 18,
+            fontSize: 17,
+            fontWeight: '600',
+            color: '#111827',
+            backgroundColor: '#FFFFFF',
+            marginBottom: 12,
+          }}
+        />
 
-      <View style={{ height: 14 }} />
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 16,
+          }}
+        >
+          <ShieldIcon width={24} height={24} />
 
-      <SocialButton
-        icon={<AppleIcon width={30} height={30} />}
-        title="Continue com Apple"
-        onPress={handleTutorLogin}
-      />
-
-      <TouchableOpacity
-        onPress={() => router.push('/tutor-create')}
-        style={{
-          alignItems: 'center',
-          marginTop: 'auto',
-        }}
-      >
-        <Text size={16} weight="600" color="#111827">
-          Ainda não tem conta?{' '}
-          <Text size={16} weight="600" color="#0A66C2">
-            inscrever-se
+          <Text
+            size={15}
+            weight="500"
+            color="#7A7A7A"
+            style={{
+              flex: 1,
+              marginLeft: 12,
+              lineHeight: 19,
+            }}
+          >
+            Seus dados estão protegidos e seguros.
           </Text>
-        </Text>
-      </TouchableOpacity>
-    </View>
+        </View>
+
+        <View
+          style={{
+            backgroundColor: '#DCEBFA',
+            borderRadius: 18,
+            paddingVertical: 12,
+            paddingHorizontal: 16,
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 22,
+          }}
+        >
+          <SecurityLock width={28} height={28} />
+
+          <Text
+            size={15}
+            weight="500"
+            color="#0A66C2"
+            style={{
+              flex: 1,
+              marginLeft: 16,
+              lineHeight: 21,
+            }}
+          >
+            Utilizamos seu CPF pra garantir mais segurança e personalizar sua experiência.
+          </Text>
+        </View>
+
+        <TouchableOpacity
+          activeOpacity={0.85}
+          onPress={handleTutorLogin}
+          style={{
+            height: 58,
+            backgroundColor: '#0A66C2',
+            borderRadius: 20,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 18,
+          }}
+        >
+          <TutorIcon width={28} height={28} />
+
+          <Text size={19} weight="600" color="#FFFFFF" style={{ marginLeft: 14 }}>
+            Entrar como Tutor
+          </Text>
+        </TouchableOpacity>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 16,
+          }}
+        >
+          <View style={{ flex: 1, height: 1.2, backgroundColor: '#8D8D8D' }} />
+
+          <Text size={15} weight="600" color="#7B7B7B" style={{ marginHorizontal: 16 }}>
+            Ou
+          </Text>
+
+          <View style={{ flex: 1, height: 1.2, backgroundColor: '#8D8D8D' }} />
+        </View>
+
+        <SocialButton
+          icon={<GoogleIcon width={26} height={26} />}
+          title="Continue com Google"
+          onPress={handleTutorLogin}
+        />
+
+        <View style={{ height: 12 }} />
+
+        <SocialButton
+          icon={<AppleIcon width={26} height={26} />}
+          title="Continue com Apple"
+          onPress={handleTutorLogin}
+        />
+
+        <TouchableOpacity
+          onPress={() => router.push('/tutor-create')}
+          style={{
+            alignItems: 'center',
+            marginTop: 22,
+            paddingBottom: 4,
+          }}
+        >
+          <Text size={15} weight="600" color="#111827">
+            Ainda não tem conta?{' '}
+            <Text size={15} weight="600" color="#0A66C2">
+              inscrever-se
+            </Text>
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -244,7 +251,7 @@ function SocialButton({
       activeOpacity={0.85}
       onPress={onPress}
       style={{
-        height: 60,
+        height: 54,
         borderWidth: 1.4,
         borderColor: '#C9C9C9',
         borderRadius: 18,
@@ -256,7 +263,7 @@ function SocialButton({
     >
       {icon}
 
-      <Text size={19} weight="700" color="#111827" style={{ marginLeft: 18 }}>
+      <Text size={17} weight="700" color="#111827" style={{ marginLeft: 14 }}>
         {title}
       </Text>
     </TouchableOpacity>

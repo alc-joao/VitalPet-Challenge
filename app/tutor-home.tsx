@@ -23,12 +23,12 @@ const PetBanho = require('@/assets/images/banho-e-tosa.png');
 
 const { width } = Dimensions.get('window');
 
-const padding = 25;
-const petGap = 12;
-const addPetWidth = 72;
+const padding = 20;
+const petGap = 10;
+const addPetWidth = 68;
 const petCardWidth = (width - padding * 2 - petGap * 2 - addPetWidth) / 2;
 
-const quickGap = 10;
+const quickGap = 8;
 const quickCardWidth = (width - padding * 2 - quickGap * 3) / 4;
 
 export default function TutorHome() {
@@ -38,23 +38,23 @@ export default function TutorHome() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingHorizontal: padding,
-          paddingTop: 64,
-          paddingBottom: 140,
+          paddingTop: 42,
+          paddingBottom: 125,
         }}
       >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <View>
-            <Text size={24} weight="700" color="#111827">
+            <Text size={22} weight="700" color="#111827">
               Olá, João!
             </Text>
 
-            <Text size={20} color="#333333">
+            <Text size={18} color="#333333">
               Bem-vindo de volta!
             </Text>
           </View>
 
-          <TouchableOpacity style={{ marginTop: 10 }}>
-            <IconBell width={26} height={26} />
+          <TouchableOpacity style={{ marginTop: 8 }}>
+            <IconBell width={24} height={24} />
           </TouchableOpacity>
         </View>
 
@@ -62,7 +62,7 @@ export default function TutorHome() {
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <PetCard
-            image={<RoundImage source={PetRex} size={42} />}
+            image={<RoundImage source={PetRex} size={38} />}
             name="Rex"
             breed="Golden Retriever"
             status="Saudável"
@@ -77,7 +77,7 @@ export default function TutorHome() {
           />
 
           <PetCard
-            image={<RoundImage source={PetIron} size={42} />}
+            image={<RoundImage source={PetIron} size={38} />}
             name="Iron"
             breed="Rottweiler"
             status="Atenção"
@@ -99,24 +99,24 @@ export default function TutorHome() {
         />
 
         <ReminderCard
-          image={<RoundImage source={PetIron} size={46} />}
+          image={<RoundImage source={PetIron} size={42} />}
           title="Vacina múltipla"
-          subtitle="Iron • 20/05.2025"
+          subtitle="Iron • 20/05/2025"
         />
 
         <ReminderCard
-          image={<RoundImage source={PetRex} size={46} />}
+          image={<RoundImage source={PetRex} size={42} />}
           title="Vermífugo"
-          subtitle="Rex • 20/05.2025"
+          subtitle="Rex • 20/05/2025"
         />
 
         <ReminderCard
           image={
             <View
               style={{
-                width: 46,
-                height: 46,
-                borderRadius: 23,
+                width: 42,
+                height: 42,
+                borderRadius: 21,
                 backgroundColor: '#DCEBFF',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -125,45 +125,45 @@ export default function TutorHome() {
             >
               <Image
                 source={PetBanho}
-                style={{ width: 32, height: 32 }}
+                style={{ width: 30, height: 30 }}
                 resizeMode="contain"
               />
             </View>
           }
           title="Banho e tosa"
-          subtitle="Rex • 20/05.2025"
+          subtitle="Rex • 20/05/2025"
         />
 
         <Text
-          size={22}
+          size={20}
           weight="700"
           color="#000000"
-          style={{ marginTop: 26, marginBottom: 22 }}
+          style={{ marginTop: 20, marginBottom: 16 }}
         >
           Ações rápidas
         </Text>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <QuickAction
-            icon={<IconConsult width={28} height={28} />}
+            icon={<IconConsult width={26} height={26} />}
             label="Consultas"
             onPress={() => router.push('/consults-home')}
           />
 
           <QuickAction
-            icon={<IconVaccine width={28} height={28} />}
+            icon={<IconVaccine width={26} height={26} />}
             label="Vacinas"
             onPress={() => router.push('/vaccines-home')}
           />
 
           <QuickAction
-            icon={<IconMedicine width={28} height={28} />}
+            icon={<IconMedicine width={26} height={26} />}
             label="Medicações"
             onPress={() => router.push('/medications-home')}
           />
 
           <QuickAction
-            icon={<IconEmergency width={28} height={28} />}
+            icon={<IconEmergency width={26} height={26} />}
             label="Emergência"
             onPress={() => router.push('/emergency-home')}
           />
@@ -201,19 +201,19 @@ function SectionHeader({
   return (
     <View
       style={{
-        marginTop: 32,
-        marginBottom: 18,
+        marginTop: 28,
+        marginBottom: 14,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
       }}
     >
-      <Text size={21} weight="700" color="#000000">
+      <Text size={20} weight="700" color="#000000">
         {title}
       </Text>
 
       <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
-        <Text size={17} weight="700" color="#0A66C2">
+        <Text size={16} weight="700" color="#0A66C2">
           Ver todos
         </Text>
       </TouchableOpacity>
@@ -244,26 +244,26 @@ function PetCard({
       activeOpacity={0.85}
       style={{
         width: petCardWidth,
-        height: 178,
+        height: 158,
         borderWidth: 1,
         borderColor: '#D1D5DB',
         borderRadius: 18,
-        padding: 12,
+        padding: 10,
         backgroundColor: '#FFFFFF',
         shadowColor: '#000',
-        shadowOffset: { width: 4, height: 5 },
-        shadowOpacity: 0.22,
+        shadowOffset: { width: 3, height: 4 },
+        shadowOpacity: 0.18,
         shadowRadius: 4,
-        elevation: 6,
+        elevation: 5,
       }}
     >
       {image}
 
-      <Text size={18} weight="700" color="#000000" style={{ marginTop: 8 }}>
+      <Text size={17} weight="700" color="#000000" style={{ marginTop: 6 }}>
         {name}
       </Text>
 
-      <Text size={14} color="#333333" style={{ lineHeight: 17 }}>
+      <Text size={13} color="#333333" style={{ lineHeight: 15 }}>
         {breed}
       </Text>
 
@@ -272,12 +272,12 @@ function PetCard({
           alignSelf: 'flex-start',
           backgroundColor: healthy ? '#BDF5D2' : '#F5F3B8',
           borderRadius: 20,
-          paddingHorizontal: 9,
+          paddingHorizontal: 8,
           paddingVertical: 3,
-          marginTop: 14,
+          marginTop: 9,
         }}
       >
-        <Text size={12} weight="700" color={healthy ? '#008047' : '#6B6B00'}>
+        <Text size={11} weight="700" color={healthy ? '#008047' : '#6B6B00'}>
           {status}
         </Text>
       </View>
@@ -290,11 +290,11 @@ function PetCard({
           alignItems: 'flex-end',
         }}
       >
-        <Text size={18} weight="700" color="#7D7D7D">
+        <Text size={16} weight="700" color="#7D7D7D">
           Score
         </Text>
 
-        <Text size={25} weight="700" color="#111827">
+        <Text size={23} weight="700" color="#111827">
           {score}
         </Text>
       </View>
@@ -308,7 +308,7 @@ function AddPetCard() {
       onPress={() => router.push('/pet-form')}
       style={{
         width: addPetWidth,
-        height: 178,
+        height: 158,
         borderWidth: 1,
         borderColor: '#D1D5DB',
         borderRadius: 18,
@@ -316,28 +316,28 @@ function AddPetCard() {
         alignItems: 'center',
         justifyContent: 'center',
         shadowColor: '#000',
-        shadowOffset: { width: 4, height: 5 },
-        shadowOpacity: 0.22,
+        shadowOffset: { width: 3, height: 4 },
+        shadowOpacity: 0.18,
         shadowRadius: 4,
-        elevation: 6,
+        elevation: 5,
       }}
     >
       <View
         style={{
-          width: 46,
-          height: 46,
-          borderRadius: 23,
+          width: 42,
+          height: 42,
+          borderRadius: 21,
           borderWidth: 2,
           borderColor: '#0A66C2',
           alignItems: 'center',
           justifyContent: 'center',
-          marginBottom: 12,
+          marginBottom: 10,
         }}
       >
-        <IconPlus width={24} height={24} />
+        <IconPlus width={22} height={22} />
       </View>
 
-      <Text size={12} weight="700" color="#0A66C2" align="center">
+      <Text size={11} weight="700" color="#0A66C2" align="center">
         Adicionar{'\n'}pet
       </Text>
     </TouchableOpacity>
@@ -356,35 +356,35 @@ function ReminderCard({
   return (
     <View
       style={{
-        height: 78,
+        height: 70,
         borderWidth: 1,
         borderColor: '#E5E7EB',
         borderRadius: 18,
         backgroundColor: '#FFFFFF',
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 18,
+        paddingHorizontal: 14,
         marginBottom: 10,
         shadowColor: '#000',
-        shadowOffset: { width: 4, height: 5 },
-        shadowOpacity: 0.2,
+        shadowOffset: { width: 3, height: 4 },
+        shadowOpacity: 0.16,
         shadowRadius: 4,
-        elevation: 5,
+        elevation: 4,
       }}
     >
       {image}
 
-      <View style={{ flex: 1, marginLeft: 16 }}>
-        <Text size={17} weight="700" color="#111827">
+      <View style={{ flex: 1, marginLeft: 14 }}>
+        <Text size={16} weight="700" color="#111827">
           {title}
         </Text>
 
-        <Text size={16} color="#8A8A8A">
+        <Text size={14} color="#8A8A8A">
           {subtitle}
         </Text>
       </View>
 
-      <IconArrowRight width={24} height={24} />
+      <IconArrowRight width={22} height={22} />
     </View>
   );
 }
@@ -404,7 +404,7 @@ function QuickAction({
       activeOpacity={0.85}
       style={{
         width: quickCardWidth,
-        height: 104,
+        height: 88,
         borderWidth: 1,
         borderColor: '#D1D5DB',
         borderRadius: 14,
@@ -412,15 +412,15 @@ function QuickAction({
         alignItems: 'center',
         justifyContent: 'center',
         shadowColor: '#000',
-        shadowOffset: { width: 4, height: 5 },
-        shadowOpacity: 0.22,
+        shadowOffset: { width: 3, height: 4 },
+        shadowOpacity: 0.18,
         shadowRadius: 4,
-        elevation: 6,
+        elevation: 5,
       }}
     >
       {icon}
 
-      <Text size={12} color="#333333" style={{ marginTop: 14 }}>
+      <Text size={10} color="#333333" align="center" style={{ marginTop: 10 }}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -428,6 +428,8 @@ function QuickAction({
 }
 
 function BottomNav() {
+  const tabWidth = (width - 32) / 5;
+
   return (
     <View
       style={{
@@ -435,40 +437,44 @@ function BottomNav() {
         left: 0,
         right: 0,
         bottom: 0,
-        height: 100,
+        height: 92,
         backgroundColor: '#FFFFFF',
         borderTopWidth: 1,
         borderTopColor: '#E5E7EB',
-        paddingHorizontal: 28,
-        paddingTop: 10,
+        paddingHorizontal: 16,
+        paddingTop: 8,
         flexDirection: 'row',
         justifyContent: 'space-between',
         zIndex: 99,
         elevation: 99,
       }}
     >
-      <TabItem icon={<IconHome width={31} height={31} />} label="Home" active />
+      <TabItem width={tabWidth} icon={<IconHome width={28} height={28} />} label="Home" active />
 
       <TabItem
-        icon={<IconScore width={31} height={31} />}
+        width={tabWidth}
+        icon={<IconScore width={28} height={28} />}
         label="Score"
         onPress={() => router.push('/score-home')}
       />
 
       <TabItem
-        icon={<IconCalendar width={31} height={31} />}
+        width={tabWidth}
+        icon={<IconCalendar width={28} height={28} />}
         label="Histórico"
         onPress={() => router.push('/history-home')}
       />
 
       <TabItem
-        icon={<IconChat width={31} height={31} />}
+        width={tabWidth}
+        icon={<IconChat width={28} height={28} />}
         label="Chat"
         onPress={() => router.push('/chat-home')}
       />
 
       <TabItem
-        icon={<IconMore width={31} height={31} />}
+        width={tabWidth}
+        icon={<IconMore width={28} height={28} />}
         label="Mais"
         onPress={() => router.push('/more-home')}
       />
@@ -477,11 +483,13 @@ function BottomNav() {
 }
 
 function TabItem({
+  width,
   icon,
   label,
   active,
   onPress,
 }: {
+  width: number;
   icon: React.ReactNode;
   label: string;
   active?: boolean;
@@ -493,8 +501,8 @@ function TabItem({
       activeOpacity={0.8}
       disabled={active}
       style={{
-        width: 70,
-        height: 76,
+        width,
+        height: 72,
         borderRadius: 14,
         backgroundColor: active ? '#E8F1FF' : 'transparent',
         alignItems: 'center',
@@ -504,7 +512,7 @@ function TabItem({
       {icon}
 
       <Text
-        size={12}
+        size={11}
         weight="700"
         color={active ? '#0A66C2' : '#7D7D7D'}
         style={{ marginTop: 4 }}
