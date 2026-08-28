@@ -1,8 +1,20 @@
-import { View, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
+
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { Text } from '@/src/components/atoms/Text';
+import { getTutorByCpf } from '@/src/services/tutorService';
 
 import LogoBlue from '@/assets/logos/logo-blue.svg';
 import TutorIcon from '@/assets/icons/profile-tutor-white.svg';
@@ -13,6 +25,7 @@ import AppleIcon from '@/assets/icons/apple.svg';
 
 export default function TutorLogin() {
   const [cpf, setCpf] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function loadStoredCPF() {
@@ -21,40 +34,117 @@ export default function TutorLogin() {
 
       if (storedTutor) {
         const tutor = JSON.parse(storedTutor);
-        setCpf(tutor.cpf || '');
-        return;
+
+        if (tutor.cpf) {
+          setCpf(formatCPF(tutor.cpf));
+          return;
+        }
       }
 
-      if (lastCpf) setCpf(lastCpf);
+      if (lastCpf) {
+        setCpf(formatCPF(lastCpf));
+      }
     }
 
     loadStoredCPF();
   }, []);
 
   const formatCPF = (value: string) => {
-    const numericValue = value.replace(/\D/g, '').slice(0, 11);
+    const numericValue = value
+      .replace(/\D/g, '')
+      .slice(0, 11);
 
-    if (numericValue.length <= 3) return numericValue;
-    if (numericValue.length <= 6) return `${numericValue.slice(0, 3)}.${numericValue.slice(3)}`;
-    if (numericValue.length <= 9) {
-      return `${numericValue.slice(0, 3)}.${numericValue.slice(3, 6)}.${numericValue.slice(6)}`;
+    if (numericValue.length <= 3) {
+      return numericValue;
     }
 
-    return `${numericValue.slice(0, 3)}.${numericValue.slice(3, 6)}.${numericValue.slice(
+    if (numericValue.length <= 6) {
+      return `${numericValue.slice(
+        0,
+        3
+      )}.${numericValue.slice(3)}`;
+    }
+
+    if (numericValue.length <= 9) {
+      return `${numericValue.slice(
+        0,
+        3
+      )}.${numericValue.slice(
+        3,
+        6
+      )}.${numericValue.slice(6)}`;
+    }
+
+    return `${numericValue.slice(
+      0,
+      3
+    )}.${numericValue.slice(
+      3,
+      6
+    )}.${numericValue.slice(
       6,
       9
     )}-${numericValue.slice(9, 11)}`;
   };
 
   async function handleTutorLogin() {
-    await AsyncStorage.setItem('@vitalpet:lastCpf', cpf);
-    router.push('/tutor-home');
+    const cpfLimpo = cpf.replace(/\D/g, '');
+
+    if (cpfLimpo.length !== 11) {
+      Alert.alert(
+        'CPF inválido',
+        'Digite um CPF com 11 números.'
+      );
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const tutor = await getTutorByCpf(cpfLimpo);
+
+      if (!tutor) {
+        Alert.alert(
+          'Tutor não encontrado',
+          'Não encontramos um tutor cadastrado com esse CPF.'
+        );
+        return;
+      }
+
+      await AsyncStorage.setItem(
+        '@vitalpet:lastCpf',
+        cpfLimpo
+      );
+
+      await AsyncStorage.setItem(
+        '@vitalpet:tutor',
+        JSON.stringify(tutor)
+      );
+
+      router.replace('/tutor-home');
+    } catch (error) {
+      console.error('Erro ao fazer login do tutor:', error);
+
+      Alert.alert(
+        'Erro ao entrar',
+        'Não foi possível conectar com o servidor. Verifique se a API está rodando.'
+      );
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: '#FCFCFC' }}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={{
+        flex: 1,
+        backgroundColor: '#FCFCFC',
+      }}
+      behavior={
+        Platform.OS === 'ios'
+          ? 'padding'
+          : undefined
+      }
     >
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -66,8 +156,16 @@ export default function TutorLogin() {
           paddingBottom: 24,
         }}
       >
-        <View style={{ alignItems: 'center', marginBottom: 14 }}>
-          <LogoBlue width={130} height={72} />
+        <View
+          style={{
+            alignItems: 'center',
+            marginBottom: 14,
+          }}
+        >
+          <LogoBlue
+            width={130}
+            height={72}
+          />
         </View>
 
         <Text
@@ -79,7 +177,9 @@ export default function TutorLogin() {
             marginBottom: 8,
           }}
         >
-          Cuide melhor{'\n'}do seu pet com{'\n'}VitalPet
+          Cuide melhor{'\n'}
+          do seu pet com{'\n'}
+          VitalPet
         </Text>
 
         <Text
@@ -90,10 +190,18 @@ export default function TutorLogin() {
             marginBottom: 18,
           }}
         >
-          Acompanhe a saúde, vacinas,{'\n'}consultas e alertas e um só lugar.
+          Acompanhe a saúde, vacinas,{'\n'}
+          consultas e alertas e um só lugar.
         </Text>
 
-        <Text size={15} weight="600" color="#111827" style={{ marginBottom: 8 }}>
+        <Text
+          size={15}
+          weight="600"
+          color="#111827"
+          style={{
+            marginBottom: 8,
+          }}
+        >
           CPF
         </Text>
 
@@ -102,7 +210,10 @@ export default function TutorLogin() {
           placeholderTextColor="#8C8C8C"
           keyboardType="numeric"
           value={cpf}
-          onChangeText={(text) => setCpf(formatCPF(text))}
+          editable={!loading}
+          onChangeText={(text) =>
+            setCpf(formatCPF(text))
+          }
           style={{
             height: 48,
             borderWidth: 1.3,
@@ -124,7 +235,10 @@ export default function TutorLogin() {
             marginBottom: 16,
           }}
         >
-          <ShieldIcon width={24} height={24} />
+          <ShieldIcon
+            width={24}
+            height={24}
+          />
 
           <Text
             size={15}
@@ -151,7 +265,10 @@ export default function TutorLogin() {
             marginBottom: 22,
           }}
         >
-          <SecurityLock width={28} height={28} />
+          <SecurityLock
+            width={28}
+            height={28}
+          />
 
           <Text
             size={15}
@@ -163,16 +280,20 @@ export default function TutorLogin() {
               lineHeight: 21,
             }}
           >
-            Utilizamos seu CPF pra garantir mais segurança e personalizar sua experiência.
+            Utilizamos seu CPF pra garantir mais
+            segurança e personalizar sua experiência.
           </Text>
         </View>
 
         <TouchableOpacity
           activeOpacity={0.85}
           onPress={handleTutorLogin}
+          disabled={loading}
           style={{
             height: 58,
-            backgroundColor: '#0A66C2',
+            backgroundColor: loading
+              ? '#7FA9D3'
+              : '#0A66C2',
             borderRadius: 20,
             flexDirection: 'row',
             alignItems: 'center',
@@ -180,11 +301,30 @@ export default function TutorLogin() {
             marginBottom: 18,
           }}
         >
-          <TutorIcon width={28} height={28} />
+          {loading ? (
+            <ActivityIndicator
+              color="#FFFFFF"
+              size="small"
+            />
+          ) : (
+            <>
+              <TutorIcon
+                width={28}
+                height={28}
+              />
 
-          <Text size={19} weight="600" color="#FFFFFF" style={{ marginLeft: 14 }}>
-            Entrar como Tutor
-          </Text>
+              <Text
+                size={19}
+                weight="600"
+                color="#FFFFFF"
+                style={{
+                  marginLeft: 14,
+                }}
+              >
+                Entrar como Tutor
+              </Text>
+            </>
+          )}
         </TouchableOpacity>
 
         <View
@@ -194,17 +334,41 @@ export default function TutorLogin() {
             marginBottom: 16,
           }}
         >
-          <View style={{ flex: 1, height: 1.2, backgroundColor: '#8D8D8D' }} />
+          <View
+            style={{
+              flex: 1,
+              height: 1.2,
+              backgroundColor: '#8D8D8D',
+            }}
+          />
 
-          <Text size={15} weight="600" color="#7B7B7B" style={{ marginHorizontal: 16 }}>
+          <Text
+            size={15}
+            weight="600"
+            color="#7B7B7B"
+            style={{
+              marginHorizontal: 16,
+            }}
+          >
             Ou
           </Text>
 
-          <View style={{ flex: 1, height: 1.2, backgroundColor: '#8D8D8D' }} />
+          <View
+            style={{
+              flex: 1,
+              height: 1.2,
+              backgroundColor: '#8D8D8D',
+            }}
+          />
         </View>
 
         <SocialButton
-          icon={<GoogleIcon width={26} height={26} />}
+          icon={
+            <GoogleIcon
+              width={26}
+              height={26}
+            />
+          }
           title="Continue com Google"
           onPress={handleTutorLogin}
         />
@@ -212,22 +376,38 @@ export default function TutorLogin() {
         <View style={{ height: 12 }} />
 
         <SocialButton
-          icon={<AppleIcon width={26} height={26} />}
+          icon={
+            <AppleIcon
+              width={26}
+              height={26}
+            />
+          }
           title="Continue com Apple"
           onPress={handleTutorLogin}
         />
 
         <TouchableOpacity
-          onPress={() => router.push('/tutor-create')}
+          onPress={() =>
+            router.push('/tutor-create')
+          }
           style={{
             alignItems: 'center',
             marginTop: 22,
             paddingBottom: 4,
           }}
         >
-          <Text size={15} weight="600" color="#111827">
+          <Text
+            size={15}
+            weight="600"
+            color="#111827"
+          >
             Ainda não tem conta?{' '}
-            <Text size={15} weight="600" color="#0A66C2">
+
+            <Text
+              size={15}
+              weight="600"
+              color="#0A66C2"
+            >
               inscrever-se
             </Text>
           </Text>
@@ -263,7 +443,14 @@ function SocialButton({
     >
       {icon}
 
-      <Text size={17} weight="700" color="#111827" style={{ marginLeft: 14 }}>
+      <Text
+        size={17}
+        weight="700"
+        color="#111827"
+        style={{
+          marginLeft: 14,
+        }}
+      >
         {title}
       </Text>
     </TouchableOpacity>

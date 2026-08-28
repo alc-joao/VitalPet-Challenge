@@ -6,10 +6,15 @@ import {
   Image,
   ActivityIndicator,
 } from 'react-native';
+
 import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { Text } from '@/src/components/atoms/Text';
 import { usePets } from '@/src/hooks/usePets';
 import { Pet } from '@/src/types/Pet';
+import { Tutor } from '@/src/types/Tutor';
 
 import IconBell from '@/assets/icons/icon-bell.svg';
 import IconPlus from '@/assets/icons/icon-plus.svg';
@@ -34,18 +39,63 @@ const quickGap = 8;
 export default function TutorHome() {
   const { width } = useWindowDimensions();
 
+  const [tutor, setTutor] = useState<Tutor | null>(null);
+  const [loadingTutor, setLoadingTutor] = useState(true);
+
+  useEffect(() => {
+    async function loadTutor() {
+      try {
+        const storedTutor = await AsyncStorage.getItem(
+          '@vitalpet:tutor'
+        );
+
+        if (!storedTutor) {
+          router.replace('/tutor-login');
+          return;
+        }
+
+        const tutorSalvo: Tutor = JSON.parse(storedTutor);
+
+        if (!tutorSalvo.id) {
+          await AsyncStorage.removeItem('@vitalpet:tutor');
+          router.replace('/tutor-login');
+          return;
+        }
+
+        setTutor(tutorSalvo);
+      } catch (error) {
+        console.error(
+          'Erro ao carregar tutor:',
+          error
+        );
+
+        await AsyncStorage.removeItem('@vitalpet:tutor');
+        router.replace('/tutor-login');
+      } finally {
+        setLoadingTutor(false);
+      }
+    }
+
+    loadTutor();
+  }, []);
+
   const {
     data: pets,
     isLoading,
     isError,
     refetch,
-  } = usePets();
+  } = usePets(tutor?.id);
 
   const contentWidth = Math.min(width, 480);
   const availableWidth = contentWidth - padding * 2;
 
   const quickCardWidth =
     (availableWidth - quickGap * 3) / 4;
+
+  const primeiroNome =
+    tutor?.nome?.trim().split(' ')[0] || '';
+
+  const carregando = loadingTutor || isLoading;
 
   return (
     <View
@@ -88,7 +138,9 @@ export default function TutorHome() {
                 weight="700"
                 color="#111827"
               >
-                Olá, João!
+                {primeiroNome
+                  ? `Olá, ${primeiroNome}!`
+                  : 'Olá!'}
               </Text>
 
               <Text
@@ -118,7 +170,7 @@ export default function TutorHome() {
 
           <SectionHeader title="Meus pets" />
 
-          {isLoading && (
+          {carregando && (
             <View
               style={{
                 height: 158,
@@ -143,7 +195,7 @@ export default function TutorHome() {
             </View>
           )}
 
-          {isError && (
+          {!loadingTutor && isError && (
             <View
               style={{
                 minHeight: 130,
@@ -198,7 +250,7 @@ export default function TutorHome() {
             </View>
           )}
 
-          {!isLoading && !isError && (
+          {!carregando && !isError && (
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}

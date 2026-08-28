@@ -14,10 +14,11 @@ import {
 
 import { PetInput } from '../types/Pet';
 
-export function usePets() {
+export function usePets(tutorId?: number) {
   return useQuery({
-    queryKey: ['pets'],
-    queryFn: getPets,
+    queryKey: ['pets', 'tutor', tutorId],
+    queryFn: () => getPets(tutorId),
+    enabled: !!tutorId,
   });
 }
 
