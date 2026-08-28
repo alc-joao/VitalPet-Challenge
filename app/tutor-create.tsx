@@ -5,10 +5,13 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
+
 import { router } from 'expo-router';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { Text } from '@/src/components/atoms/Text';
+import { useCreateTutor } from '@/src/hooks/useTutors';
 
 import LogoIconBlue from '@/assets/logos/logo-icon-blue.svg';
 import CheckIcon from '@/assets/icons/check-green.svg';
@@ -19,6 +22,7 @@ export default function TutorCreate() {
   const [nome, setNome] = useState('');
   const [cpf, setCpf] = useState('');
   const [email, setEmail] = useState('');
+  const [telefone, setTelefone] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
 
@@ -26,31 +30,63 @@ export default function TutorCreate() {
   const [showConfirmarSenha, setShowConfirmarSenha] = useState(false);
 
   const [erro, setErro] = useState('');
-  const [loading, setLoading] = useState(false);
+
+  const createTutorMutation = useCreateTutor();
 
   const nomeValido = nome.trim().length >= 3;
   const cpfNumeros = cpf.replace(/\D/g, '');
   const cpfValido = cpfNumeros.length === 11;
   const emailValido = email.includes('@') && email.includes('.');
+  const telefoneNumeros = telefone.replace(/\D/g, '');
+  const telefoneValido = telefoneNumeros.length >= 10;
   const senhaValida = senha.length >= 6;
-  const confirmarSenhaValida = confirmarSenha.length >= 6 && senha === confirmarSenha;
 
-  const formatCPF = (value: string) => {
-    const numericValue = value.replace(/\D/g, '').slice(0, 11);
+  const confirmarSenhaValida =
+    confirmarSenha.length >= 6 &&
+    senha === confirmarSenha;
+
+  function formatCPF(value: string) {
+    const numericValue = value
+      .replace(/\D/g, '')
+      .slice(0, 11);
 
     if (numericValue.length <= 3) return numericValue;
+
     if (numericValue.length <= 6) {
       return `${numericValue.slice(0, 3)}.${numericValue.slice(3)}`;
     }
+
     if (numericValue.length <= 9) {
-      return `${numericValue.slice(0, 3)}.${numericValue.slice(3, 6)}.${numericValue.slice(6)}`;
+      return `${numericValue.slice(0, 3)}.${numericValue.slice(
+        3,
+        6
+      )}.${numericValue.slice(6)}`;
     }
 
-    return `${numericValue.slice(0, 3)}.${numericValue.slice(3, 6)}.${numericValue.slice(
-      6,
-      9
-    )}-${numericValue.slice(9, 11)}`;
-  };
+    return `${numericValue.slice(0, 3)}.${numericValue.slice(
+      3,
+      6
+    )}.${numericValue.slice(6, 9)}-${numericValue.slice(9, 11)}`;
+  }
+
+  function formatTelefone(value: string) {
+    const numericValue = value
+      .replace(/\D/g, '')
+      .slice(0, 11);
+
+    if (numericValue.length <= 2) {
+      return numericValue;
+    }
+
+    if (numericValue.length <= 7) {
+      return `(${numericValue.slice(0, 2)}) ${numericValue.slice(2)}`;
+    }
+
+    return `(${numericValue.slice(0, 2)}) ${numericValue.slice(
+      2,
+      7
+    )}-${numericValue.slice(7, 11)}`;
+  }
 
   async function handleCreateAccount() {
     setErro('');
@@ -70,6 +106,11 @@ export default function TutorCreate() {
       return;
     }
 
+    if (!telefoneValido) {
+      setErro('Digite um telefone válido.');
+      return;
+    }
+
     if (!senhaValida) {
       setErro('A senha precisa ter pelo menos 6 caracteres.');
       return;
@@ -81,37 +122,68 @@ export default function TutorCreate() {
     }
 
     try {
-      setLoading(true);
+      const tutorCriado =
+        await createTutorMutation.mutateAsync({
+          nome: nome.trim(),
+          cpf: cpfNumeros,
+          email: email.trim(),
+          telefone: telefoneNumeros,
+        });
 
-      const tutorData = {
-        nome: nome.trim(),
-        cpf,
-        email: email.trim(),
-      };
+      await AsyncStorage.setItem(
+        '@vitalpet:tutor',
+        JSON.stringify(tutorCriado)
+      );
 
-      await AsyncStorage.setItem('@vitalpet:tutor', JSON.stringify(tutorData));
-      await AsyncStorage.setItem('@vitalpet:lastCpf', cpf);
+      await AsyncStorage.setItem(
+        '@vitalpet:lastCpf',
+        cpfNumeros
+      );
 
       Alert.alert(
         'Conta criada!',
-        'Seus dados foram salvos no aplicativo.',
+        'Seu cadastro foi criado com sucesso.',
         [
           {
             text: 'Continuar',
-            onPress: () => router.push('/pet-form'),
+            onPress: () =>
+              router.replace('/tutor-home'),
           },
         ]
       );
-    } catch (error) {
-      setErro('Não foi possível criar a conta. Tente novamente.');
-    } finally {
-      setLoading(false);
+    } catch (error: any) {
+      console.error('Erro ao criar tutor:', error);
+
+      const campos =
+        error?.response?.data?.campos;
+
+      if (campos) {
+        const primeiraMensagem =
+          Object.entries(campos)[0];
+
+        if (primeiraMensagem) {
+          setErro(
+            `${primeiraMensagem[0]}: ${primeiraMensagem[1]}`
+          );
+          return;
+        }
+      }
+
+      setErro(
+        'Não foi possível criar a conta. Verifique a API e tente novamente.'
+      );
     }
   }
 
+  const loading =
+    createTutorMutation.isPending;
+
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: '#FCFCFC' }}
+      style={{
+        flex: 1,
+        backgroundColor: '#FCFCFC',
+      }}
       contentContainerStyle={{
         paddingHorizontal: 28,
         paddingTop: 68,
@@ -119,20 +191,34 @@ export default function TutorCreate() {
       }}
       showsVerticalScrollIndicator={false}
     >
-      <View style={{ alignItems: 'center', marginBottom: 56 }}>
+      <View
+        style={{
+          alignItems: 'center',
+          marginBottom: 56,
+        }}
+      >
         <LogoIconBlue width={90} height={90} />
       </View>
 
-      <Text size={30} weight="700" color="#111827">
+      <Text
+        size={30}
+        weight="700"
+        color="#111827"
+      >
         Criar sua Conta
       </Text>
 
       <Text
         size={17}
         color="#111827"
-        style={{ marginTop: 12, lineHeight: 21, marginBottom: 24 }}
+        style={{
+          marginTop: 12,
+          lineHeight: 21,
+          marginBottom: 24,
+        }}
       >
-        Preencha seus dados pra{'\n'}começar a cuidar do seu pet.
+        Preencha seus dados pra{'\n'}
+        começar a cuidar do seu pet.
       </Text>
 
       <Input
@@ -146,7 +232,9 @@ export default function TutorCreate() {
       <Input
         label="CPF"
         value={cpf}
-        onChangeText={(text) => setCpf(formatCPF(text))}
+        onChangeText={(text) =>
+          setCpf(formatCPF(text))
+        }
         placeholder="000.000.000-00"
         keyboardType="numeric"
         showCheck={cpfValido}
@@ -162,13 +250,26 @@ export default function TutorCreate() {
       />
 
       <Input
+        label="Telefone"
+        value={telefone}
+        onChangeText={(text) =>
+          setTelefone(formatTelefone(text))
+        }
+        placeholder="(11) 99999-9999"
+        keyboardType="phone-pad"
+        showCheck={telefoneValido}
+      />
+
+      <Input
         label="Senha"
         value={senha}
         onChangeText={setSenha}
         placeholder="••••••••"
         secureTextEntry={!showSenha}
         eyeIcon
-        onToggleEye={() => setShowSenha(!showSenha)}
+        onToggleEye={() =>
+          setShowSenha(!showSenha)
+        }
         showEye={showSenha}
       />
 
@@ -179,7 +280,11 @@ export default function TutorCreate() {
         placeholder="••••••••"
         secureTextEntry={!showConfirmarSenha}
         eyeIcon
-        onToggleEye={() => setShowConfirmarSenha(!showConfirmarSenha)}
+        onToggleEye={() =>
+          setShowConfirmarSenha(
+            !showConfirmarSenha
+          )
+        }
         showEye={showConfirmarSenha}
       />
 
@@ -194,7 +299,11 @@ export default function TutorCreate() {
             marginBottom: 12,
           }}
         >
-          <Text size={14} weight="700" color="#B00020">
+          <Text
+            size={14}
+            weight="700"
+            color="#B00020"
+          >
             {erro}
           </Text>
         </View>
@@ -206,46 +315,50 @@ export default function TutorCreate() {
         disabled={loading}
         style={{
           height: 60,
-          backgroundColor: loading ? '#7AAFE3' : '#0A66C2',
+          backgroundColor: loading
+            ? '#7AAFE3'
+            : '#0A66C2',
           borderRadius: 16,
           alignItems: 'center',
           justifyContent: 'center',
           marginTop: 14,
         }}
       >
-        <Text size={21} weight="700" color="#FFFFFF">
-          {loading ? 'Criando conta...' : 'Criar conta'}
+        <Text
+          size={21}
+          weight="700"
+          color="#FFFFFF"
+        >
+          {loading
+            ? 'Criando conta...'
+            : 'Criar conta'}
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => router.push('/tutor-login')}
-        style={{ alignItems: 'center', marginTop: 28 }}
+        onPress={() =>
+          router.push('/tutor-login')
+        }
+        style={{
+          alignItems: 'center',
+          marginTop: 28,
+        }}
       >
-        <Text size={16} weight="700" color="#111827">
+        <Text
+          size={16}
+          weight="700"
+          color="#111827"
+        >
           Já tem conta?{' '}
-          <Text size={16} weight="700" color="#0A66C2">
+          <Text
+            size={16}
+            weight="700"
+            color="#0A66C2"
+          >
             Entre
           </Text>
         </Text>
       </TouchableOpacity>
-
-      <Text
-        size={16}
-        weight="700"
-        color="#8A8A8A"
-        align="center"
-        style={{ marginTop: 48, lineHeight: 22 }}
-      >
-        Ao continuar você concorda com nossos{'\n'}
-        <Text size={16} weight="700" color="#0A66C2">
-          Termos de Serviço
-        </Text>{' '}
-        e{' '}
-        <Text size={16} weight="700" color="#0A66C2">
-          Política de Privacidade.
-        </Text>
-      </Text>
     </ScrollView>
   );
 }
@@ -277,7 +390,12 @@ function Input({
 }: InputProps) {
   return (
     <View style={{ marginBottom: 18 }}>
-      <Text size={16} weight="700" color="#111827" style={{ marginBottom: 8 }}>
+      <Text
+        size={16}
+        weight="700"
+        color="#111827"
+        style={{ marginBottom: 8 }}
+      >
         {label}
       </Text>
 
@@ -309,10 +427,14 @@ function Input({
           }}
         />
 
-        {showCheck && <CheckIcon width={22} height={22} />}
+        {showCheck && (
+          <CheckIcon width={22} height={22} />
+        )}
 
         {eyeIcon && (
-          <TouchableOpacity onPress={onToggleEye}>
+          <TouchableOpacity
+            onPress={onToggleEye}
+          >
             {showEye ? (
               <EyeOpen width={22} height={22} />
             ) : (
