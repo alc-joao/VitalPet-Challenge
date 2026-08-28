@@ -6,7 +6,7 @@ export async function getPets(tutorId?: number): Promise<Pet[]> {
     params: tutorId ? { tutorId } : undefined,
   });
 
-  return response.data.content;
+  return response.data.content.filter((pet) => pet.ativo);
 }
 
 export async function getPetById(id: number): Promise<Pet> {
@@ -19,10 +19,7 @@ export async function createPet(pet: PetInput): Promise<Pet> {
   return response.data;
 }
 
-export async function updatePet(
-  id: number,
-  pet: PetInput
-): Promise<Pet> {
+export async function updatePet(id: number, pet: PetInput): Promise<Pet> {
   const response = await api.put<Pet>(`/api/pets/${id}`, pet);
   return response.data;
 }
