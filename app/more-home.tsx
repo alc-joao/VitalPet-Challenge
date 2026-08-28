@@ -87,7 +87,7 @@ export default function MoreHome() {
         <MenuItem
           icon={<IconUserData width={24} height={24} />}
           label="Meus Dados"
-          onPress={() => router.push('/my-data')}
+          onPress={() => router.push('/tutor-profile')}
         />
 
         <MenuItem
