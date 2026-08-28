@@ -4,15 +4,24 @@ import {
   TouchableOpacity,
   ScrollView,
   Modal,
+  Alert,
 } from 'react-native';
+
 import { router } from 'expo-router';
 import { useState } from 'react';
+
 import { Text } from '@/src/components/atoms/Text';
 
 import IconCam from '@/assets/icons/icon-cam.svg';
 import IconArrowDown from '@/assets/icons/icon-arrow-down.svg';
 
-const especies = ['Cachorro', 'Gato', 'Ave', 'Coelho', 'Outro'];
+const especies = [
+  'Cachorro',
+  'Gato',
+  'Ave',
+  'Coelho',
+  'Outro',
+];
 
 const racasPorEspecie: Record<string, string[]> = {
   Cachorro: [
@@ -24,6 +33,7 @@ const racasPorEspecie: Record<string, string[]> = {
     'Pinscher',
     'Vira-lata',
   ],
+
   Gato: [
     'Siamês',
     'Persa',
@@ -32,8 +42,21 @@ const racasPorEspecie: Record<string, string[]> = {
     'Sphynx',
     'Vira-lata',
   ],
-  Ave: ['Calopsita', 'Periquito', 'Canário', 'Papagaio'],
-  Coelho: ['Mini Lop', 'Lionhead', 'Angorá', 'Holland Lop'],
+
+  Ave: [
+    'Calopsita',
+    'Periquito',
+    'Canário',
+    'Papagaio',
+  ],
+
+  Coelho: [
+    'Mini Lop',
+    'Lionhead',
+    'Angorá',
+    'Holland Lop',
+  ],
+
   Outro: ['Outro'],
 };
 
@@ -43,18 +66,100 @@ export default function PetForm() {
   const [raca, setRaca] = useState('');
   const [nascimento, setNascimento] = useState('');
 
-  const [modalEspecie, setModalEspecie] = useState(false);
-  const [modalRaca, setModalRaca] = useState(false);
+  const [modalEspecie, setModalEspecie] =
+    useState(false);
 
-  const continuar = () => {
-    if (!nome || !especie || !raca || !nascimento) return;
+  const [modalRaca, setModalRaca] =
+    useState(false);
 
-    router.push('/pet-health');
-  };
+  function formatarNascimento(value: string) {
+    const numeros = value
+      .replace(/\D/g, '')
+      .slice(0, 8);
+
+    if (numeros.length <= 2) {
+      return numeros;
+    }
+
+    if (numeros.length <= 4) {
+      return `${numeros.slice(0, 2)}/${numeros.slice(
+        2
+      )}`;
+    }
+
+    return `${numeros.slice(0, 2)}/${numeros.slice(
+      2,
+      4
+    )}/${numeros.slice(4)}`;
+  }
+
+  function continuar() {
+    const nomeLimpo = nome.trim();
+
+    if (
+      !nomeLimpo ||
+      !especie ||
+      !raca ||
+      nascimento.length !== 10
+    ) {
+      Alert.alert(
+        'Campos incompletos',
+        'Preencha todas as informações do pet antes de continuar.'
+      );
+
+      return;
+    }
+
+    const [dia, mes, ano] = nascimento.split('/');
+
+    const diaNumero = Number(dia);
+    const mesNumero = Number(mes);
+    const anoNumero = Number(ano);
+
+    if (
+      diaNumero < 1 ||
+      diaNumero > 31 ||
+      mesNumero < 1 ||
+      mesNumero > 12 ||
+      anoNumero < 1900
+    ) {
+      Alert.alert(
+        'Data inválida',
+        'Informe uma data de nascimento válida.'
+      );
+
+      return;
+    }
+
+    /*
+     * O backend trabalha com:
+     *
+     * YYYY-MM-DD
+     *
+     * Exemplo:
+     * 10/05/2020 -> 2020-05-10
+     */
+    const dataNascimento =
+      `${ano}-${mes}-${dia}`;
+
+    router.push({
+      pathname: '/pet-health',
+
+      params: {
+        nome: nomeLimpo,
+        especie,
+        raca,
+        dataNascimento,
+      },
+    });
+  }
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: '#FFFFFF' }}
+      style={{
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+      }}
       contentContainerStyle={{
         paddingHorizontal: 24,
         paddingTop: 60,
@@ -63,7 +168,10 @@ export default function PetForm() {
       showsVerticalScrollIndicator={false}
     >
       <TouchableOpacity onPress={() => router.back()}>
-        <Text size={40} color="#111827">
+        <Text
+          size={40}
+          color="#111827"
+        >
           ‹
         </Text>
       </TouchableOpacity>
@@ -72,7 +180,9 @@ export default function PetForm() {
         size={28}
         weight="700"
         color="#111827"
-        style={{ marginTop: 12 }}
+        style={{
+          marginTop: 12,
+        }}
       >
         Vamos Cadastrar{'\n'}seu pet
       </Text>
@@ -80,7 +190,10 @@ export default function PetForm() {
       <Text
         size={15}
         color="#444"
-        style={{ marginTop: 8, marginBottom: 26 }}
+        style={{
+          marginTop: 8,
+          marginBottom: 26,
+        }}
       >
         Adicione as informações do seu pet{'\n'}
         para uma experiência personalizada
@@ -99,13 +212,18 @@ export default function PetForm() {
           marginBottom: 28,
         }}
       >
-        <IconCam width={42} height={42} />
+        <IconCam
+          width={42}
+          height={42}
+        />
 
         <Text
           size={11}
           weight="700"
           color="#0A66C2"
-          style={{ marginTop: 8 }}
+          style={{
+            marginTop: 8,
+          }}
         >
           Adicionar Foto
         </Text>
@@ -122,7 +240,9 @@ export default function PetForm() {
         label="Espécie"
         placeholder="Cachorro"
         value={especie}
-        onPress={() => setModalEspecie(true)}
+        onPress={() =>
+          setModalEspecie(true)
+        }
       />
 
       <Select
@@ -130,7 +250,15 @@ export default function PetForm() {
         placeholder="Ex: Golden Retriever"
         value={raca}
         onPress={() => {
-          if (!especie) return;
+          if (!especie) {
+            Alert.alert(
+              'Selecione a espécie',
+              'Escolha a espécie do pet antes de selecionar a raça.'
+            );
+
+            return;
+          }
+
           setModalRaca(true);
         }}
       />
@@ -139,12 +267,18 @@ export default function PetForm() {
         label="Data de Nascimento"
         placeholder="00/00/0000"
         value={nascimento}
-        onChangeText={setNascimento}
+        onChangeText={(text) =>
+          setNascimento(
+            formatarNascimento(text)
+          )
+        }
         keyboardType="numeric"
+        maxLength={10}
       />
 
       <TouchableOpacity
         onPress={continuar}
+        activeOpacity={0.85}
         style={{
           height: 58,
           backgroundColor: '#0A66C2',
@@ -154,15 +288,36 @@ export default function PetForm() {
           marginTop: 76,
         }}
       >
-        <Text size={17} weight="700" color="#FFFFFF">
+        <Text
+          size={17}
+          weight="700"
+          color="#FFFFFF"
+        >
           Continuar
         </Text>
       </TouchableOpacity>
 
-      <Modal visible={modalEspecie} transparent animationType="fade">
-        <View style={modalOverlay}>
+      {/* ==========================
+          MODAL ESPÉCIE
+      ========================== */}
+
+      <Modal
+        visible={modalEspecie}
+        transparent
+        animationType="fade"
+        onRequestClose={() =>
+          setModalEspecie(false)
+        }
+      >
+        <TouchableOpacity
+          activeOpacity={1}
+          style={modalOverlay}
+          onPress={() =>
+            setModalEspecie(false)
+          }
+        >
           <View style={modalBox}>
-            {especies.map(item => (
+            {especies.map((item) => (
               <TouchableOpacity
                 key={item}
                 style={modalItem}
@@ -172,34 +327,61 @@ export default function PetForm() {
                   setModalEspecie(false);
                 }}
               >
-                <Text size={16} weight="600" color="#111827">
+                <Text
+                  size={16}
+                  weight="600"
+                  color="#111827"
+                >
                   {item}
                 </Text>
               </TouchableOpacity>
             ))}
           </View>
-        </View>
+        </TouchableOpacity>
       </Modal>
 
-      <Modal visible={modalRaca} transparent animationType="fade">
-        <View style={modalOverlay}>
+      {/* ==========================
+          MODAL RAÇA
+      ========================== */}
+
+      <Modal
+        visible={modalRaca}
+        transparent
+        animationType="fade"
+        onRequestClose={() =>
+          setModalRaca(false)
+        }
+      >
+        <TouchableOpacity
+          activeOpacity={1}
+          style={modalOverlay}
+          onPress={() =>
+            setModalRaca(false)
+          }
+        >
           <View style={modalBox}>
-            {(racasPorEspecie[especie] || []).map(item => (
-              <TouchableOpacity
-                key={item}
-                style={modalItem}
-                onPress={() => {
-                  setRaca(item);
-                  setModalRaca(false);
-                }}
-              >
-                <Text size={16} weight="600" color="#111827">
-                  {item}
-                </Text>
-              </TouchableOpacity>
-            ))}
+            {(racasPorEspecie[especie] || []).map(
+              (item) => (
+                <TouchableOpacity
+                  key={item}
+                  style={modalItem}
+                  onPress={() => {
+                    setRaca(item);
+                    setModalRaca(false);
+                  }}
+                >
+                  <Text
+                    size={16}
+                    weight="600"
+                    color="#111827"
+                  >
+                    {item}
+                  </Text>
+                </TouchableOpacity>
+              )
+            )}
           </View>
-        </View>
+        </TouchableOpacity>
       </Modal>
     </ScrollView>
   );
@@ -211,6 +393,7 @@ type InputProps = {
   value: string;
   onChangeText: (text: string) => void;
   keyboardType?: 'default' | 'numeric';
+  maxLength?: number;
 };
 
 function Input({
@@ -219,14 +402,21 @@ function Input({
   value,
   onChangeText,
   keyboardType = 'default',
+  maxLength,
 }: InputProps) {
   return (
-    <View style={{ marginBottom: 16 }}>
+    <View
+      style={{
+        marginBottom: 16,
+      }}
+    >
       <Text
         size={14}
         weight="700"
         color="#111827"
-        style={{ marginBottom: 8 }}
+        style={{
+          marginBottom: 8,
+        }}
       >
         {label}
       </Text>
@@ -237,6 +427,7 @@ function Input({
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
+        maxLength={maxLength}
         style={{
           height: 56,
           borderWidth: 1,
@@ -266,18 +457,25 @@ function Select({
   onPress,
 }: SelectProps) {
   return (
-    <View style={{ marginBottom: 16 }}>
+    <View
+      style={{
+        marginBottom: 16,
+      }}
+    >
       <Text
         size={14}
         weight="700"
         color="#111827"
-        style={{ marginBottom: 8 }}
+        style={{
+          marginBottom: 8,
+        }}
       >
         {label}
       </Text>
 
       <TouchableOpacity
         onPress={onPress}
+        activeOpacity={0.85}
         style={{
           height: 56,
           borderWidth: 1,
@@ -292,12 +490,19 @@ function Select({
         <Text
           size={22}
           weight="600"
-          color={value ? '#111827' : '#7D7D7D'}
+          color={
+            value
+              ? '#111827'
+              : '#7D7D7D'
+          }
         >
           {value || placeholder}
         </Text>
 
-        <IconArrowDown width={22} height={22} />
+        <IconArrowDown
+          width={22}
+          height={22}
+        />
       </TouchableOpacity>
     </View>
   );
