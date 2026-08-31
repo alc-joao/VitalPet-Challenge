@@ -10,90 +10,38 @@ import {
 } from 'react-native';
 
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Text } from '@/src/components/atoms/Text';
-import { getTutorByCpf } from '@/src/services/tutorService';
+import { loginWithEmail } from '@/src/services/authService';
+import { getTutorByEmail } from '@/src/services/tutorService';
 
 import LogoBlue from '@/assets/logos/logo-blue.svg';
 import TutorIcon from '@/assets/icons/profile-tutor-white.svg';
 import SecurityLock from '@/assets/icons/security-lock.svg';
 import ShieldIcon from '@/assets/icons/shield.svg';
-import GoogleIcon from '@/assets/icons/google.svg';
-import AppleIcon from '@/assets/icons/apple.svg';
 
 export default function TutorLogin() {
-  const [cpf, setCpf] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    async function loadStoredCPF() {
-      const storedTutor = await AsyncStorage.getItem('@vitalpet:tutor');
-      const lastCpf = await AsyncStorage.getItem('@vitalpet:lastCpf');
-
-      if (storedTutor) {
-        const tutor = JSON.parse(storedTutor);
-
-        if (tutor.cpf) {
-          setCpf(formatCPF(tutor.cpf));
-          return;
-        }
-      }
-
-      if (lastCpf) {
-        setCpf(formatCPF(lastCpf));
-      }
-    }
-
-    loadStoredCPF();
-  }, []);
-
-  const formatCPF = (value: string) => {
-    const numericValue = value
-      .replace(/\D/g, '')
-      .slice(0, 11);
-
-    if (numericValue.length <= 3) {
-      return numericValue;
-    }
-
-    if (numericValue.length <= 6) {
-      return `${numericValue.slice(
-        0,
-        3
-      )}.${numericValue.slice(3)}`;
-    }
-
-    if (numericValue.length <= 9) {
-      return `${numericValue.slice(
-        0,
-        3
-      )}.${numericValue.slice(
-        3,
-        6
-      )}.${numericValue.slice(6)}`;
-    }
-
-    return `${numericValue.slice(
-      0,
-      3
-    )}.${numericValue.slice(
-      3,
-      6
-    )}.${numericValue.slice(
-      6,
-      9
-    )}-${numericValue.slice(9, 11)}`;
-  };
-
   async function handleTutorLogin() {
-    const cpfLimpo = cpf.replace(/\D/g, '');
+    const emailLimpo = email.trim().toLowerCase();
 
-    if (cpfLimpo.length !== 11) {
+    if (!emailLimpo.includes('@')) {
       Alert.alert(
-        'CPF inválido',
-        'Digite um CPF com 11 números.'
+        'Email inválido',
+        'Digite um email válido.'
+      );
+      return;
+    }
+
+    if (senha.length < 6) {
+      Alert.alert(
+        'Senha inválida',
+        'Digite sua senha.'
       );
       return;
     }
@@ -101,33 +49,75 @@ export default function TutorLogin() {
     try {
       setLoading(true);
 
-      const tutor = await getTutorByCpf(cpfLimpo);
+      await loginWithEmail(
+        emailLimpo,
+        senha
+      );
+
+      const tutor = await getTutorByEmail(
+        emailLimpo
+      );
 
       if (!tutor) {
         Alert.alert(
           'Tutor não encontrado',
-          'Não encontramos um tutor cadastrado com esse CPF.'
+          'Sua autenticação foi realizada, mas não encontramos seu cadastro de tutor na API.'
         );
         return;
       }
-
-      await AsyncStorage.setItem(
-        '@vitalpet:lastCpf',
-        cpfLimpo
-      );
 
       await AsyncStorage.setItem(
         '@vitalpet:tutor',
         JSON.stringify(tutor)
       );
 
+      if (tutor.cpf) {
+        await AsyncStorage.setItem(
+          '@vitalpet:lastCpf',
+          tutor.cpf.replace(/\D/g, '')
+        );
+      }
+
       router.replace('/tutor-home');
-    } catch (error) {
-      console.error('Erro ao fazer login do tutor:', error);
+    } catch (error: any) {
+      console.error(
+        'Erro ao fazer login:',
+        error
+      );
+
+      const code = error?.code;
+
+      if (
+        code === 'auth/invalid-credential' ||
+        code === 'auth/wrong-password' ||
+        code === 'auth/user-not-found'
+      ) {
+        Alert.alert(
+          'Login inválido',
+          'Email ou senha incorretos.'
+        );
+        return;
+      }
+
+      if (code === 'auth/invalid-email') {
+        Alert.alert(
+          'Email inválido',
+          'Digite um email válido.'
+        );
+        return;
+      }
+
+      if (code === 'auth/too-many-requests') {
+        Alert.alert(
+          'Muitas tentativas',
+          'Aguarde alguns minutos e tente novamente.'
+        );
+        return;
+      }
 
       Alert.alert(
         'Erro ao entrar',
-        'Não foi possível conectar com o servidor. Verifique se a API está rodando.'
+        'Não foi possível entrar. Verifique sua conexão e tente novamente.'
       );
     } finally {
       setLoading(false);
@@ -191,7 +181,7 @@ export default function TutorLogin() {
           }}
         >
           Acompanhe a saúde, vacinas,{'\n'}
-          consultas e alertas e um só lugar.
+          consultas e alertas em um só lugar.
         </Text>
 
         <Text
@@ -202,18 +192,49 @@ export default function TutorLogin() {
             marginBottom: 8,
           }}
         >
-          CPF
+          Email
         </Text>
 
         <TextInput
-          placeholder="000.000.000-00"
+          placeholder="seuemail@email.com"
           placeholderTextColor="#8C8C8C"
-          keyboardType="numeric"
-          value={cpf}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          value={email}
           editable={!loading}
-          onChangeText={(text) =>
-            setCpf(formatCPF(text))
-          }
+          onChangeText={setEmail}
+          style={{
+            height: 48,
+            borderWidth: 1.3,
+            borderColor: '#BDBDBD',
+            borderRadius: 16,
+            paddingHorizontal: 18,
+            fontSize: 17,
+            fontWeight: '600',
+            color: '#111827',
+            backgroundColor: '#FFFFFF',
+            marginBottom: 12,
+          }}
+        />
+
+        <Text
+          size={15}
+          weight="600"
+          color="#111827"
+          style={{
+            marginBottom: 8,
+          }}
+        >
+          Senha
+        </Text>
+
+        <TextInput
+          placeholder="••••••••"
+          placeholderTextColor="#8C8C8C"
+          secureTextEntry
+          value={senha}
+          editable={!loading}
+          onChangeText={setSenha}
           style={{
             height: 48,
             borderWidth: 1.3,
@@ -280,179 +301,79 @@ export default function TutorLogin() {
               lineHeight: 21,
             }}
           >
-            Utilizamos seu CPF pra garantir mais
-            segurança e personalizar sua experiência.
+            Login seguro com Firebase Authentication.
           </Text>
         </View>
 
         <TouchableOpacity
           activeOpacity={0.85}
-          onPress={handleTutorLogin}
           disabled={loading}
+          onPress={handleTutorLogin}
           style={{
             height: 58,
-            backgroundColor: loading
-              ? '#7FA9D3'
-              : '#0A66C2',
-            borderRadius: 20,
-            flexDirection: 'row',
+            borderRadius: 16,
+            backgroundColor:
+              loading
+                ? '#7AAFE3'
+                : '#0A66C2',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: 18,
           }}
         >
           {loading ? (
-            <ActivityIndicator
-              color="#FFFFFF"
-              size="small"
-            />
+            <ActivityIndicator color="#FFFFFF" />
           ) : (
-            <>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
               <TutorIcon
-                width={28}
-                height={28}
+                width={22}
+                height={22}
               />
 
               <Text
-                size={19}
-                weight="600"
+                size={18}
+                weight="700"
                 color="#FFFFFF"
                 style={{
-                  marginLeft: 14,
+                  marginLeft: 10,
                 }}
               >
-                Entrar como Tutor
+                Entrar como tutor
               </Text>
-            </>
+            </View>
           )}
         </TouchableOpacity>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginBottom: 16,
-          }}
-        >
-          <View
-            style={{
-              flex: 1,
-              height: 1.2,
-              backgroundColor: '#8D8D8D',
-            }}
-          />
-
-          <Text
-            size={15}
-            weight="600"
-            color="#7B7B7B"
-            style={{
-              marginHorizontal: 16,
-            }}
-          >
-            Ou
-          </Text>
-
-          <View
-            style={{
-              flex: 1,
-              height: 1.2,
-              backgroundColor: '#8D8D8D',
-            }}
-          />
-        </View>
-
-        <SocialButton
-          icon={
-            <GoogleIcon
-              width={26}
-              height={26}
-            />
-          }
-          title="Continue com Google"
-          onPress={handleTutorLogin}
-        />
-
-        <View style={{ height: 12 }} />
-
-        <SocialButton
-          icon={
-            <AppleIcon
-              width={26}
-              height={26}
-            />
-          }
-          title="Continue com Apple"
-          onPress={handleTutorLogin}
-        />
 
         <TouchableOpacity
           onPress={() =>
             router.push('/tutor-create')
           }
+          disabled={loading}
           style={{
             alignItems: 'center',
-            marginTop: 22,
-            paddingBottom: 4,
+            marginTop: 24,
           }}
         >
           <Text
-            size={15}
-            weight="600"
+            size={16}
+            weight="700"
             color="#111827"
           >
             Ainda não tem conta?{' '}
-
             <Text
-              size={15}
-              weight="600"
+              size={16}
+              weight="700"
               color="#0A66C2"
             >
-              inscrever-se
+              Cadastre-se
             </Text>
           </Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>
-  );
-}
-
-function SocialButton({
-  icon,
-  title,
-  onPress,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  onPress: () => void;
-}) {
-  return (
-    <TouchableOpacity
-      activeOpacity={0.85}
-      onPress={onPress}
-      style={{
-        height: 54,
-        borderWidth: 1.4,
-        borderColor: '#C9C9C9',
-        borderRadius: 18,
-        backgroundColor: '#FFFFFF',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      {icon}
-
-      <Text
-        size={17}
-        weight="700"
-        color="#111827"
-        style={{
-          marginLeft: 14,
-        }}
-      >
-        {title}
-      </Text>
-    </TouchableOpacity>
   );
 }

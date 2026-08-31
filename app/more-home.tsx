@@ -1,6 +1,18 @@
-import { View, TouchableOpacity, ScrollView } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+} from 'react-native';
+
 import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { Text } from '@/src/components/atoms/Text';
+import { logout } from '@/src/services/authService';
+import { Tutor } from '@/src/types/Tutor';
 
 import IconHome from '@/assets/icons/icon-home.svg';
 import IconScore from '@/assets/icons/icon-score.svg';
@@ -24,12 +36,74 @@ import IconLogout from '@/assets/icons/icon-logout.svg';
 import IconArrowRight from '@/assets/icons/icon-arrow-right.svg';
 
 export default function MoreHome() {
-  function handleLogout() {
-    router.replace('/');
+  const [tutor, setTutor] =
+    useState<Tutor | null>(null);
+
+  const [saindo, setSaindo] =
+    useState(false);
+
+  useEffect(() => {
+    async function loadTutor() {
+      try {
+        const storedTutor =
+          await AsyncStorage.getItem(
+            '@vitalpet:tutor'
+          );
+
+        if (storedTutor) {
+          setTutor(
+            JSON.parse(storedTutor)
+          );
+        }
+      } catch (error) {
+        console.error(
+          'Erro ao carregar tutor:',
+          error
+        );
+      }
+    }
+
+    loadTutor();
+  }, []);
+
+  async function handleLogout() {
+    if (saindo) {
+      return;
+    }
+
+    try {
+      setSaindo(true);
+
+      await logout();
+
+      await AsyncStorage.multiRemove([
+        '@vitalpet:tutor',
+        '@vitalpet:lastCpf',
+      ]);
+
+      router.replace('/tutor-login');
+    } catch (error) {
+      console.error(
+        'Erro ao sair:',
+        error
+      );
+
+      Alert.alert(
+        'Erro ao sair',
+        'Não foi possível encerrar sua sessão.'
+      );
+    } finally {
+      setSaindo(false);
+    }
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+      }}
+    >
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -38,7 +112,11 @@ export default function MoreHome() {
           paddingBottom: 140,
         }}
       >
-        <Text size={28} weight="700" color="#111827">
+        <Text
+          size={28}
+          weight="700"
+          color="#111827"
+        >
           Mais
         </Text>
 
@@ -63,21 +141,35 @@ export default function MoreHome() {
               overflow: 'hidden',
             }}
           >
-            <ProfileTutorWhite width={58} height={58} />
+            <ProfileTutorWhite
+              width={58}
+              height={58}
+            />
           </View>
 
-          <View style={{ marginLeft: 16, flex: 1 }}>
-            <Text size={17} weight="700" color="#000000">
-              João Victor Alcântara
+          <View
+            style={{
+              marginLeft: 16,
+              flex: 1,
+            }}
+          >
+            <Text
+              size={17}
+              weight="700"
+              color="#000000"
+            >
+              {tutor?.nome ?? 'Tutor'}
             </Text>
 
             <Text
               size={14}
               weight="600"
               color="#7D7D7D"
-              style={{ marginTop: 3 }}
+              style={{
+                marginTop: 3,
+              }}
             >
-              joaopessoal@gmail.com
+              {tutor?.email ?? ''}
             </Text>
           </View>
         </View>
@@ -85,52 +177,114 @@ export default function MoreHome() {
         <Divider />
 
         <MenuItem
-          icon={<IconUserData width={24} height={24} />}
+          icon={
+            <IconUserData
+              width={24}
+              height={24}
+            />
+          }
           label="Meus Dados"
-          onPress={() => router.push('/tutor-profile')}
+          onPress={() =>
+            router.push('/tutor-profile')
+          }
         />
 
         <MenuItem
-          icon={<IconPets width={24} height={24} />}
+          icon={
+            <IconPets
+              width={24}
+              height={24}
+            />
+          }
           label="Meus pets"
-          onPress={() => router.push('/score-home')}
+          onPress={() =>
+            router.push('/score-home')
+          }
         />
 
         <MenuItem
-          icon={<IconPlan width={24} height={24} />}
+          icon={
+            <IconPlan
+              width={24}
+              height={24}
+            />
+          }
           label="Planos e Assinatura"
           rightText="Plano Premium"
-          onPress={() => router.push('/plans-home')}
+          onPress={() =>
+            router.push('/plans-home')
+          }
         />
 
-        <MenuItem icon={<IconAward width={24} height={24} />} label="Conquistas" />
+        <MenuItem
+          icon={
+            <IconAward
+              width={24}
+              height={24}
+            />
+          }
+          label="Conquistas"
+        />
 
         <MenuItem
-          icon={<IconStore width={24} height={24} />}
+          icon={
+            <IconStore
+              width={24}
+              height={24}
+            />
+          }
           label="Loja de recompensas"
         />
 
         <MenuItem
-          icon={<IconRanking width={24} height={24} />}
+          icon={
+            <IconRanking
+              width={24}
+              height={24}
+            />
+          }
           label="Ranking de amigos"
         />
 
         <MenuItem
-          icon={<IconShare width={24} height={24} />}
+          icon={
+            <IconShare
+              width={24}
+              height={24}
+            />
+          }
           label="Compartilhar app"
         />
 
         <Divider />
 
         <MenuItem
-          icon={<IconSettings width={24} height={24} />}
+          icon={
+            <IconSettings
+              width={24}
+              height={24}
+            />
+          }
           label="Configurações"
         />
 
-        <MenuItem icon={<IconHelp width={24} height={24} />} label="Central de ajuda" />
+        <MenuItem
+          icon={
+            <IconHelp
+              width={24}
+              height={24}
+            />
+          }
+          label="Central de ajuda"
+        />
 
         <MenuItem
-          icon={<IconInfo width={24} height={24} />}
+          icon={
+            <IconInfo
+              width={24}
+              height={24}
+            />
+          }
           label="Sobre o App"
           rightText="Versão 1.00"
         />
@@ -140,24 +294,38 @@ export default function MoreHome() {
         <TouchableOpacity
           onPress={handleLogout}
           activeOpacity={0.8}
+          disabled={saindo}
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             height: 46,
             marginTop: 4,
+            opacity: saindo ? 0.6 : 1,
           }}
         >
-          <View style={{ width: 30, alignItems: 'center' }}>
-            <IconLogout width={24} height={24} />
+          <View
+            style={{
+              width: 30,
+              alignItems: 'center',
+            }}
+          >
+            <IconLogout
+              width={24}
+              height={24}
+            />
           </View>
 
           <Text
             size={16}
             weight="700"
             color="#FF3B30"
-            style={{ marginLeft: 16 }}
+            style={{
+              marginLeft: 16,
+            }}
           >
-            Sair da conta
+            {saindo
+              ? 'Saindo...'
+              : 'Sair da conta'}
           </Text>
         </TouchableOpacity>
       </ScrollView>
@@ -200,13 +368,23 @@ function MenuItem({
         alignItems: 'center',
       }}
     >
-      <View style={{ width: 30, alignItems: 'center' }}>{icon}</View>
+      <View
+        style={{
+          width: 30,
+          alignItems: 'center',
+        }}
+      >
+        {icon}
+      </View>
 
       <Text
         size={16}
         weight="700"
         color="#7D7D7D"
-        style={{ marginLeft: 16, flex: 1 }}
+        style={{
+          marginLeft: 16,
+          flex: 1,
+        }}
       >
         {label}
       </Text>
@@ -216,13 +394,18 @@ function MenuItem({
           size={12}
           weight="600"
           color="#7D7D7D"
-          style={{ marginRight: 12 }}
+          style={{
+            marginRight: 12,
+          }}
         >
           {rightText}
         </Text>
       )}
 
-      <IconArrowRight width={16} height={16} />
+      <IconArrowRight
+        width={16}
+        height={16}
+      />
     </TouchableOpacity>
   );
 }
@@ -248,35 +431,77 @@ function BottomNav() {
       }}
     >
       <TabItem
-        icon={<IconHome width={30} height={30} />}
+        icon={
+          <IconHome
+            width={30}
+            height={30}
+          />
+        }
         label="Home"
-        onPress={() => router.push('/tutor-home')}
+        onPress={() =>
+          router.push('/tutor-home')
+        }
       />
 
       <TabItem
-        icon={<IconScore width={30} height={30} />}
+        icon={
+          <IconScore
+            width={30}
+            height={30}
+          />
+        }
         label="Score"
-        onPress={() => router.push('/score-home')}
+        onPress={() =>
+          router.push('/score-home')
+        }
       />
 
       <TabItem
-        icon={<IconCalendar width={30} height={30} />}
+        icon={
+          <IconCalendar
+            width={30}
+            height={30}
+          />
+        }
         label="Histórico"
-        onPress={() => router.push('/history-home')}
+        onPress={() =>
+          router.push('/history-home')
+        }
       />
 
       <TabItem
-        icon={<IconChat width={30} height={30} />}
+        icon={
+          <IconChat
+            width={30}
+            height={30}
+          />
+        }
         label="Chat"
-        onPress={() => router.push('/chat-home')}
+        onPress={() =>
+          router.push('/chat-home')
+        }
       />
 
-      <TabItem icon={<IconMore width={30} height={30} />} label="Mais" active />
+      <TabItem
+        icon={
+          <IconMore
+            width={30}
+            height={30}
+          />
+        }
+        label="Mais"
+        active
+      />
     </View>
   );
 }
 
-function TabItem({ icon, label, active, onPress }: any) {
+function TabItem({
+  icon,
+  label,
+  active,
+  onPress,
+}: any) {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -286,7 +511,9 @@ function TabItem({ icon, label, active, onPress }: any) {
         width: 60,
         height: 70,
         borderRadius: 12,
-        backgroundColor: active ? '#E8F1FF' : 'transparent',
+        backgroundColor: active
+          ? '#E8F1FF'
+          : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -296,8 +523,14 @@ function TabItem({ icon, label, active, onPress }: any) {
       <Text
         size={11}
         weight="700"
-        color={active ? '#0A66C2' : '#7D7D7D'}
-        style={{ marginTop: 3 }}
+        color={
+          active
+            ? '#0A66C2'
+            : '#7D7D7D'
+        }
+        style={{
+          marginTop: 3,
+        }}
       >
         {label}
       </Text>

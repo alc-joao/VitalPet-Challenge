@@ -12,6 +12,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Text } from '@/src/components/atoms/Text';
 import { useCreateTutor } from '@/src/hooks/useTutors';
+import { registerWithEmail } from '@/src/services/authService';
+import { deleteUser } from 'firebase/auth';
 
 import LogoIconBlue from '@/assets/logos/logo-icon-blue.svg';
 import CheckIcon from '@/assets/icons/check-green.svg';
@@ -121,12 +123,19 @@ export default function TutorCreate() {
       return;
     }
 
+    let firebaseUser = null;
+
     try {
+      firebaseUser = await registerWithEmail(
+        email,
+        senha
+      );
+
       const tutorCriado =
         await createTutorMutation.mutateAsync({
           nome: nome.trim(),
           cpf: cpfNumeros,
-          email: email.trim(),
+          email: email.trim().toLowerCase(),
           telefone: telefoneNumeros,
         });
 
@@ -152,7 +161,40 @@ export default function TutorCreate() {
         ]
       );
     } catch (error: any) {
-      console.error('Erro ao criar tutor:', error);
+      console.error('Erro ao criar conta:', error);
+
+      if (
+        firebaseUser &&
+        error?.code?.startsWith?.('auth/') !== true
+      ) {
+        try {
+          await deleteUser(firebaseUser);
+        } catch (rollbackError) {
+          console.error(
+            'Erro ao desfazer usuário Firebase:',
+            rollbackError
+          );
+        }
+      }
+
+      if (error?.code === 'auth/email-already-in-use') {
+        setErro(
+          'Já existe uma conta cadastrada com este email.'
+        );
+        return;
+      }
+
+      if (error?.code === 'auth/invalid-email') {
+        setErro('Digite um email válido.');
+        return;
+      }
+
+      if (error?.code === 'auth/weak-password') {
+        setErro(
+          'A senha precisa ter pelo menos 6 caracteres.'
+        );
+        return;
+      }
 
       const campos =
         error?.response?.data?.campos;
@@ -170,7 +212,7 @@ export default function TutorCreate() {
       }
 
       setErro(
-        'Não foi possível criar a conta. Verifique a API e tente novamente.'
+        'Não foi possível criar a conta. Tente novamente.'
       );
     }
   }

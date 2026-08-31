@@ -1,4 +1,5 @@
 import { api } from './api';
+
 import {
   Tutor,
   TutorInput,
@@ -17,8 +18,12 @@ export async function getTutors(): Promise<Tutor[]> {
   );
 }
 
-export async function getTutorById(id: number): Promise<Tutor> {
-  const response = await api.get<Tutor>(`/api/tutores/${id}`);
+export async function getTutorById(
+  id: number
+): Promise<Tutor> {
+  const response = await api.get<Tutor>(
+    `/api/tutores/${id}`
+  );
 
   return response.data;
 }
@@ -28,19 +33,46 @@ export async function getTutorByCpf(
 ): Promise<Tutor | null> {
   const cpfLimpo = normalizeCpf(cpf);
 
-  const response = await api.get<TutorPage>('/api/tutores', {
-    params: {
-      cpf: cpfLimpo,
-    },
-  });
+  const response = await api.get<TutorPage>(
+    '/api/tutores',
+    {
+      params: {
+        cpf: cpfLimpo,
+      },
+    }
+  );
 
   const tutores = response.data.content ?? [];
 
   const tutorAtivo = tutores.find(
-    (tutor) => tutor.ativo !== false
+    (tutor) =>
+      tutor.ativo !== false &&
+      normalizeCpf(tutor.cpf) === cpfLimpo
   );
 
   return tutorAtivo ?? null;
+}
+
+export async function getTutorByEmail(
+  email: string
+): Promise<Tutor | null> {
+  const emailNormalizado =
+    email.trim().toLowerCase();
+
+  const response = await api.get<TutorPage>(
+    '/api/tutores'
+  );
+
+  const tutores = response.data.content ?? [];
+
+  const tutor = tutores.find(
+    (item) =>
+      item.ativo !== false &&
+      item.email?.trim().toLowerCase() ===
+        emailNormalizado
+  );
+
+  return tutor ?? null;
 }
 
 export async function createTutor(
@@ -51,6 +83,7 @@ export async function createTutor(
     {
       ...tutor,
       cpf: normalizeCpf(tutor.cpf),
+      email: tutor.email.trim().toLowerCase(),
     }
   );
 
@@ -66,6 +99,7 @@ export async function updateTutor(
     {
       ...tutor,
       cpf: normalizeCpf(tutor.cpf),
+      email: tutor.email.trim().toLowerCase(),
     }
   );
 
