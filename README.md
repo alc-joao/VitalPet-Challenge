@@ -1,47 +1,51 @@
 # VitalPet
 
+Aplicativo mobile para gerenciamento de cuidados veterinários, desenvolvido para o Challenge de Mobile Application Development da FIAP.
+
 ## Integrantes
 
 - João Victor Alcântara — RM562707
 - Phillipo Barbosa — RM565399
-- Vitor Madrigrano — RM564191
+- Leonardo Aragaki — RM562944
 - Eduardo Martins — RM562259
 
 ---
 
-# Descrição do Projeto
+# Sobre o Projeto
 
-O VitalPet é um aplicativo mobile desenvolvido em React Native com Expo, criado com o objetivo de facilitar o gerenciamento de cuidados veterinários para tutores e clínicas veterinárias.
+O VitalPet é uma aplicação mobile desenvolvida em React Native com Expo para auxiliar tutores e clínicas veterinárias na organização e acompanhamento dos cuidados com animais de estimação.
 
-O aplicativo possui dois fluxos principais:
+O projeto busca centralizar informações importantes relacionadas aos pets e facilitar o acesso do tutor aos dados do animal por meio de uma experiência mobile simples e organizada.
 
-- Fluxo Tutor
-- Fluxo Clínica Veterinária
+A aplicação possui dois fluxos principais:
 
-A aplicação simula funcionalidades reais de um sistema veterinário moderno, incluindo:
+- Tutor
+- Clínica Veterinária
 
-- gerenciamento de pacientes;
-- consultas;
-- vacinas;
-- exames;
-- emergências;
-- financeiro;
-- relatórios;
-- planos e assinaturas.
-
-O projeto foi desenvolvido como protótipo funcional para o Challenge de Mobile Application Development da FIAP.
+Na Sprint 3, o foco do desenvolvimento foi a consolidação técnica do fluxo do tutor, com autenticação real, integração com API HTTP e operações de gerenciamento de tutores e pets.
 
 ---
 
 # Funcionalidades
 
-## Tutor
+## Fluxo Tutor
 
-- Escolha de perfil
+O fluxo do tutor possui funcionalidades como:
+
 - Cadastro de tutor
+- Login com autenticação
+- Persistência da sessão
+- Logout
+- Proteção de telas autenticadas
 - Home do tutor
+- Visualização dos dados do tutor
+- Edição dos dados do tutor
+- Exclusão da conta do tutor
 - Cadastro de pets
-- Perfil do pet
+- Listagem dos pets vinculados ao tutor
+- Visualização dos dados de um pet
+- Edição dos dados do pet
+- Exclusão de pets
 - Histórico veterinário
 - Vacinas
 - Consultas
@@ -51,13 +55,13 @@ O projeto foi desenvolvido como protótipo funcional para o Challenge de Mobile 
 - Chat
 - Score do pet
 
----
+## Fluxo Clínica
 
-## Clínica
+O projeto também possui interfaces destinadas ao fluxo de clínicas veterinárias, incluindo:
 
 - Login da clínica
 - Cadastro da clínica
-- Dashboard da clínica
+- Dashboard
 - Agenda veterinária
 - Pacientes
 - Detalhes do paciente
@@ -69,7 +73,55 @@ O projeto foi desenvolvido como protótipo funcional para o Challenge de Mobile 
 - Financeiro
 - Relatórios
 - Planos e assinaturas
-- Controle administrativo
+
+---
+
+# Integração com Backend
+
+Na Sprint 3, o aplicativo passou a realizar comunicação real com uma API backend via HTTP.
+
+A comunicação com o backend é realizada utilizando Axios, enquanto o gerenciamento das requisições, cache e atualização dos dados na interface é realizado com TanStack Query.
+
+Foram implementadas operações de Create, Read, Update e Delete para as principais entidades utilizadas no fluxo do tutor.
+
+## Tutor
+
+- Create — cadastro de tutor
+- Read — consulta dos dados do tutor
+- Update — atualização do perfil
+- Delete — exclusão da conta
+
+## Pet
+
+- Create — cadastro de pet
+- Read — listagem e consulta dos pets
+- Update — edição das informações do pet
+- Delete — exclusão do pet
+
+Após operações de alteração, os dados utilizados pela aplicação são atualizados por meio do gerenciamento de cache do TanStack Query.
+
+Durante as requisições, a interface apresenta estados de carregamento e tratamento de erros.
+
+---
+
+# Autenticação
+
+O VitalPet utiliza Firebase Authentication para autenticação real dos tutores.
+
+O fluxo implementado possui:
+
+- Cadastro com e-mail e senha
+- Login com e-mail e senha
+- Persistência da sessão autenticada
+- Monitoramento do estado de autenticação
+- Proteção de rotas internas
+- Logout
+
+O estado global de autenticação é controlado através de um `AuthContext`.
+
+As telas internas do tutor são protegidas e usuários não autenticados são redirecionados para a tela de login.
+
+Ao realizar logout, a sessão do Firebase é encerrada e o acesso às rotas protegidas é bloqueado.
 
 ---
 
@@ -79,23 +131,47 @@ O projeto foi desenvolvido como protótipo funcional para o Challenge de Mobile 
 - Expo
 - Expo Router
 - TypeScript
+- TanStack Query
+- Axios
+- Firebase Authentication
 - AsyncStorage
 - React Native SVG
 
 ---
 
+# Arquitetura e Organização
+
+O projeto utiliza separação de responsabilidades para evitar que regras de negócio e comunicação HTTP fiquem diretamente acopladas às telas.
+
+A estrutura principal está dividida em:
+
+- `app/` — telas e rotas da aplicação
+- `src/components/` — componentes reutilizáveis
+- `src/contexts/` — contextos globais
+- `src/hooks/` — hooks responsáveis pelo gerenciamento das operações com dados
+- `src/services/` — comunicação com API e serviços externos
+- `src/types/` — tipagens TypeScript
+- `src/constants/` — constantes utilizadas pela aplicação
+- `assets/` — imagens, logos e ícones
+
+---
+
 # Estrutura de Pastas
 
-```bash
+```text
 app/
 ├── _layout.tsx
 ├── index.tsx
 ├── onboarding.tsx
 ├── choose-profile.tsx
-
+│
 ├── tutor-login.tsx
 ├── tutor-create.tsx
 ├── tutor-home.tsx
+├── tutor-profile.tsx
+├── tutor-edit.tsx
+├── tutor-delete.tsx
+│
 ├── pet-form.tsx
 ├── pet-success.tsx
 ├── pet-profile.tsx
@@ -103,6 +179,7 @@ app/
 ├── pet-health.tsx
 ├── pet-preferences.tsx
 ├── pet-score-detail.tsx
+│
 ├── chat-home.tsx
 ├── consults-home.tsx
 ├── emergency-home.tsx
@@ -114,7 +191,7 @@ app/
 ├── reminders-home.tsx
 ├── score-home.tsx
 ├── vaccines-home.tsx
-
+│
 ├── clinic-login.tsx
 ├── clinic-create.tsx
 ├── clinic-home.tsx
@@ -134,123 +211,201 @@ app/
 ├── clinic-reports.tsx
 └── clinic-plans.tsx
 
+src/
+├── @types/
+├── components/
+├── constants/
+│   ├── colors.ts
+│   └── routes.ts
+├── contexts/
+│   └── AuthContext.tsx
+├── hooks/
+│   ├── usePets.ts
+│   └── useTutors.ts
+├── screens/
+├── services/
+│   ├── api.ts
+│   ├── authService.ts
+│   ├── firebase.ts
+│   ├── petService.ts
+│   └── tutorService.ts
+└── types/
+    ├── Pet.ts
+    └── Tutor.ts
+
 assets/
 ├── icons/
 ├── images/
-├── logos/
-└── favicon.png
-
-src/
-├── components/
-│   └── atoms/
-│       ├── Button/
-│       ├── CardOption/
-│       ├── Input/
-│       ├── Logo/
-│       └── Text/
-├── constants/
-└── @types/
+└── logos/
 ```
-
----
-
-# Organização das Telas
-
-O projeto está organizado em dois fluxos principais:
-
-## Fluxo Tutor
-
-Telas voltadas para o usuário tutor, permitindo cadastro, gerenciamento de pets, lembretes, vacinas, consultas, saúde do pet e dados pessoais.
-
----
-
-## Fluxo Clínica
-
-Telas voltadas para clínicas veterinárias, permitindo gerenciamento de pacientes, agenda, atendimentos, exames, vacinas, emergências, financeiro, relatórios e planos de assinatura.
 
 ---
 
 # Navegação
 
-O projeto utiliza Expo Router para gerenciamento de rotas e navegação entre telas.
+A navegação do aplicativo é realizada com Expo Router.
 
-Fluxos implementados:
+As telas são representadas por rotas reais dentro do diretório `app/`, permitindo navegação entre os diferentes fluxos da aplicação.
 
-- Navegação Tutor
-- Navegação Clínica
-- Navegação por Bottom Tab
-- Navegação entre formulários e detalhes
+O projeto possui mais de seis telas distintas e contempla fluxos como:
 
----
+- Autenticação
+- Home do tutor
+- Perfil do tutor
+- Cadastro e gerenciamento de pets
+- Detalhes do pet
+- Funcionalidades relacionadas à saúde do animal
+- Fluxo da clínica veterinária
 
-# Manipulação de Estado
-
-O aplicativo utiliza:
-
-- useState
-- formulários controlados
-- validações visuais
-- renderização dinâmica de dados
+As rotas internas do tutor possuem controle de acesso integrado ao Firebase Authentication.
 
 ---
 
-# Persistência Local
+# Gerenciamento de Dados
 
-O projeto utiliza AsyncStorage para persistência de dados locais, permitindo:
+O TanStack Query é utilizado para gerenciar os dados provenientes da API.
 
-- salvar informações do usuário;
-- restaurar dados após reiniciar o aplicativo;
-- manter preferências e formulários preenchidos.
+Os hooks da aplicação concentram as queries e mutations utilizadas pelas telas.
+
+Entre as operações implementadas estão:
+
+- Consulta de tutores
+- Cadastro de tutor
+- Atualização de tutor
+- Exclusão de tutor
+- Consulta de pets
+- Cadastro de pet
+- Atualização de pet
+- Exclusão de pet
+
+Essa organização permite separar a camada de interface da camada responsável pelo acesso aos dados.
+
+---
+
+# Estados de Carregamento e Erro
+
+As telas que dependem de operações assíncronas apresentam feedback durante as requisições.
+
+O aplicativo possui tratamento para:
+
+- carregamento de dados;
+- envio de formulários;
+- atualização de registros;
+- exclusão de registros;
+- falhas de comunicação com a API.
+
+Após mutations, o cache das queries relacionadas é atualizado ou invalidado para que as alterações sejam refletidas na interface.
 
 ---
 
 # Como Executar o Projeto
 
-## Instalar dependências
+## Pré-requisitos
+
+É necessário possuir:
+
+- Node.js
+- npm ou Yarn
+- Expo
+- Expo Go ou ambiente de emulação configurado
+
+Também é necessário que a API backend utilizada pelo projeto esteja disponível para que as funcionalidades integradas possam realizar as requisições HTTP.
+
+## 1. Clonar o repositório
 
 ```bash
-yarn
+git clone https://github.com/alc-joao/VitalPet-Challenge.git
 ```
 
-ou
+## 2. Entrar na pasta
+
+```bash
+cd VitalPet-Challenge
+```
+
+## 3. Instalar as dependências
+
+Com npm:
 
 ```bash
 npm install
 ```
 
----
+ou com Yarn:
 
-## Rodar o projeto
+```bash
+yarn
+```
+
+## 4. Iniciar o aplicativo
 
 ```bash
 npx expo start
 ```
 
+## 5. Executar
+
+Após iniciar o Expo:
+
+- escaneie o QR Code utilizando o Expo Go; ou
+- execute o aplicativo em um emulador Android/iOS configurado.
+
 ---
 
-## Executar no celular
+# Backend
 
-1. Instale o aplicativo Expo Go
-2. Escaneie o QR Code gerado no terminal
+A Sprint 3 utiliza integração com API backend desenvolvida para o projeto.
+
+Repositório da API:
+
+```text
+https://github.com/Tidlle/Sprint3-Java.git
+```
+
+A API deve estar em execução e acessível pelo dispositivo/emulador utilizado para testar o aplicativo.
 
 ---
 
-# Repositório
+# Repositório Mobile
 
-```txt
+```text
 https://github.com/alc-joao/VitalPet-Challenge.git
 ```
 
 ---
 
-# Link Vídeo Pitch
+# Vídeo de Apresentação — Sprint 3
 
-```txt
-https://www.youtube.com/watch?v=KMTkmrL5NeE
+O vídeo demonstra o funcionamento da aplicação, incluindo:
+
+- navegação entre telas;
+- autenticação;
+- integração com a API backend;
+- gerenciamento de tutor;
+- gerenciamento de pets;
+- comportamento da aplicação em execução.
+
+Link:
+
+```text
+ADICIONAR_LINK_DO_VIDEO_DA_SPRINT_3
 ```
 
 ---
 
-# Observações
+# Sprint 3
 
-Este projeto possui fins acadêmicos e foi desenvolvido para demonstração prática de conceitos de desenvolvimento mobile utilizando React Native com Expo.
+Nesta etapa do projeto foram consolidados os principais requisitos técnicos da aplicação mobile:
+
+- navegação funcional com Expo Router;
+- integração real com API HTTP;
+- gerenciamento das requisições com TanStack Query;
+- CRUD de tutores;
+- CRUD de pets;
+- autenticação com Firebase Authentication;
+- persistência da sessão;
+- proteção de rotas;
+- organização do projeto em hooks, services, contexts e types;
+- estados de carregamento e tratamento de erros.
+
+O projeto continuará sendo refinado e expandido nas próximas etapas do Challenge.
