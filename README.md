@@ -388,7 +388,7 @@ O vídeo demonstra o funcionamento da aplicação, incluindo:
 Link:
 
 ```text
-ADICIONAR_LINK_DO_VIDEO_DA_SPRINT_3
+https://youtu.be/CLynI3Mhkzc
 ```
 
 ---
