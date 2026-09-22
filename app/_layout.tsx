@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import * as Notifications from 'expo-notifications';
 import {
   ActivityIndicator,
   View,
@@ -59,6 +60,40 @@ function ProtectedNavigation() {
     authenticated,
     loadingAuth,
   } = useAuth();
+
+  useEffect(() => {
+    if (loadingAuth || !authenticated) {
+      return;
+    }
+
+    const abrirLembretes = (
+      response: Notifications.NotificationResponse
+    ) => {
+      const data = response.notification.request.content.data;
+
+      if (data?.screen === 'reminders-home') {
+        router.push('/reminders-home');
+      }
+    };
+
+    const subscription =
+      Notifications.addNotificationResponseReceivedListener(
+        abrirLembretes
+      );
+
+    Notifications.getLastNotificationResponseAsync()
+      .then((response) => {
+        if (response) {
+          abrirLembretes(response);
+          Notifications.clearLastNotificationResponseAsync();
+        }
+      })
+      .catch(console.warn);
+
+    return () => {
+      subscription.remove();
+    };
+  }, [authenticated, loadingAuth]);
 
   useEffect(() => {
     if (loadingAuth) {

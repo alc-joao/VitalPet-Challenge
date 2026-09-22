@@ -7,14 +7,16 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
-import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { router, useFocusEffect } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Text } from '@/src/components/atoms/Text';
 import { usePets } from '@/src/hooks/usePets';
 import { Pet } from '@/src/types/Pet';
 import { Tutor } from '@/src/types/Tutor';
+import { Reminder } from '@/src/types/Reminder';
+import { listarLembretes } from '@/src/services/reminderService';
 
 import IconBell from '@/assets/icons/icon-bell.svg';
 import IconPlus from '@/assets/icons/icon-plus.svg';
@@ -41,6 +43,8 @@ export default function TutorHome() {
 
   const [tutor, setTutor] = useState<Tutor | null>(null);
   const [loadingTutor, setLoadingTutor] = useState(true);
+  const [lembretes, setLembretes] = useState<Reminder[]>([]);
+  const [erroLembretes, setErroLembretes] = useState(false);
 
   useEffect(() => {
     async function loadTutor() {
@@ -85,6 +89,46 @@ export default function TutorHome() {
     isError,
     refetch,
   } = usePets(tutor?.id);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (!tutor?.id) {
+        setLembretes([]);
+        return;
+      }
+
+      let ativo = true;
+
+      async function carregarLembretes() {
+        try {
+          const dados = await listarLembretes(tutor!.id);
+
+          if (ativo) {
+            setLembretes(
+              dados
+                .filter(
+                  item => new Date(item.data).getTime() > Date.now()
+                )
+                .slice(0, 3)
+            );
+            setErroLembretes(false);
+          }
+        } catch (error) {
+          console.error('Erro ao carregar lembretes:', error);
+
+          if (ativo) {
+            setErroLembretes(true);
+          }
+        }
+      }
+
+      carregarLembretes();
+
+      return () => {
+        ativo = false;
+      };
+    }, [tutor?.id])
+  );
 
   const contentWidth = Math.min(width, 480);
   const availableWidth = contentWidth - padding * 2;
@@ -289,56 +333,48 @@ export default function TutorHome() {
             }
           />
 
-          <ReminderCard
-            image={
-              <ReminderIcon
-                label="V"
-                background="#E8F1FF"
-                color="#0A66C2"
-              />
-            }
-            title="Vacina múltipla"
-            subtitle="Próxima aplicação"
-          />
+          {erroLembretes && (
+            <Text size={14} color="#B42318">
+              Não foi possível carregar os lembretes.
+            </Text>
+          )}
 
-          <ReminderCard
-            image={
-              <ReminderIcon
-                label="M"
-                background="#EAF8EF"
-                color="#008047"
-              />
-            }
-            title="Vermífugo"
-            subtitle="Acompanhe a próxima dose"
-          />
+          {!erroLembretes && lembretes.length === 0 && (
+            <TouchableOpacity
+              onPress={() => router.push('/reminders-home')}
+              style={{ paddingVertical: 20 }}
+            >
+              <Text size={15} color="#7D7D7D">
+                Nenhum lembrete futuro. Toque para adicionar.
+              </Text>
+            </TouchableOpacity>
+          )}
 
-          <ReminderCard
-            image={
-              <View
-                style={{
-                  width: 42,
-                  height: 42,
-                  borderRadius: 21,
-                  backgroundColor: '#DCEBFF',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  overflow: 'hidden',
-                }}
-              >
-                <Image
-                  source={PetBanho}
-                  style={{
-                    width: 30,
-                    height: 30,
-                  }}
-                  resizeMode="contain"
-                />
-              </View>
-            }
-            title="Banho e tosa"
-            subtitle="Cuidados do pet"
-          />
+          {!erroLembretes && lembretes.map(item => {
+            const data = new Date(item.data);
+
+            const dataFormatada = data.toLocaleString('pt-BR', {
+              day: '2-digit',
+              month: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+            });
+
+            return (
+              <ReminderCard
+                key={item.id}
+                image={
+                  <ReminderIcon
+                    label={item.titulo.charAt(0).toUpperCase()}
+                    background="#E8F1FF"
+                    color="#0A66C2"
+                  />
+                }
+                title={item.titulo}
+                subtitle={`${item.petNome} • ${dataFormatada}`}
+              />
+            );
+          })}
 
           {/* =====================================================
               AÇÕES RÁPIDAS

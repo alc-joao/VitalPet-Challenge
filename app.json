@@ -1,3 +1,4 @@
+
 {
   "expo": {
     "name": "VitalPet",
@@ -38,7 +39,8 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-notifications"
     ],
     "experiments": {
       "typedRoutes": true,
