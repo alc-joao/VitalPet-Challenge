@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 import { logout } from '@/src/services/authService';
 import { Tutor } from '@/src/types/Tutor';
 
@@ -36,6 +37,7 @@ import IconLogout from '@/assets/icons/icon-logout.svg';
 import IconArrowRight from '@/assets/icons/icon-arrow-right.svg';
 
 export default function MoreHome() {
+  const { theme, isDark } = useAppTheme();
   const [tutor, setTutor] =
     useState<Tutor | null>(null);
 
@@ -101,7 +103,7 @@ export default function MoreHome() {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.background,
       }}
     >
       <ScrollView
@@ -115,7 +117,7 @@ export default function MoreHome() {
         <Text
           size={28}
           weight="700"
-          color="#111827"
+          color={theme.text}
         >
           Mais
         </Text>
@@ -133,9 +135,9 @@ export default function MoreHome() {
               width: 64,
               height: 64,
               borderRadius: 32,
-              backgroundColor: '#FFFFFF',
+              backgroundColor: theme.background,
               borderWidth: 2,
-              borderColor: '#000000',
+              borderColor: theme.text,
               alignItems: 'center',
               justifyContent: 'center',
               overflow: 'hidden',
@@ -156,7 +158,7 @@ export default function MoreHome() {
             <Text
               size={17}
               weight="700"
-              color="#000000"
+              color={theme.text}
             >
               {tutor?.nome ?? 'Tutor'}
             </Text>
@@ -164,7 +166,7 @@ export default function MoreHome() {
             <Text
               size={14}
               weight="600"
-              color="#7D7D7D"
+              color={theme.textSecondary}
               style={{
                 marginTop: 3,
               }}
@@ -318,7 +320,7 @@ export default function MoreHome() {
           <Text
             size={16}
             weight="700"
-            color="#FF3B30"
+            color={theme.danger}
             style={{
               marginLeft: 16,
             }}
@@ -336,11 +338,12 @@ export default function MoreHome() {
 }
 
 function Divider() {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
         height: 1,
-        backgroundColor: '#E5E7EB',
+        backgroundColor: theme.border,
         marginVertical: 16,
       }}
     />
@@ -358,6 +361,7 @@ function MenuItem({
   rightText?: string;
   onPress?: () => void;
 }) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -380,7 +384,7 @@ function MenuItem({
       <Text
         size={16}
         weight="700"
-        color="#7D7D7D"
+        color={theme.textSecondary}
         style={{
           marginLeft: 16,
           flex: 1,
@@ -393,7 +397,7 @@ function MenuItem({
         <Text
           size={12}
           weight="600"
-          color="#7D7D7D"
+          color={theme.textSecondary}
           style={{
             marginRight: 12,
           }}
@@ -411,6 +415,7 @@ function MenuItem({
 }
 
 function BottomNav() {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -419,9 +424,9 @@ function BottomNav() {
         right: 0,
         bottom: 0,
         height: 86,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.background,
         borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
+        borderTopColor: theme.border,
         paddingHorizontal: 28,
         paddingTop: 8,
         flexDirection: 'row',
@@ -502,6 +507,7 @@ function TabItem({
   active,
   onPress,
 }: any) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -512,7 +518,7 @@ function TabItem({
         height: 70,
         borderRadius: 12,
         backgroundColor: active
-          ? '#E8F1FF'
+          ? theme.surfaceSecondary
           : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
@@ -525,7 +531,7 @@ function TabItem({
         weight="700"
         color={
           active
-            ? '#0A66C2'
+            ? theme.primary
             : '#7D7D7D'
         }
         style={{

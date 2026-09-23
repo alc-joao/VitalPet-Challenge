@@ -10,10 +10,12 @@ import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 import { useTutor } from '@/src/hooks/useTutors';
 import { Tutor } from '@/src/types/Tutor';
 
 export default function TutorProfile() {
+  const { theme, isDark } = useAppTheme();
   const [tutorId, setTutorId] = useState(0);
   const [loadingSession, setLoadingSession] = useState(true);
 
@@ -72,19 +74,19 @@ export default function TutorProfile() {
       <View
         style={{
           flex: 1,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.background,
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
         <ActivityIndicator
           size="large"
-          color="#0A66C2"
+          color={theme.primary}
         />
 
         <Text
           size={15}
-          color="#7D7D7D"
+          color={theme.textSecondary}
           style={{
             marginTop: 12,
           }}
@@ -100,7 +102,7 @@ export default function TutorProfile() {
       <View
         style={{
           flex: 1,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.background,
           alignItems: 'center',
           justifyContent: 'center',
           padding: 24,
@@ -109,7 +111,7 @@ export default function TutorProfile() {
         <Text
           size={20}
           weight="700"
-          color="#111827"
+          color={theme.text}
           align="center"
         >
           Não foi possível carregar seu perfil.
@@ -119,7 +121,7 @@ export default function TutorProfile() {
           onPress={() => refetch()}
           style={{
             marginTop: 20,
-            backgroundColor: '#0A66C2',
+            backgroundColor: theme.primary,
             paddingHorizontal: 22,
             paddingVertical: 12,
             borderRadius: 12,
@@ -128,7 +130,7 @@ export default function TutorProfile() {
           <Text
             size={15}
             weight="700"
-            color="#FFFFFF"
+            color={theme.primaryText}
           >
             Tentar novamente
           </Text>
@@ -143,7 +145,7 @@ export default function TutorProfile() {
           <Text
             size={15}
             weight="700"
-            color="#0A66C2"
+            color={theme.primary}
           >
             Voltar
           </Text>
@@ -159,7 +161,7 @@ export default function TutorProfile() {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.background,
         alignItems: 'center',
       }}
     >
@@ -168,7 +170,7 @@ export default function TutorProfile() {
           width: '100%',
           maxWidth: 480,
           flex: 1,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.background,
         }}
       >
         <ScrollView
@@ -186,7 +188,7 @@ export default function TutorProfile() {
             <Text
               size={17}
               weight="700"
-              color="#0A66C2"
+              color={theme.primary}
             >
               ‹ Voltar
             </Text>
@@ -195,7 +197,7 @@ export default function TutorProfile() {
           <Text
             size={32}
             weight="700"
-            color="#111827"
+            color={theme.text}
             style={{
               marginTop: 24,
             }}
@@ -205,7 +207,7 @@ export default function TutorProfile() {
 
           <Text
             size={16}
-            color="#7D7D7D"
+            color={theme.textSecondary}
             style={{
               marginTop: 6,
             }}
@@ -215,7 +217,7 @@ export default function TutorProfile() {
 
           <View
             style={{
-              backgroundColor: '#0A66C2',
+              backgroundColor: theme.primary,
               borderRadius: 22,
               padding: 22,
               marginTop: 26,
@@ -227,7 +229,7 @@ export default function TutorProfile() {
                 width: 72,
                 height: 72,
                 borderRadius: 36,
-                backgroundColor: '#FFFFFF',
+                backgroundColor: theme.background,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
@@ -235,7 +237,7 @@ export default function TutorProfile() {
               <Text
                 size={30}
                 weight="700"
-                color="#0A66C2"
+                color={theme.primary}
               >
                 {inicial}
               </Text>
@@ -244,7 +246,7 @@ export default function TutorProfile() {
             <Text
               size={22}
               weight="700"
-              color="#FFFFFF"
+              color={theme.primaryText}
               align="center"
               style={{
                 marginTop: 14,
@@ -256,7 +258,7 @@ export default function TutorProfile() {
             <Text
               size={14}
               weight="600"
-              color="#DCEBFF"
+              color={isDark ? theme.textSecondary : '#DCEBFF'}
               style={{
                 marginTop: 5,
               }}
@@ -268,7 +270,7 @@ export default function TutorProfile() {
           <Text
             size={20}
             weight="700"
-            color="#111827"
+            color={theme.text}
             style={{
               marginTop: 30,
               marginBottom: 14,
@@ -314,7 +316,7 @@ export default function TutorProfile() {
             style={{
               height: 58,
               borderRadius: 16,
-              backgroundColor: '#0A66C2',
+              backgroundColor: theme.primary,
               alignItems: 'center',
               justifyContent: 'center',
               marginTop: 24,
@@ -323,7 +325,7 @@ export default function TutorProfile() {
             <Text
               size={17}
               weight="700"
-              color="#FFFFFF"
+              color={theme.primaryText}
             >
               Editar perfil
             </Text>
@@ -343,8 +345,8 @@ export default function TutorProfile() {
               height: 58,
               borderRadius: 16,
               borderWidth: 1,
-              borderColor: '#FCA5A5',
-              backgroundColor: '#FFF5F5',
+              borderColor: isDark ? theme.danger : '#FCA5A5',
+              backgroundColor: isDark ? '#4C2029' : '#FFF5F5',
               alignItems: 'center',
               justifyContent: 'center',
               marginTop: 12,
@@ -353,7 +355,7 @@ export default function TutorProfile() {
             <Text
               size={17}
               weight="700"
-              color="#EF4444"
+              color={theme.danger}
             >
               Excluir conta
             </Text>
@@ -366,7 +368,7 @@ export default function TutorProfile() {
               height: 58,
               borderRadius: 16,
               borderWidth: 1,
-              borderColor: '#D1D5DB',
+              borderColor: theme.border,
               alignItems: 'center',
               justifyContent: 'center',
               marginTop: 12,
@@ -375,7 +377,7 @@ export default function TutorProfile() {
             <Text
               size={17}
               weight="700"
-              color="#111827"
+              color={theme.text}
             >
               Sair
             </Text>
@@ -393,14 +395,15 @@ function InfoCard({
   label: string;
   value: string;
 }) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
         minHeight: 72,
         borderWidth: 1,
-        borderColor: '#E5E7EB',
+        borderColor: theme.border,
         borderRadius: 16,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.background,
         paddingHorizontal: 16,
         paddingVertical: 13,
         marginBottom: 10,
@@ -409,7 +412,7 @@ function InfoCard({
       <Text
         size={13}
         weight="700"
-        color="#7D7D7D"
+        color={theme.textSecondary}
       >
         {label}
       </Text>
@@ -417,7 +420,7 @@ function InfoCard({
       <Text
         size={16}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{
           marginTop: 5,
         }}

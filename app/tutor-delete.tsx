@@ -10,8 +10,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Text } from '@/src/components/atoms/Text';
 import { useDeleteTutor } from '@/src/hooks/useTutors';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 export default function TutorDelete() {
+  const { theme, isDark } = useAppTheme();
   const params = useLocalSearchParams();
   const tutorId = Number(params.tutorId);
 
@@ -62,7 +64,7 @@ export default function TutorDelete() {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.background,
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 24,
@@ -80,7 +82,7 @@ export default function TutorDelete() {
             width: 78,
             height: 78,
             borderRadius: 39,
-            backgroundColor: '#FFF1F1',
+            backgroundColor: isDark ? '#4C2029' : '#FFF1F1',
             alignItems: 'center',
             justifyContent: 'center',
           }}
@@ -88,7 +90,7 @@ export default function TutorDelete() {
           <Text
             size={34}
             weight="700"
-            color="#EF4444"
+            color={theme.danger}
           >
             !
           </Text>
@@ -97,7 +99,7 @@ export default function TutorDelete() {
         <Text
           size={28}
           weight="700"
-          color="#111827"
+          color={theme.text}
           align="center"
           style={{
             marginTop: 24,
@@ -108,7 +110,7 @@ export default function TutorDelete() {
 
         <Text
           size={16}
-          color="#7D7D7D"
+          color={theme.textSecondary}
           align="center"
           style={{
             marginTop: 12,
@@ -121,7 +123,7 @@ export default function TutorDelete() {
         <Text
           size={14}
           weight="700"
-          color="#EF4444"
+          color={theme.danger}
           align="center"
           style={{
             marginTop: 8,
@@ -169,8 +171,8 @@ export default function TutorDelete() {
             height: 58,
             borderRadius: 16,
             borderWidth: 1,
-            borderColor: '#D1D5DB',
-            backgroundColor: '#FFFFFF',
+            borderColor: theme.border,
+            backgroundColor: theme.background,
             alignItems: 'center',
             justifyContent: 'center',
             marginTop: 12,
@@ -179,7 +181,7 @@ export default function TutorDelete() {
           <Text
             size={17}
             weight="700"
-            color="#111827"
+            color={theme.text}
           >
             Cancelar
           </Text>

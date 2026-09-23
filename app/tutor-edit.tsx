@@ -12,12 +12,14 @@ import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 import {
   useTutor,
   useUpdateTutor,
 } from '@/src/hooks/useTutors';
 
 export default function TutorEdit() {
+  const { theme, isDark } = useAppTheme();
   const params = useLocalSearchParams();
 
   const tutorId = Number(params.tutorId);
@@ -226,14 +228,14 @@ export default function TutorEdit() {
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.background,
           padding: 24,
         }}
       >
         <Text
           size={18}
           weight="700"
-          color="#111827"
+          color={theme.text}
         >
           Tutor inválido.
         </Text>
@@ -248,17 +250,17 @@ export default function TutorEdit() {
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.background,
         }}
       >
         <ActivityIndicator
           size="large"
-          color="#0A66C2"
+          color={theme.primary}
         />
 
         <Text
           size={15}
-          color="#7D7D7D"
+          color={theme.textSecondary}
           style={{
             marginTop: 12,
           }}
@@ -276,14 +278,14 @@ export default function TutorEdit() {
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.background,
           padding: 24,
         }}
       >
         <Text
           size={20}
           weight="700"
-          color="#111827"
+          color={theme.text}
           align="center"
         >
           Não foi possível carregar o tutor.
@@ -293,7 +295,7 @@ export default function TutorEdit() {
           onPress={() => refetch()}
           style={{
             marginTop: 20,
-            backgroundColor: '#0A66C2',
+            backgroundColor: theme.primary,
             paddingHorizontal: 20,
             paddingVertical: 12,
             borderRadius: 12,
@@ -302,7 +304,7 @@ export default function TutorEdit() {
           <Text
             size={15}
             weight="700"
-            color="#FFFFFF"
+            color={theme.primaryText}
           >
             Tentar novamente
           </Text>
@@ -315,7 +317,7 @@ export default function TutorEdit() {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.background,
         alignItems: 'center',
       }}
     >
@@ -341,7 +343,7 @@ export default function TutorEdit() {
             <Text
               size={17}
               weight="700"
-              color="#0A66C2"
+              color={theme.primary}
             >
               ‹ Voltar
             </Text>
@@ -350,7 +352,7 @@ export default function TutorEdit() {
           <Text
             size={32}
             weight="700"
-            color="#111827"
+            color={theme.text}
             style={{
               marginTop: 24,
             }}
@@ -360,7 +362,7 @@ export default function TutorEdit() {
 
           <Text
             size={16}
-            color="#7D7D7D"
+            color={theme.textSecondary}
             style={{
               marginTop: 6,
               marginBottom: 26,
@@ -412,8 +414,8 @@ export default function TutorEdit() {
               borderRadius: 16,
               backgroundColor:
                 updateTutorMutation.isPending
-                  ? '#8AB7E3'
-                  : '#0A66C2',
+                  ? (isDark ? '#3B6598' : '#8AB7E3')
+                  : theme.primary,
               alignItems: 'center',
               justifyContent: 'center',
               marginTop: 16,
@@ -421,13 +423,13 @@ export default function TutorEdit() {
           >
             {updateTutorMutation.isPending ? (
               <ActivityIndicator
-                color="#FFFFFF"
+                color={theme.primaryText}
               />
             ) : (
               <Text
                 size={17}
                 weight="700"
-                color="#FFFFFF"
+                color={theme.primaryText}
               >
                 Salvar alterações
               </Text>
@@ -447,6 +449,7 @@ function Field({
   keyboardType,
   autoCapitalize,
 }: any) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -456,7 +459,7 @@ function Field({
       <Text
         size={14}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{
           marginBottom: 8,
         }}
@@ -475,12 +478,12 @@ function Field({
         style={{
           height: 56,
           borderWidth: 1,
-          borderColor: '#D1D5DB',
+          borderColor: theme.border,
           borderRadius: 14,
           paddingHorizontal: 16,
           fontSize: 16,
-          color: '#111827',
-          backgroundColor: '#FFFFFF',
+          color: theme.text,
+          backgroundColor: theme.background,
         }}
       />
     </View>
