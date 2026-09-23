@@ -32,6 +32,8 @@ import IconActivity from '@/assets/icons/icon-activity.svg';
 import IconWater from '@/assets/icons/icon-water.svg';
 import IconBehavior from '@/assets/icons/icon-behavior.svg';
 
+import { useAppTheme } from '@/src/hooks/useAppTheme';
+
 const PetDefault = require('@/assets/images/pitbul.png');
 
 const { width } = Dimensions.get('window');
@@ -89,6 +91,7 @@ function calcularIdade(
 }
 
 export default function PetDetail() {
+  const { theme } = useAppTheme();
   const params =
     useLocalSearchParams<{
       petId?: string;
@@ -168,19 +171,19 @@ export default function PetDetail() {
       <View
         style={{
           flex: 1,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.background,
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
         <ActivityIndicator
           size="large"
-          color="#0A66C2"
+          color={theme.primary}
         />
 
         <Text
           size={16}
-          color="#6B7280"
+          color={theme.textSecondary}
           style={{
             marginTop: 16,
           }}
@@ -201,7 +204,7 @@ export default function PetDetail() {
       <View
         style={{
           flex: 1,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.background,
           alignItems: 'center',
           justifyContent: 'center',
           paddingHorizontal: 30,
@@ -210,7 +213,7 @@ export default function PetDetail() {
         <Text
           size={22}
           weight="700"
-          color="#111827"
+          color={theme.text}
           align="center"
         >
           Não foi possível carregar o pet
@@ -218,7 +221,7 @@ export default function PetDetail() {
 
         <Text
           size={15}
-          color="#6B7280"
+          color={theme.textSecondary}
           align="center"
           style={{
             marginTop: 10,
@@ -230,7 +233,7 @@ export default function PetDetail() {
         <TouchableOpacity
           onPress={() => refetch()}
           style={{
-            backgroundColor: '#0A66C2',
+            backgroundColor: theme.primary,
             paddingHorizontal: 28,
             paddingVertical: 14,
             borderRadius: 14,
@@ -240,7 +243,7 @@ export default function PetDetail() {
           <Text
             size={16}
             weight="700"
-            color="#FFFFFF"
+            color={theme.primaryText}
           >
             Tentar novamente
           </Text>
@@ -255,7 +258,7 @@ export default function PetDetail() {
           <Text
             size={16}
             weight="700"
-            color="#0A66C2"
+            color={theme.primary}
           >
             Voltar
           </Text>
@@ -291,7 +294,7 @@ export default function PetDetail() {
       <ScrollView
         style={{
           flex: 1,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.background,
         }}
         contentContainerStyle={{
           paddingHorizontal: padding,
@@ -340,8 +343,7 @@ export default function PetDetail() {
               disabled={excluindo}
               activeOpacity={0.8}
               style={{
-                backgroundColor:
-                  '#0A66C2',
+                backgroundColor: theme.primary,
                 borderRadius: 10,
                 paddingHorizontal: 17,
                 paddingVertical: 10,
@@ -350,7 +352,7 @@ export default function PetDetail() {
               <Text
                 size={14}
                 weight="700"
-                color="#FFFFFF"
+                color={theme.primaryText}
               >
                 Editar
               </Text>
@@ -408,7 +410,7 @@ export default function PetDetail() {
           <Text
             size={38}
             weight="700"
-            color="#000000"
+            color={theme.text}
             align="center"
             style={{
               marginTop: 18,
@@ -420,7 +422,7 @@ export default function PetDetail() {
           <Text
             size={22}
             weight="700"
-            color="#7D7D7D"
+            color={theme.textSecondary}
             align="center"
             style={{
               marginTop: 6,
@@ -432,7 +434,7 @@ export default function PetDetail() {
           <Text
             size={16}
             weight="600"
-            color="#7D7D7D"
+            color={theme.textSecondary}
             align="center"
             style={{
               marginTop: 6,
@@ -479,8 +481,7 @@ export default function PetDetail() {
 
             <View
               style={{
-                backgroundColor:
-                  '#FFFFFF',
+                backgroundColor: theme.surface,
                 borderRadius: 10,
                 paddingHorizontal: 14,
                 paddingVertical: 6,
@@ -497,10 +498,10 @@ export default function PetDetail() {
               <Text
                 size={16}
                 weight="700"
-                color="#777777"
+                color={theme.textSecondary}
               >
                 Alertas{' '}
-                <Text color="#000000">
+                <Text color={theme.text}>
                   {
                     pet.quantidadeAlertas
                   }
@@ -539,8 +540,7 @@ export default function PetDetail() {
                 weight="700"
                 color={
                   index === 0
-                    ? '#000000'
-                    : '#858585'
+                    ? theme.text : theme.textSecondary
                 }
                 align="center"
               >
@@ -553,8 +553,7 @@ export default function PetDetail() {
                     width: 64,
                     height: 5,
                     borderRadius: 4,
-                    backgroundColor:
-                      '#0A66C2',
+                    backgroundColor: theme.primary,
                     marginTop: 14,
                   }}
                 />
@@ -649,7 +648,7 @@ export default function PetDetail() {
         <Text
           size={22}
           weight="700"
-          color="#000000"
+          color={theme.text}
           style={{
             marginTop: 28,
             marginBottom: 18,
@@ -661,11 +660,10 @@ export default function PetDetail() {
         <View
           style={{
             borderWidth: 1,
-            borderColor: '#D1D5DB',
+            borderColor: theme.border,
             borderRadius: 12,
             padding: 18,
-            backgroundColor:
-              '#FFFFFF',
+            backgroundColor: theme.surface,
             shadowColor: '#000',
             shadowOffset: {
               width: 2,
@@ -679,7 +677,7 @@ export default function PetDetail() {
           <Text
             size={14}
             weight="700"
-            color="#858585"
+            color={theme.textSecondary}
           >
             Observações
           </Text>
@@ -687,7 +685,7 @@ export default function PetDetail() {
           <Text
             size={17}
             weight="600"
-            color="#111827"
+            color={theme.text}
             style={{
               marginTop: 8,
               lineHeight: 24,
@@ -703,7 +701,7 @@ export default function PetDetail() {
         <Text
           size={22}
           weight="700"
-          color="#000000"
+          color={theme.text}
           style={{
             marginTop: 28,
             marginBottom: 18,
@@ -784,7 +782,7 @@ export default function PetDetail() {
         <TouchableOpacity
           style={{
             height: 66,
-            backgroundColor: '#0A66C2',
+            backgroundColor: theme.primary,
             borderRadius: 18,
             alignItems: 'center',
             justifyContent: 'center',
@@ -794,7 +792,7 @@ export default function PetDetail() {
           <Text
             size={20}
             weight="700"
-            color="#FFFFFF"
+            color={theme.primaryText}
           >
             Ver linha do tempo
           </Text>
@@ -825,8 +823,7 @@ export default function PetDetail() {
             style={{
               width: '100%',
               maxWidth: 420,
-              backgroundColor:
-                '#FFFFFF',
+              backgroundColor: theme.surface,
               borderRadius: 20,
               padding: 24,
             }}
@@ -834,7 +831,7 @@ export default function PetDetail() {
             <Text
               size={24}
               weight="700"
-              color="#111827"
+              color={theme.text}
               align="center"
             >
               Excluir pet?
@@ -842,7 +839,7 @@ export default function PetDetail() {
 
             <Text
               size={16}
-              color="#6B7280"
+              color={theme.textSecondary}
               align="center"
               style={{
                 marginTop: 12,
@@ -859,7 +856,7 @@ export default function PetDetail() {
               <Text
                 size={14}
                 weight="600"
-                color="#DC2626"
+                color={theme.danger}
                 align="center"
                 style={{
                   marginTop: 16,
@@ -908,7 +905,7 @@ export default function PetDetail() {
               style={{
                 height: 54,
                 borderWidth: 1,
-                borderColor: '#D1D5DB',
+                borderColor: theme.border,
                 borderRadius: 14,
                 alignItems: 'center',
                 justifyContent:
@@ -919,7 +916,7 @@ export default function PetDetail() {
               <Text
                 size={17}
                 weight="700"
-                color="#111827"
+                color={theme.text}
               >
                 Cancelar
               </Text>
@@ -949,15 +946,16 @@ function InfoCard({
   title: string;
   value: string;
 }) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
         width: cardWidth,
         minHeight: 92,
         borderWidth: 1,
-        borderColor: '#D1D5DB',
+        borderColor: theme.border,
         borderRadius: 12,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 14,
@@ -983,7 +981,7 @@ function InfoCard({
         <Text
           size={14}
           weight="700"
-          color="#858585"
+          color={theme.textSecondary}
           style={{
             lineHeight: 18,
           }}
@@ -994,7 +992,7 @@ function InfoCard({
         <Text
           size={17}
           weight="700"
-          color="#000000"
+          color={theme.text}
           style={{
             marginTop: 6,
           }}
@@ -1011,13 +1009,14 @@ function BlueIconBox({
 }: {
   children: React.ReactNode;
 }) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
         width: 60,
         height: 60,
         borderRadius: 10,
-        backgroundColor: '#D7E9FF',
+        backgroundColor: theme.surfaceSecondary,
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -1032,6 +1031,7 @@ function GreenIconBox({
 }: {
   children: React.ReactNode;
 }) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
