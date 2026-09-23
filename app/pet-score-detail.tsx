@@ -2,6 +2,8 @@ import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
 import Svg, { Circle } from 'react-native-svg';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
+import type { AppTheme } from '@/src/constants/theme';
 
 import IconBack from '@/assets/icons/icon-back.svg';
 import IconBell from '@/assets/icons/icon-bell.svg';
@@ -34,6 +36,7 @@ const petsData: any = {
 };
 
 export default function PetScoreDetail() {
+  const { theme } = useAppTheme();
   const params = useLocalSearchParams();
   const petKey = params.pet === 'rex' ? 'rex' : 'iron';
   const pet = petsData[petKey];
@@ -44,7 +47,7 @@ export default function PetScoreDetail() {
   const progress = circumference - (circumference * pet.score) / 100;
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -81,11 +84,11 @@ export default function PetScoreDetail() {
             </TouchableOpacity>
 
             <View>
-              <Text size={28} weight="700" color="#0F172A">
+              <Text size={28} weight="700" color={theme.text}>
                 Score de Saúde
               </Text>
 
-              <Text size={17} color="#4B5563">
+              <Text size={17} color={theme.textSecondary}>
                 Entenda a saúde do {pet.name}
               </Text>
             </View>
@@ -109,7 +112,7 @@ export default function PetScoreDetail() {
                 cx="120"
                 cy="120"
                 r={radius}
-                stroke="#E5E7EB"
+                stroke={theme.border}
                 strokeWidth={strokeWidth}
                 fill="none"
               />
@@ -138,11 +141,11 @@ export default function PetScoreDetail() {
                 alignItems: 'center',
               }}
             >
-              <Text size={54} weight="700" color="#0F172A">
+              <Text size={54} weight="700" color={theme.text}>
                 {pet.score}
               </Text>
 
-              <Text size={17} weight="700" color="#7D7D7D">
+              <Text size={17} weight="700" color={theme.textSecondary}>
                 De 100
               </Text>
             </View>
@@ -165,7 +168,7 @@ export default function PetScoreDetail() {
           <Text
             size={18}
             weight="700"
-            color="#6B7280"
+            color={theme.textSecondary}
             align="center"
             style={{ marginTop: 24, lineHeight: 30 }}
           >
@@ -178,27 +181,27 @@ export default function PetScoreDetail() {
         <Text
           size={22}
           weight="700"
-          color="#111827"
+          color={theme.text}
           style={{ marginTop: 34, marginBottom: 20 }}
         >
           Fatores que influenciam
         </Text>
 
         {pet.factors.map((factor: any) => (
-          <FactorBar key={factor.label} {...factor} />
+          <FactorBar key={factor.label} {...factor} theme={theme} />
         ))}
 
         <TouchableOpacity
           style={{
             height: 60,
-            backgroundColor: '#0A66C2',
+            backgroundColor: theme.primary,
             borderRadius: 18,
             alignItems: 'center',
             justifyContent: 'center',
             marginTop: 30,
           }}
         >
-          <Text size={20} weight="700" color="#FFFFFF">
+          <Text size={20} weight="700" color={theme.primaryText}>
             Ver recomendações
           </Text>
         </TouchableOpacity>
@@ -207,7 +210,11 @@ export default function PetScoreDetail() {
   );
 }
 
-function FactorBar({ label, value }: any) {
+function FactorBar({ label, value, theme }: {
+  label: string;
+  value: number;
+  theme: AppTheme;
+}) {
   return (
     <View style={{ marginBottom: 22 }}>
       <View
@@ -217,20 +224,20 @@ function FactorBar({ label, value }: any) {
           marginBottom: 8,
         }}
       >
-        <Text size={17} color="#7D7D7D">
+        <Text size={17} color={theme.textSecondary}>
           {label}
         </Text>
 
-        <Text size={17} weight="700" color="#111827">
+        <Text size={17} weight="700" color={theme.text}>
           {value}
-          <Text color="#7D7D7D">/100</Text>
+          <Text color={theme.textSecondary}>/100</Text>
         </Text>
       </View>
 
       <View
         style={{
           height: 6,
-          backgroundColor: '#D7E9FF',
+          backgroundColor: theme.surfaceSecondary,
           borderRadius: 999,
           overflow: 'hidden',
         }}
