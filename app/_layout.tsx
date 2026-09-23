@@ -13,6 +13,8 @@ import {
 
 import { StatusBar } from 'expo-status-bar';
 
+import { useAppTheme } from '@/src/hooks/useAppTheme';
+
 import {
   QueryClient,
   QueryClientProvider,
@@ -55,6 +57,7 @@ const tutorProtectedRoutes = new Set([
 
 function ProtectedNavigation() {
   const segments = useSegments();
+  const { theme, isDark } = useAppTheme();
 
   const {
     authenticated,
@@ -137,12 +140,12 @@ function ProtectedNavigation() {
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#FCFCFC',
+          backgroundColor: theme.background,
         }}
       >
         <ActivityIndicator
           size="large"
-          color="#0A66C2"
+          color={theme.primary}
         />
       </View>
     );
@@ -150,7 +153,7 @@ function ProtectedNavigation() {
 
   return (
     <>
-      <StatusBar style="dark" />
+      <StatusBar style={isDark ? "light" : "dark"} />
 
       <Stack
         screenOptions={{

@@ -15,6 +15,7 @@ import { Text } from '@/src/components/atoms/Text';
 import { usePets } from '@/src/hooks/usePets';
 import { Pet } from '@/src/types/Pet';
 import { Tutor } from '@/src/types/Tutor';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 import { Reminder } from '@/src/types/Reminder';
 import { listarLembretes } from '@/src/services/reminderService';
 
@@ -39,6 +40,7 @@ const padding = 20;
 const quickGap = 8;
 
 export default function TutorHome() {
+  const { theme } = useAppTheme();
   const { width } = useWindowDimensions();
 
   const [tutor, setTutor] = useState<Tutor | null>(null);
@@ -145,7 +147,7 @@ export default function TutorHome() {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         alignItems: 'center',
       }}
     >
@@ -154,7 +156,7 @@ export default function TutorHome() {
           width: '100%',
           maxWidth: 480,
           flex: 1,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.surface,
         }}
       >
         <ScrollView
@@ -180,7 +182,7 @@ export default function TutorHome() {
               <Text
                 size={22}
                 weight="700"
-                color="#111827"
+                color={theme.text}
               >
                 {primeiroNome
                   ? `Olá, ${primeiroNome}!`
@@ -189,7 +191,7 @@ export default function TutorHome() {
 
               <Text
                 size={18}
-                color="#333333"
+                color={theme.textSecondary}
               >
                 Bem-vindo de volta!
               </Text>
@@ -224,12 +226,12 @@ export default function TutorHome() {
             >
               <ActivityIndicator
                 size="large"
-                color="#0A66C2"
+                color={theme.primary}
               />
 
               <Text
                 size={14}
-                color="#7D7D7D"
+                color={theme.textSecondary}
                 style={{
                   marginTop: 10,
                 }}
@@ -255,7 +257,7 @@ export default function TutorHome() {
               <Text
                 size={16}
                 weight="700"
-                color="#B42318"
+                color={theme.danger}
                 align="center"
               >
                 Não foi possível carregar os pets.
@@ -263,7 +265,7 @@ export default function TutorHome() {
 
               <Text
                 size={13}
-                color="#7D7D7D"
+                color={theme.textSecondary}
                 align="center"
                 style={{
                   marginTop: 6,
@@ -334,7 +336,7 @@ export default function TutorHome() {
           />
 
           {erroLembretes && (
-            <Text size={14} color="#B42318">
+            <Text size={14} color={theme.danger}>
               Não foi possível carregar os lembretes.
             </Text>
           )}
@@ -344,7 +346,7 @@ export default function TutorHome() {
               onPress={() => router.push('/reminders-home')}
               style={{ paddingVertical: 20 }}
             >
-              <Text size={15} color="#7D7D7D">
+              <Text size={15} color={theme.textSecondary}>
                 Nenhum lembrete futuro. Toque para adicionar.
               </Text>
             </TouchableOpacity>
@@ -367,7 +369,7 @@ export default function TutorHome() {
                   <ReminderIcon
                     label={item.titulo.charAt(0).toUpperCase()}
                     background="#E8F1FF"
-                    color="#0A66C2"
+                    color={theme.primary}
                   />
                 }
                 title={item.titulo}
@@ -383,7 +385,7 @@ export default function TutorHome() {
           <Text
             size={20}
             weight="700"
-            color="#000000"
+            color={theme.text}
             style={{
               marginTop: 20,
               marginBottom: 16,
@@ -471,6 +473,8 @@ function PetAvatar({
 }: {
   name: string;
 }) {
+  const { theme } = useAppTheme();
+
   const initial =
     name?.trim().charAt(0).toUpperCase() || '?';
 
@@ -480,7 +484,7 @@ function PetAvatar({
         width: 38,
         height: 38,
         borderRadius: 19,
-        backgroundColor: '#E8F1FF',
+        backgroundColor: theme.surfaceSecondary,
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -488,7 +492,7 @@ function PetAvatar({
       <Text
         size={17}
         weight="700"
-        color="#0A66C2"
+        color={theme.primary}
       >
         {initial}
       </Text>
@@ -509,6 +513,7 @@ function ReminderIcon({
   background: string;
   color: string;
 }) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -542,6 +547,7 @@ function SectionHeader({
   title: string;
   onPress?: () => void;
 }) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -555,7 +561,7 @@ function SectionHeader({
       <Text
         size={20}
         weight="700"
-        color="#000000"
+        color={theme.text}
       >
         {title}
       </Text>
@@ -568,7 +574,7 @@ function SectionHeader({
           <Text
             size={16}
             weight="700"
-            color="#0A66C2"
+            color={theme.primary}
           >
             Ver todos
           </Text>
@@ -589,6 +595,7 @@ function PetCard({
   pet: Pet;
   onPress: () => void;
 }) {
+  const { theme } = useAppTheme();
   const possuiAlerta =
     pet.quantidadeAlertas > 0;
 
@@ -605,12 +612,12 @@ function PetCard({
         height: 158,
 
         borderWidth: 1,
-        borderColor: '#D1D5DB',
+        borderColor: theme.border,
         borderRadius: 18,
 
         padding: 10,
 
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
 
         shadowColor: '#000000',
         shadowOffset: {
@@ -628,7 +635,7 @@ function PetCard({
       <Text
         size={17}
         weight="700"
-        color="#000000"
+        color={theme.text}
         numberOfLines={1}
         style={{
           marginTop: 6,
@@ -639,7 +646,7 @@ function PetCard({
 
       <Text
         size={13}
-        color="#333333"
+        color={theme.textSecondary}
         numberOfLines={1}
         style={{
           lineHeight: 15,
@@ -689,7 +696,7 @@ function PetCard({
         <Text
           size={12}
           weight="700"
-          color="#7D7D7D"
+          color={theme.textSecondary}
         >
           Alertas
         </Text>
@@ -697,7 +704,7 @@ function PetCard({
         <Text
           size={23}
           weight="700"
-          color="#111827"
+          color={theme.text}
         >
           {pet.quantidadeAlertas}
         </Text>
@@ -711,6 +718,7 @@ function PetCard({
 ========================================================= */
 
 function AddPetCard() {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={() =>
@@ -722,10 +730,10 @@ function AddPetCard() {
         height: 158,
 
         borderWidth: 1,
-        borderColor: '#D1D5DB',
+        borderColor: theme.border,
         borderRadius: 18,
 
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
 
         alignItems: 'center',
         justifyContent: 'center',
@@ -765,7 +773,7 @@ function AddPetCard() {
       <Text
         size={11}
         weight="700"
-        color="#0A66C2"
+        color={theme.primary}
         align="center"
       >
         Adicionar{'\n'}pet
@@ -787,16 +795,17 @@ function ReminderCard({
   title: string;
   subtitle: string;
 }) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
         minHeight: 70,
 
         borderWidth: 1,
-        borderColor: '#E5E7EB',
+        borderColor: theme.border,
         borderRadius: 18,
 
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
 
         flexDirection: 'row',
         alignItems: 'center',
@@ -828,14 +837,14 @@ function ReminderCard({
         <Text
           size={16}
           weight="700"
-          color="#111827"
+          color={theme.text}
         >
           {title}
         </Text>
 
         <Text
           size={14}
-          color="#8A8A8A"
+          color={theme.textSecondary}
         >
           {subtitle}
         </Text>
@@ -864,6 +873,7 @@ function QuickAction({
   label: string;
   onPress: () => void;
 }) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -873,10 +883,10 @@ function QuickAction({
         height: 88,
 
         borderWidth: 1,
-        borderColor: '#D1D5DB',
+        borderColor: theme.border,
         borderRadius: 14,
 
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
 
         alignItems: 'center',
         justifyContent: 'center',
@@ -896,7 +906,7 @@ function QuickAction({
 
       <Text
         size={10}
-        color="#333333"
+        color={theme.textSecondary}
         align="center"
         style={{
           marginTop: 10,
@@ -913,6 +923,7 @@ function QuickAction({
 ========================================================= */
 
 function BottomNav() {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -924,10 +935,10 @@ function BottomNav() {
 
         height: 92,
 
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
 
         borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
+        borderTopColor: theme.border,
 
         paddingHorizontal: 16,
         paddingTop: 8,
@@ -1019,6 +1030,7 @@ function TabItem({
   active?: boolean;
   onPress?: () => void;
 }) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -1032,7 +1044,7 @@ function TabItem({
         borderRadius: 14,
 
         backgroundColor: active
-          ? '#E8F1FF'
+          ? theme.surfaceSecondary
           : 'transparent',
 
         alignItems: 'center',
@@ -1046,8 +1058,8 @@ function TabItem({
         weight="700"
         color={
           active
-            ? '#0A66C2'
-            : '#7D7D7D'
+            ? theme.primary
+            : theme.textSecondary
         }
         style={{
           marginTop: 4,

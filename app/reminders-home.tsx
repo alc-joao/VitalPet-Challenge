@@ -15,6 +15,7 @@ import { router, useFocusEffect } from 'expo-router';
 
 import { Text } from '@/src/components/atoms/Text';
 import { usePets } from '@/src/hooks/usePets';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 import { Tutor } from '@/src/types/Tutor';
 import { Reminder } from '@/src/types/Reminder';
 import {
@@ -106,6 +107,7 @@ function prazo(valor: string): string {
 }
 
 export default function RemindersHome() {
+  const { theme } = useAppTheme();
   const [tutor, setTutor] = useState<Tutor | null>(null);
   const [carregandoTutor, setCarregandoTutor] = useState(true);
   const [carregandoLembretes, setCarregandoLembretes] = useState(false);
@@ -300,13 +302,13 @@ export default function RemindersHome() {
   if (carregandoTutor) {
     return (
       <View style={{ flex: 1, justifyContent: 'center' }}>
-        <ActivityIndicator size="large" color="#0A66C2" />
+        <ActivityIndicator size="large" color={theme.primary} />
       </View>
     );
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.surface }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -322,11 +324,11 @@ export default function RemindersHome() {
           <IconBack width={18} height={18} />
         </TouchableOpacity>
 
-        <Text size={28} weight="700" color="#0F172A">
+        <Text size={28} weight="700" color={theme.text}>
           Lembretes
         </Text>
 
-        <Text size={17} color="#7D7D7D" style={{ marginTop: 4 }}>
+        <Text size={17} color={theme.textSecondary} style={{ marginTop: 4 }}>
           Gerencie os cuidados dos seus pets
         </Text>
 
@@ -351,11 +353,11 @@ export default function RemindersHome() {
         </View>
 
         {carregandoLembretes && (
-          <ActivityIndicator color="#0A66C2" />
+          <ActivityIndicator color={theme.primary} />
         )}
 
         {!carregandoLembretes && visiveis.length === 0 && (
-          <Text size={16} color="#7D7D7D">
+          <Text size={16} color={theme.textSecondary}>
             {aba === 'proximas'
               ? 'Você não tem lembretes futuros.'
               : 'Você ainda não cadastrou lembretes.'}
@@ -380,13 +382,13 @@ export default function RemindersHome() {
           right: 28,
           bottom: 116,
           height: 58,
-          backgroundColor: '#0A66C2',
+          backgroundColor: theme.primary,
           borderRadius: 14,
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <Text size={18} color="#FFFFFF">
+        <Text size={18} color={theme.primaryText}>
           Adicionar lembrete
         </Text>
       </TouchableOpacity>
@@ -403,44 +405,45 @@ export default function RemindersHome() {
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
           style={{
             flex: 1,
-            backgroundColor: 'rgba(0,0,0,0.45)',
+            backgroundColor: 'rgba(0,0,0,0.65)',
             justifyContent: 'flex-end',
           }}
         >
           <ScrollView
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={{
-              backgroundColor: '#FFFFFF',
+              backgroundColor: theme.surface,
               borderTopLeftRadius: 24,
               borderTopRightRadius: 24,
               padding: 24,
+              paddingTop: 64,
               paddingBottom: 44,
             }}
           >
-            <Text size={24} weight="700" color="#0F172A">
+            <Text size={24} weight="700" color={theme.text}>
               Novo lembrete
             </Text>
 
-            <Text size={15} color="#7D7D7D" style={{ marginTop: 8 }}>
+            <Text size={15} color={theme.textSecondary} style={{ marginTop: 8 }}>
               Escolha o pet e quando deseja receber o aviso.
             </Text>
 
-            <Text size={16} weight="700" color="#0F172A" style={{ marginTop: 24 }}>
+            <Text size={16} weight="700" color={theme.text} style={{ marginTop: 24 }}>
               Pet
             </Text>
 
-            {carregandoPets && <ActivityIndicator color="#0A66C2" />}
+            {carregandoPets && <ActivityIndicator color={theme.primary} />}
 
             {erroPets && (
               <TouchableOpacity onPress={() => recarregarPets()}>
-                <Text size={15} color="#B42318">
+                <Text size={15} color={theme.danger}>
                   Erro ao carregar pets. Toque para tentar novamente.
                 </Text>
               </TouchableOpacity>
             )}
 
             {!carregandoPets && !erroPets && pets?.length === 0 && (
-              <Text size={15} color="#7D7D7D">
+              <Text size={15} color={theme.textSecondary}>
                 Cadastre um pet antes de criar um lembrete.
               </Text>
             )}
@@ -456,12 +459,12 @@ export default function RemindersHome() {
                     borderRadius: 12,
                     marginRight: 8,
                     marginBottom: 8,
-                    backgroundColor: petId === pet.id ? '#0A66C2' : '#E8F1FF',
+                    backgroundColor: petId === pet.id ? theme.primary : theme.surfaceSecondary,
                   }}
                 >
                   <Text
                     size={15}
-                    color={petId === pet.id ? '#FFFFFF' : '#0A66C2'}
+                    color={petId === pet.id ? theme.primaryText : theme.primary}
                   >
                     {pet.nome}
                   </Text>
@@ -469,7 +472,7 @@ export default function RemindersHome() {
               ))}
             </View>
 
-            <Text size={16} weight="700" color="#0F172A" style={{ marginTop: 14 }}>
+            <Text size={16} weight="700" color={theme.text} style={{ marginTop: 14 }}>
               Título
             </Text>
 
@@ -477,21 +480,22 @@ export default function RemindersHome() {
               value={titulo}
               onChangeText={setTitulo}
               placeholder="Ex.: Vacina, vermífugo, consulta..."
-              placeholderTextColor="#8A8A8A"
+              placeholderTextColor={theme.textSecondary}
               style={{
                 borderWidth: 1,
-                borderColor: '#D1D5DB',
+                borderColor: theme.border,
                 borderRadius: 12,
                 padding: 14,
                 marginTop: 8,
-                color: '#0F172A',
+                color: theme.text,
+                backgroundColor: theme.surface,
                 fontSize: 16,
               }}
             />
 
             <View style={{ flexDirection: 'row', marginTop: 16 }}>
               <View style={{ flex: 1, marginRight: 8 }}>
-                <Text size={16} weight="700" color="#0F172A">
+                <Text size={16} weight="700" color={theme.text}>
                   Data
                 </Text>
                 <TextInput
@@ -502,18 +506,18 @@ export default function RemindersHome() {
                   maxLength={10}
                   style={{
                     borderWidth: 1,
-                    borderColor: '#D1D5DB',
+                    borderColor: theme.border,
                     borderRadius: 12,
                     padding: 14,
                     marginTop: 8,
-                    color: '#0F172A',
+                    color: theme.text,
                     fontSize: 16,
                   }}
                 />
               </View>
 
               <View style={{ flex: 1, marginLeft: 8 }}>
-                <Text size={16} weight="700" color="#0F172A">
+                <Text size={16} weight="700" color={theme.text}>
                   Horário
                 </Text>
                 <TextInput
@@ -524,11 +528,11 @@ export default function RemindersHome() {
                   maxLength={5}
                   style={{
                     borderWidth: 1,
-                    borderColor: '#D1D5DB',
+                    borderColor: theme.border,
                     borderRadius: 12,
                     padding: 14,
                     marginTop: 8,
-                    color: '#0F172A',
+                    color: theme.text,
                     fontSize: 16,
                   }}
                 />
@@ -540,7 +544,7 @@ export default function RemindersHome() {
               onPress={salvarLembrete}
               style={{
                 height: 54,
-                backgroundColor: '#0A66C2',
+                backgroundColor: theme.primary,
                 borderRadius: 14,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -548,7 +552,7 @@ export default function RemindersHome() {
                 opacity: salvando ? 0.6 : 1,
               }}
             >
-              <Text size={17} color="#FFFFFF">
+              <Text size={17} color={theme.primaryText}>
                 {salvando ? 'Salvando...' : 'Salvar lembrete'}
               </Text>
             </TouchableOpacity>
@@ -558,7 +562,7 @@ export default function RemindersHome() {
               onPress={() => setModalAberto(false)}
               style={{ padding: 18, alignItems: 'center' }}
             >
-              <Text size={16} color="#7D7D7D">
+              <Text size={16} color={theme.textSecondary}>
                 Cancelar
               </Text>
             </TouchableOpacity>
@@ -578,6 +582,7 @@ function TabButton({
   active: boolean;
   onPress: () => void;
 }) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -586,12 +591,12 @@ function TabButton({
         width: '48%',
         height: 42,
         borderRadius: 14,
-        backgroundColor: active ? '#0A66C2' : '#D9D9D9',
+        backgroundColor: active ? theme.primary : theme.tabInactive,
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
-      <Text size={16} color={active ? '#FFFFFF' : '#000000'}>
+      <Text size={16} color={active ? theme.primaryText : theme.text}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -605,14 +610,15 @@ function ReminderCard({
   item: Reminder;
   onExcluir: () => void;
 }) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
         minHeight: 86,
         borderWidth: 1,
-        borderColor: '#D1D5DB',
+        borderColor: theme.border,
         borderRadius: 16,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 12,
@@ -629,7 +635,7 @@ function ReminderCard({
           width: 42,
           height: 42,
           borderRadius: 6,
-          backgroundColor: '#D7E9FF',
+          backgroundColor: theme.surfaceSecondary,
           alignItems: 'center',
           justifyContent: 'center',
           marginRight: 10,
@@ -639,16 +645,16 @@ function ReminderCard({
       </View>
 
       <View style={{ flex: 1 }}>
-        <Text size={15} weight="700" color="#000000">
+        <Text size={15} weight="700" color={theme.text}>
           {item.titulo}
         </Text>
-        <Text size={13} color="#7D7D7D" style={{ marginTop: 3 }}>
+        <Text size={13} color={theme.textSecondary} style={{ marginTop: 3 }}>
           {item.petNome}
         </Text>
-        <Text size={12} color="#7D7D7D" style={{ marginTop: 3 }}>
+        <Text size={12} color={theme.textSecondary} style={{ marginTop: 3 }}>
           {formatarData(item.data)}
         </Text>
-        <Text size={12} color="#0A66C2" style={{ marginTop: 3 }}>
+        <Text size={12} color={theme.primary} style={{ marginTop: 3 }}>
           {prazo(item.data)}
         </Text>
       </View>
@@ -657,7 +663,7 @@ function ReminderCard({
         onPress={onExcluir}
         style={{ padding: 8 }}
       >
-        <Text size={13} color="#B42318">
+        <Text size={13} color={theme.danger}>
           Excluir
         </Text>
       </TouchableOpacity>
@@ -666,6 +672,7 @@ function ReminderCard({
 }
 
 function BottomNav() {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -674,9 +681,9 @@ function BottomNav() {
         right: 0,
         bottom: 0,
         height: 86,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
+        borderTopColor: theme.border,
         paddingHorizontal: 28,
         paddingTop: 8,
         flexDirection: 'row',
@@ -721,6 +728,7 @@ function TabItem({
   label: string;
   onPress: () => void;
 }) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -737,7 +745,7 @@ function TabItem({
       <Text
         size={11}
         weight="700"
-        color="#7D7D7D"
+        color={theme.textSecondary}
         style={{ marginTop: 3 }}
       >
         {label}
