@@ -11,6 +11,7 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconCam from '@/assets/icons/icon-cam.svg';
 import IconArrowDown from '@/assets/icons/icon-arrow-down.svg';
@@ -61,6 +62,7 @@ const racasPorEspecie: Record<string, string[]> = {
 };
 
 export default function PetForm() {
+  const { theme } = useAppTheme();
   const [nome, setNome] = useState('');
   const [especie, setEspecie] = useState('');
   const [raca, setRaca] = useState('');
@@ -158,7 +160,7 @@ export default function PetForm() {
     <ScrollView
       style={{
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.background,
       }}
       contentContainerStyle={{
         paddingHorizontal: 24,
@@ -170,7 +172,7 @@ export default function PetForm() {
       <TouchableOpacity onPress={() => router.back()}>
         <Text
           size={40}
-          color="#111827"
+          color={theme.text}
         >
           ‹
         </Text>
@@ -179,7 +181,7 @@ export default function PetForm() {
       <Text
         size={28}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{
           marginTop: 12,
         }}
@@ -189,7 +191,7 @@ export default function PetForm() {
 
       <Text
         size={15}
-        color="#444"
+        color={theme.textSecondary}
         style={{
           marginTop: 8,
           marginBottom: 26,
@@ -205,7 +207,7 @@ export default function PetForm() {
           height: 122,
           borderRadius: 61,
           borderWidth: 2,
-          borderColor: '#0A66C2',
+          borderColor: theme.primary,
           alignSelf: 'center',
           alignItems: 'center',
           justifyContent: 'center',
@@ -220,7 +222,7 @@ export default function PetForm() {
         <Text
           size={11}
           weight="700"
-          color="#0A66C2"
+          color={theme.primary}
           style={{
             marginTop: 8,
           }}
@@ -230,6 +232,7 @@ export default function PetForm() {
       </View>
 
       <Input
+        theme={theme}
         label="Nome do pet"
         placeholder="Nome do seu Pet"
         value={nome}
@@ -237,6 +240,7 @@ export default function PetForm() {
       />
 
       <Select
+        theme={theme}
         label="Espécie"
         placeholder="Cachorro"
         value={especie}
@@ -246,6 +250,7 @@ export default function PetForm() {
       />
 
       <Select
+        theme={theme}
         label="Raça"
         placeholder="Ex: Golden Retriever"
         value={raca}
@@ -264,6 +269,7 @@ export default function PetForm() {
       />
 
       <Input
+        theme={theme}
         label="Data de Nascimento"
         placeholder="00/00/0000"
         value={nascimento}
@@ -281,7 +287,7 @@ export default function PetForm() {
         activeOpacity={0.85}
         style={{
           height: 58,
-          backgroundColor: '#0A66C2',
+          backgroundColor: theme.primary,
           borderRadius: 16,
           alignItems: 'center',
           justifyContent: 'center',
@@ -291,7 +297,7 @@ export default function PetForm() {
         <Text
           size={17}
           weight="700"
-          color="#FFFFFF"
+          color={theme.primaryText}
         >
           Continuar
         </Text>
@@ -316,11 +322,11 @@ export default function PetForm() {
             setModalEspecie(false)
           }
         >
-          <View style={modalBox}>
+          <View style={[modalBox, { backgroundColor: theme.surface }]}>
             {especies.map((item) => (
               <TouchableOpacity
                 key={item}
-                style={modalItem}
+                style={[modalItem, { borderBottomColor: theme.border }]}
                 onPress={() => {
                   setEspecie(item);
                   setRaca('');
@@ -330,7 +336,7 @@ export default function PetForm() {
                 <Text
                   size={16}
                   weight="600"
-                  color="#111827"
+                  color={theme.text}
                 >
                   {item}
                 </Text>
@@ -359,12 +365,12 @@ export default function PetForm() {
             setModalRaca(false)
           }
         >
-          <View style={modalBox}>
+          <View style={[modalBox, { backgroundColor: theme.surface }]}>
             {(racasPorEspecie[especie] || []).map(
               (item) => (
                 <TouchableOpacity
                   key={item}
-                  style={modalItem}
+                  style={[modalItem, { borderBottomColor: theme.border }]}
                   onPress={() => {
                     setRaca(item);
                     setModalRaca(false);
@@ -373,7 +379,7 @@ export default function PetForm() {
                   <Text
                     size={16}
                     weight="600"
-                    color="#111827"
+                    color={theme.text}
                   >
                     {item}
                   </Text>
@@ -388,6 +394,7 @@ export default function PetForm() {
 }
 
 type InputProps = {
+  theme: ReturnType<typeof useAppTheme>['theme'];
   label: string;
   placeholder: string;
   value: string;
@@ -397,6 +404,7 @@ type InputProps = {
 };
 
 function Input({
+  theme,
   label,
   placeholder,
   value,
@@ -413,7 +421,7 @@ function Input({
       <Text
         size={14}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{
           marginBottom: 8,
         }}
@@ -423,7 +431,7 @@ function Input({
 
       <TextInput
         placeholder={placeholder}
-        placeholderTextColor="#7D7D7D"
+        placeholderTextColor={theme.textSecondary}
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
@@ -431,12 +439,12 @@ function Input({
         style={{
           height: 56,
           borderWidth: 1,
-          borderColor: '#C9C9C9',
+          borderColor: theme.border,
           borderRadius: 16,
           paddingHorizontal: 18,
           fontSize: 22,
           fontWeight: '700',
-          color: '#111827',
+          color: theme.text,
         }}
       />
     </View>
@@ -444,6 +452,7 @@ function Input({
 }
 
 type SelectProps = {
+  theme: ReturnType<typeof useAppTheme>['theme'];
   label: string;
   placeholder: string;
   value: string;
@@ -451,6 +460,7 @@ type SelectProps = {
 };
 
 function Select({
+  theme,
   label,
   placeholder,
   value,
@@ -465,7 +475,7 @@ function Select({
       <Text
         size={14}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{
           marginBottom: 8,
         }}
@@ -479,7 +489,7 @@ function Select({
         style={{
           height: 56,
           borderWidth: 1,
-          borderColor: '#C9C9C9',
+          borderColor: theme.border,
           borderRadius: 16,
           paddingHorizontal: 18,
           flexDirection: 'row',
@@ -492,8 +502,8 @@ function Select({
           weight="600"
           color={
             value
-              ? '#111827'
-              : '#7D7D7D'
+              ? theme.text
+              : theme.textSecondary
           }
         >
           {value || placeholder}

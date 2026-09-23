@@ -15,6 +15,7 @@ import {
 import { useState } from 'react';
 
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconArrowDown from '@/assets/icons/icon-arrow-down.svg';
 
@@ -41,6 +42,7 @@ const sexos = [
 ];
 
 export default function PetHealth() {
+  const { theme } = useAppTheme();
   const params = useLocalSearchParams<{
     nome?: string;
     especie?: string;
@@ -136,7 +138,7 @@ export default function PetHealth() {
     <ScrollView
       style={{
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.background,
       }}
       contentContainerStyle={{
         paddingHorizontal: 24,
@@ -151,7 +153,7 @@ export default function PetHealth() {
       >
         <Text
           size={40}
-          color="#111827"
+          color={theme.text}
         >
           ‹
         </Text>
@@ -160,7 +162,7 @@ export default function PetHealth() {
       <Text
         size={28}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{
           marginTop: 12,
         }}
@@ -170,7 +172,7 @@ export default function PetHealth() {
 
       <Text
         size={15}
-        color="#444"
+        color={theme.textSecondary}
         style={{
           marginTop: 8,
           marginBottom: 36,
@@ -182,6 +184,7 @@ export default function PetHealth() {
       </Text>
 
       <Input
+        theme={theme}
         label="Peso (kg)"
         placeholder="Ex: 12"
         value={peso}
@@ -197,6 +200,7 @@ export default function PetHealth() {
       />
 
       <Select
+        theme={theme}
         label="Sexo"
         placeholder="Selecione"
         value={
@@ -212,6 +216,7 @@ export default function PetHealth() {
       />
 
       <Select
+        theme={theme}
         label="Porte"
         placeholder="Grande"
         value={porte}
@@ -221,6 +226,7 @@ export default function PetHealth() {
       />
 
       <Select
+        theme={theme}
         label="Possui alguma condição especial?"
         placeholder="Não"
         value={condicao}
@@ -234,7 +240,7 @@ export default function PetHealth() {
         activeOpacity={0.85}
         style={{
           height: 58,
-          backgroundColor: '#0A66C2',
+          backgroundColor: theme.primary,
           borderRadius: 16,
           alignItems: 'center',
           justifyContent: 'center',
@@ -244,7 +250,7 @@ export default function PetHealth() {
         <Text
           size={17}
           weight="700"
-          color="#FFFFFF"
+          color={theme.primaryText}
         >
           Salvar e continuar
         </Text>
@@ -269,11 +275,11 @@ export default function PetHealth() {
             setModalSexo(false)
           }
         >
-          <View style={modalBox}>
+          <View style={[modalBox, { backgroundColor: theme.surface }]}>
             {sexos.map((item) => (
               <TouchableOpacity
                 key={item.value}
-                style={modalItem}
+                style={[modalItem, { borderBottomColor: theme.border }]}
                 onPress={() => {
                   setSexo(
                     item.value as
@@ -287,7 +293,7 @@ export default function PetHealth() {
                 <Text
                   size={16}
                   weight="600"
-                  color="#111827"
+                  color={theme.text}
                 >
                   {item.label}
                 </Text>
@@ -316,11 +322,11 @@ export default function PetHealth() {
             setModalPorte(false)
           }
         >
-          <View style={modalBox}>
+          <View style={[modalBox, { backgroundColor: theme.surface }]}>
             {portes.map((item) => (
               <TouchableOpacity
                 key={item}
-                style={modalItem}
+                style={[modalItem, { borderBottomColor: theme.border }]}
                 onPress={() => {
                   setPorte(item);
                   setModalPorte(false);
@@ -329,7 +335,7 @@ export default function PetHealth() {
                 <Text
                   size={16}
                   weight="600"
-                  color="#111827"
+                  color={theme.text}
                 >
                   {item}
                 </Text>
@@ -358,11 +364,11 @@ export default function PetHealth() {
             setModalCondicao(false)
           }
         >
-          <View style={modalBox}>
+          <View style={[modalBox, { backgroundColor: theme.surface }]}>
             {condicoes.map((item) => (
               <TouchableOpacity
                 key={item}
-                style={modalItem}
+                style={[modalItem, { borderBottomColor: theme.border }]}
                 onPress={() => {
                   setCondicao(item);
                   setModalCondicao(false);
@@ -371,7 +377,7 @@ export default function PetHealth() {
                 <Text
                   size={16}
                   weight="600"
-                  color="#111827"
+                  color={theme.text}
                 >
                   {item}
                 </Text>
@@ -385,6 +391,7 @@ export default function PetHealth() {
 }
 
 type InputProps = {
+  theme: ReturnType<typeof useAppTheme>['theme'];
   label: string;
   placeholder: string;
   value: string;
@@ -397,6 +404,7 @@ type InputProps = {
 };
 
 function Input({
+  theme,
   label,
   placeholder,
   value,
@@ -412,7 +420,7 @@ function Input({
       <Text
         size={14}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{
           marginBottom: 8,
         }}
@@ -422,19 +430,19 @@ function Input({
 
       <TextInput
         placeholder={placeholder}
-        placeholderTextColor="#7D7D7D"
+        placeholderTextColor={theme.textSecondary}
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
         style={{
           height: 56,
           borderWidth: 1,
-          borderColor: '#C9C9C9',
+          borderColor: theme.border,
           borderRadius: 16,
           paddingHorizontal: 18,
           fontSize: 22,
           fontWeight: '700',
-          color: '#111827',
+          color: theme.text,
         }}
       />
     </View>
@@ -442,6 +450,7 @@ function Input({
 }
 
 type SelectProps = {
+  theme: ReturnType<typeof useAppTheme>['theme'];
   label: string;
   placeholder: string;
   value: string;
@@ -449,6 +458,7 @@ type SelectProps = {
 };
 
 function Select({
+  theme,
   label,
   placeholder,
   value,
@@ -463,7 +473,7 @@ function Select({
       <Text
         size={14}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{
           marginBottom: 8,
         }}
@@ -477,7 +487,7 @@ function Select({
         style={{
           height: 56,
           borderWidth: 1,
-          borderColor: '#C9C9C9',
+          borderColor: theme.border,
           borderRadius: 16,
           paddingHorizontal: 18,
           flexDirection: 'row',
@@ -490,8 +500,8 @@ function Select({
           weight="700"
           color={
             value
-              ? '#111827'
-              : '#7D7D7D'
+              ? theme.text
+              : theme.textSecondary
           }
         >
           {value || placeholder}

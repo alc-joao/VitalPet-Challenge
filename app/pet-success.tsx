@@ -1,6 +1,7 @@
 import { View, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import LogoBlue from '@/assets/logos/logo-blue.svg';
 import IconCheck from '@/assets/icons/check-green.svg';
@@ -13,18 +14,19 @@ const items = [
 ];
 
 export default function PetSuccess() {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.background,
         paddingHorizontal: 36,
         paddingTop: 30,
         paddingBottom: 30,
       }}
     >
       <TouchableOpacity onPress={() => router.back()}>
-        <Text size={40} color="#111827">
+        <Text size={40} color={theme.text}>
           ‹
         </Text>
       </TouchableOpacity>
@@ -36,7 +38,7 @@ export default function PetSuccess() {
       <Text
         size={30}
         weight="700"
-        color="#000000"
+        color={theme.text}
         align="center"
         style={{ marginTop: 30 }}
       >
@@ -45,7 +47,7 @@ export default function PetSuccess() {
 
       <Text
         size={20}
-        color="#333333"
+        color={theme.textSecondary}
         align="center"
         style={{
           marginTop: 22,
@@ -81,7 +83,7 @@ export default function PetSuccess() {
               <IconCheck width={18} height={18} />
             </View>
 
-            <Text size={20} weight="700" color="#000000">
+            <Text size={20} weight="700" color={theme.text}>
               {item}
             </Text>
           </View>
@@ -92,14 +94,14 @@ export default function PetSuccess() {
         onPress={() => router.replace('/tutor-home')}
         style={{
           height: 64,
-          backgroundColor: '#0A66C2',
+          backgroundColor: theme.primary,
           borderRadius: 16,
           alignItems: 'center',
           justifyContent: 'center',
           marginTop: 'auto',
         }}
       >
-        <Text size={22} weight="700" color="#FFFFFF">
+        <Text size={22} weight="700" color={theme.primaryText}>
           Salvar e continuar
         </Text>
       </TouchableOpacity>

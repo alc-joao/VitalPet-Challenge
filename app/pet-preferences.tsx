@@ -16,6 +16,7 @@ import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 import { useCreatePet } from '@/src/hooks/usePets';
 import { Tutor } from '@/src/types/Tutor';
 
@@ -29,6 +30,7 @@ import IconMedicine from '@/assets/icons/icon-medicine.svg';
 import IconWorm from '@/assets/icons/icon-worm.svg';
 
 export default function PetPreferences() {
+  const { theme } = useAppTheme();
   const params = useLocalSearchParams<{
     nome?: string;
     especie?: string;
@@ -171,7 +173,7 @@ export default function PetPreferences() {
     <ScrollView
       style={{
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.background,
       }}
       contentContainerStyle={{
         paddingHorizontal: 36,
@@ -186,7 +188,7 @@ export default function PetPreferences() {
       >
         <Text
           size={40}
-          color="#111827"
+          color={theme.text}
         >
           ‹
         </Text>
@@ -195,7 +197,7 @@ export default function PetPreferences() {
       <Text
         size={30}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{
           marginTop: 34,
         }}
@@ -205,7 +207,7 @@ export default function PetPreferences() {
 
       <Text
         size={18}
-        color="#444"
+        color={theme.textSecondary}
         style={{
           marginTop: 10,
           marginBottom: 38,
@@ -218,7 +220,7 @@ export default function PetPreferences() {
       <Text
         size={22}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{
           marginBottom: 24,
         }}
@@ -227,6 +229,7 @@ export default function PetPreferences() {
       </Text>
 
       <Option
+        theme={theme}
         icon={
           <IconBell
             width={26}
@@ -240,6 +243,7 @@ export default function PetPreferences() {
       />
 
       <Option
+        theme={theme}
         icon={
           <IconWhatsapp
             width={26}
@@ -252,6 +256,7 @@ export default function PetPreferences() {
       />
 
       <Option
+        theme={theme}
         icon={
           <IconEmail
             width={26}
@@ -266,7 +271,7 @@ export default function PetPreferences() {
       <Text
         size={22}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{
           marginTop: 20,
           marginBottom: 24,
@@ -276,6 +281,7 @@ export default function PetPreferences() {
       </Text>
 
       <Option
+        theme={theme}
         icon={
           <IconVaccine
             width={26}
@@ -288,6 +294,7 @@ export default function PetPreferences() {
       />
 
       <Option
+        theme={theme}
         icon={
           <IconConsult
             width={26}
@@ -300,6 +307,7 @@ export default function PetPreferences() {
       />
 
       <Option
+        theme={theme}
         icon={
           <IconMedicine
             width={26}
@@ -312,6 +320,7 @@ export default function PetPreferences() {
       />
 
       <Option
+        theme={theme}
         icon={
           <IconWorm
             width={26}
@@ -330,8 +339,8 @@ export default function PetPreferences() {
         style={{
           height: 64,
           backgroundColor: salvando
-            ? '#78A9DC'
-            : '#0A66C2',
+            ? theme.border
+            : theme.primary,
           borderRadius: 16,
           alignItems: 'center',
           justifyContent: 'center',
@@ -341,13 +350,13 @@ export default function PetPreferences() {
         {salvando ? (
           <ActivityIndicator
             size="small"
-            color="#FFFFFF"
+            color={theme.primaryText}
           />
         ) : (
           <Text
             size={22}
             weight="700"
-            color="#FFFFFF"
+            color={theme.primaryText}
           >
             Salvar e continuar
           </Text>
@@ -358,6 +367,7 @@ export default function PetPreferences() {
 }
 
 type OptionProps = {
+  theme: ReturnType<typeof useAppTheme>['theme'];
   icon: React.ReactNode;
   label: string;
   description?: string;
@@ -368,6 +378,7 @@ type OptionProps = {
 };
 
 function Option({
+  theme,
   icon,
   label,
   description,
@@ -403,7 +414,7 @@ function Option({
         <Text
           size={20}
           weight="700"
-          color="#111827"
+          color={theme.text}
         >
           {label}
         </Text>
@@ -411,7 +422,7 @@ function Option({
         {description && (
           <Text
             size={16}
-            color="#6B7280"
+            color={theme.textSecondary}
             style={{
               marginTop: 4,
             }}
@@ -426,9 +437,9 @@ function Option({
         onValueChange={onValueChange}
         trackColor={{
           false: '#8E8E93',
-          true: '#0A66C2',
+          true: theme.primary,
         }}
-        thumbColor="#FFFFFF"
+        thumbColor={theme.primaryText}
         ios_backgroundColor="#8E8E93"
       />
     </View>
