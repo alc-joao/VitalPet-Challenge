@@ -19,6 +19,7 @@ import {
 } from 'react';
 
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import {
   usePet,
@@ -47,6 +48,7 @@ const sexos = [
 ];
 
 export default function PetProfile() {
+  const { theme } = useAppTheme();
   const params = useLocalSearchParams<{
     petId?: string;
   }>();
@@ -251,19 +253,19 @@ export default function PetProfile() {
       <View
         style={{
           flex: 1,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.background,
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
         <ActivityIndicator
           size="large"
-          color="#0A66C2"
+          color={theme.primary}
         />
 
         <Text
           size={16}
-          color="#6B7280"
+          color={theme.textSecondary}
           style={{
             marginTop: 16,
           }}
@@ -288,7 +290,7 @@ export default function PetProfile() {
       <View
         style={{
           flex: 1,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.background,
           alignItems: 'center',
           justifyContent: 'center',
           paddingHorizontal: 30,
@@ -297,7 +299,7 @@ export default function PetProfile() {
         <Text
           size={22}
           weight="700"
-          color="#111827"
+          color={theme.text}
           align="center"
         >
           Não foi possível carregar o pet
@@ -305,7 +307,7 @@ export default function PetProfile() {
 
         <Text
           size={15}
-          color="#6B7280"
+          color={theme.textSecondary}
           align="center"
           style={{
             marginTop: 10,
@@ -317,7 +319,7 @@ export default function PetProfile() {
         <TouchableOpacity
           onPress={() => refetch()}
           style={{
-            backgroundColor: '#0A66C2',
+            backgroundColor: theme.primary,
             paddingHorizontal: 24,
             paddingVertical: 14,
             borderRadius: 14,
@@ -327,7 +329,7 @@ export default function PetProfile() {
           <Text
             size={16}
             weight="700"
-            color="#FFFFFF"
+            color={theme.primaryText}
           >
             Tentar novamente
           </Text>
@@ -342,7 +344,7 @@ export default function PetProfile() {
           <Text
             size={16}
             weight="700"
-            color="#0A66C2"
+            color={theme.primary}
           >
             Voltar
           </Text>
@@ -358,7 +360,7 @@ export default function PetProfile() {
     <ScrollView
       style={{
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.background,
       }}
       contentContainerStyle={{
         paddingHorizontal: 24,
@@ -375,7 +377,7 @@ export default function PetProfile() {
       >
         <Text
           size={40}
-          color="#111827"
+          color={theme.text}
         >
           ‹
         </Text>
@@ -386,7 +388,7 @@ export default function PetProfile() {
       <Text
         size={28}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{
           marginTop: 12,
           marginBottom: 8,
@@ -397,7 +399,7 @@ export default function PetProfile() {
 
       <Text
         size={15}
-        color="#6B7280"
+        color={theme.textSecondary}
         style={{
           marginBottom: 30,
         }}
@@ -493,7 +495,7 @@ export default function PetProfile() {
         <Text
           size={14}
           weight="700"
-          color="#111827"
+          color={theme.text}
           style={{
             marginBottom: 8,
           }}
@@ -505,18 +507,18 @@ export default function PetProfile() {
           value={observacoes}
           onChangeText={setObservacoes}
           placeholder="Observações sobre o pet"
-          placeholderTextColor="#7D7D7D"
+          placeholderTextColor={theme.textSecondary}
           multiline
           textAlignVertical="top"
           style={{
             minHeight: 120,
             borderWidth: 1,
-            borderColor: '#C9C9C9',
+            borderColor: theme.border,
             borderRadius: 16,
             paddingHorizontal: 18,
             paddingVertical: 16,
             fontSize: 17,
-            color: '#111827',
+            color: theme.text,
           }}
         />
       </View>
@@ -531,7 +533,7 @@ export default function PetProfile() {
           height: 60,
           backgroundColor: salvando
             ? '#78A9DC'
-            : '#0A66C2',
+            : theme.primary,
           borderRadius: 16,
           alignItems: 'center',
           justifyContent: 'center',
@@ -540,13 +542,13 @@ export default function PetProfile() {
       >
         {salvando ? (
           <ActivityIndicator
-            color="#FFFFFF"
+            color={theme.primaryText}
           />
         ) : (
           <Text
             size={18}
             weight="700"
-            color="#FFFFFF"
+            color={theme.primaryText}
           >
             Salvar alterações
           </Text>
@@ -570,7 +572,7 @@ export default function PetProfile() {
             setModalEspecie(false)
           }
         >
-          <View style={modalBox}>
+          <View style={[modalBox, { backgroundColor: theme.surface }]}>
             {especies.map((item) => (
               <TouchableOpacity
                 key={item}
@@ -583,7 +585,7 @@ export default function PetProfile() {
                 <Text
                   size={16}
                   weight="600"
-                  color="#111827"
+                  color={theme.text}
                 >
                   {item}
                 </Text>
@@ -610,7 +612,7 @@ export default function PetProfile() {
             setModalSexo(false)
           }
         >
-          <View style={modalBox}>
+          <View style={[modalBox, { backgroundColor: theme.surface }]}>
             {sexos.map((item) => (
               <TouchableOpacity
                 key={item.value}
@@ -628,7 +630,7 @@ export default function PetProfile() {
                 <Text
                   size={16}
                   weight="600"
-                  color="#111827"
+                  color={theme.text}
                 >
                   {item.label}
                 </Text>
@@ -671,6 +673,7 @@ function Input({
   keyboardType = 'default',
   maxLength,
 }: InputProps) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -680,7 +683,7 @@ function Input({
       <Text
         size={14}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{
           marginBottom: 8,
         }}
@@ -692,18 +695,18 @@ function Input({
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor="#7D7D7D"
+        placeholderTextColor={theme.textSecondary}
         keyboardType={keyboardType}
         maxLength={maxLength}
         style={{
           height: 56,
           borderWidth: 1,
-          borderColor: '#C9C9C9',
+          borderColor: theme.border,
           borderRadius: 16,
           paddingHorizontal: 18,
           fontSize: 18,
           fontWeight: '600',
-          color: '#111827',
+          color: theme.text,
         }}
       />
     </View>
@@ -723,6 +726,7 @@ function Select({
   value,
   onPress,
 }: SelectProps) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -732,7 +736,7 @@ function Select({
       <Text
         size={14}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{
           marginBottom: 8,
         }}
@@ -746,7 +750,7 @@ function Select({
         style={{
           height: 56,
           borderWidth: 1,
-          borderColor: '#C9C9C9',
+          borderColor: theme.border,
           borderRadius: 16,
           paddingHorizontal: 18,
           flexDirection: 'row',
@@ -759,8 +763,8 @@ function Select({
           weight="600"
           color={
             value
-              ? '#111827'
-              : '#7D7D7D'
+              ? theme.text
+              : theme.textSecondary
           }
         >
           {value || placeholder}
