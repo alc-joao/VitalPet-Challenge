@@ -97,7 +97,7 @@ export default function About() {
 
       <InfoCard
         title="Commit da versão"
-        value="PENDENTE"
+        value="8913d66"
         mono
       />
 
