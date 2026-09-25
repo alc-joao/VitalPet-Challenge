@@ -2,6 +2,7 @@ import { View, TouchableOpacity, ScrollView, Switch } from 'react-native';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconConsult from '@/assets/icons/icon-consult.svg';
 import IconBell from '@/assets/icons/icon-bell.svg';
@@ -15,9 +16,10 @@ import IconMore from '@/assets/icons/icon-more.svg';
 
 export default function ConsultsHome() {
   const [reminder, setReminder] = useState(true);
+  const { theme } = useAppTheme();
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -33,11 +35,15 @@ export default function ConsultsHome() {
           <IconBack width={18} height={18} />
         </TouchableOpacity>
 
-        <Text size={28} weight="700" color="#0F172A">
+        <Text size={28} weight="700" color={theme.text}>
           Consultas
         </Text>
 
-        <Text size={17} color="#7D7D7D" style={{ marginTop: 4 }}>
+        <Text
+          size={17}
+          color={theme.textSecondary}
+          style={{ marginTop: 4 }}
+        >
           Agenda e histórico de consultas
         </Text>
 
@@ -56,9 +62,9 @@ export default function ConsultsHome() {
         <View
           style={{
             borderWidth: 1,
-            borderColor: '#D1D5DB',
+            borderColor: theme.border,
             borderRadius: 16,
-            backgroundColor: '#FFFFFF',
+            backgroundColor: theme.surface,
             padding: 18,
             shadowColor: '#000',
             shadowOffset: { width: 3, height: 4 },
@@ -73,7 +79,7 @@ export default function ConsultsHome() {
                 width: 48,
                 height: 48,
                 borderRadius: 6,
-                backgroundColor: '#D7E9FF',
+                backgroundColor: theme.surfaceSecondary,
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginRight: 18,
@@ -90,7 +96,7 @@ export default function ConsultsHome() {
                   justifyContent: 'space-between',
                 }}
               >
-                <Text size={20} weight="700" color="#000000">
+                <Text size={20} weight="700" color={theme.text}>
                   Check-up anual
                 </Text>
 
@@ -108,15 +114,30 @@ export default function ConsultsHome() {
                 </View>
               </View>
 
-              <Text size={16} weight="700" color="#7D7D7D" style={{ marginTop: 6 }}>
+              <Text
+                size={16}
+                weight="700"
+                color={theme.textSecondary}
+                style={{ marginTop: 6 }}
+              >
                 Dr. Pedro Martins
               </Text>
 
-              <Text size={16} weight="700" color="#7D7D7D" style={{ marginTop: 6 }}>
+              <Text
+                size={16}
+                weight="700"
+                color={theme.textSecondary}
+                style={{ marginTop: 6 }}
+              >
                 10/08/2026 às 10:30
               </Text>
 
-              <Text size={16} weight="700" color="#7D7D7D" style={{ marginTop: 6 }}>
+              <Text
+                size={16}
+                weight="700"
+                color={theme.textSecondary}
+                style={{ marginTop: 6 }}
+              >
                 Clínica VetVida
               </Text>
             </View>
@@ -127,14 +148,14 @@ export default function ConsultsHome() {
             style={{
               height: 38,
               borderWidth: 1,
-              borderColor: '#E5E7EB',
+              borderColor: theme.border,
               borderRadius: 19,
               alignItems: 'center',
               justifyContent: 'center',
               marginTop: 18,
             }}
           >
-            <Text size={16} weight="700" color="#0A66C2">
+            <Text size={16} weight="700" color={theme.primary}>
               Detalhes
             </Text>
           </TouchableOpacity>
@@ -144,9 +165,9 @@ export default function ConsultsHome() {
           style={{
             height: 78,
             borderWidth: 1,
-            borderColor: '#E5E7EB',
+            borderColor: theme.border,
             borderRadius: 14,
-            backgroundColor: '#FFFFFF',
+            backgroundColor: theme.surface,
             flexDirection: 'row',
             alignItems: 'center',
             marginTop: 32,
@@ -156,11 +177,11 @@ export default function ConsultsHome() {
           <IconBell width={30} height={30} />
 
           <View style={{ flex: 1, marginLeft: 18 }}>
-            <Text size={16} weight="700" color="#000000">
+            <Text size={16} weight="700" color={theme.text}>
               Lembrete ativado
             </Text>
 
-            <Text size={14} weight="600" color="#7D7D7D">
+            <Text size={14} weight="600" color={theme.textSecondary}>
               Você será lembrado 1 dia antes
             </Text>
           </View>
@@ -168,8 +189,11 @@ export default function ConsultsHome() {
           <Switch
             value={reminder}
             onValueChange={setReminder}
-            trackColor={{ false: '#D1D5DB', true: '#0A66C2' }}
-            thumbColor="#FFFFFF"
+            trackColor={{
+              false: theme.tabInactive,
+              true: theme.primary,
+            }}
+            thumbColor={theme.surface}
           />
         </View>
       </ScrollView>
@@ -182,13 +206,13 @@ export default function ConsultsHome() {
           right: 28,
           bottom: 116,
           height: 58,
-          backgroundColor: '#0A66C2',
+          backgroundColor: theme.primary,
           borderRadius: 14,
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <Text size={18} color="#FFFFFF">
+        <Text size={18} color={theme.primaryText}>
           Agendar Consulta
         </Text>
       </TouchableOpacity>
@@ -198,7 +222,15 @@ export default function ConsultsHome() {
   );
 }
 
-function TabButton({ label, active }: { label: string; active?: boolean }) {
+function TabButton({
+  label,
+  active,
+}: {
+  label: string;
+  active?: boolean;
+}) {
+  const { theme } = useAppTheme();
+
   return (
     <TouchableOpacity
       activeOpacity={0.85}
@@ -206,12 +238,15 @@ function TabButton({ label, active }: { label: string; active?: boolean }) {
         width: '48%',
         height: 42,
         borderRadius: 14,
-        backgroundColor: active ? '#0A66C2' : '#D9D9D9',
+        backgroundColor: active ? theme.primary : theme.tabInactive,
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
-      <Text size={16} color={active ? '#FFFFFF' : '#000000'}>
+      <Text
+        size={16}
+        color={active ? theme.primaryText : theme.text}
+      >
         {label}
       </Text>
     </TouchableOpacity>
@@ -219,6 +254,8 @@ function TabButton({ label, active }: { label: string; active?: boolean }) {
 }
 
 function BottomNav() {
+  const { theme } = useAppTheme();
+
   return (
     <View
       style={{
@@ -227,9 +264,9 @@ function BottomNav() {
         right: 0,
         bottom: 0,
         height: 86,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
+        borderTopColor: theme.border,
         paddingHorizontal: 28,
         paddingTop: 8,
         flexDirection: 'row',
@@ -270,6 +307,8 @@ function BottomNav() {
 }
 
 function TabItem({ icon, label, active, onPress }: any) {
+  const { theme } = useAppTheme();
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -279,7 +318,7 @@ function TabItem({ icon, label, active, onPress }: any) {
         width: 60,
         height: 70,
         borderRadius: 12,
-        backgroundColor: active ? '#E8F1FF' : 'transparent',
+        backgroundColor: active ? theme.surfaceSecondary : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -289,7 +328,7 @@ function TabItem({ icon, label, active, onPress }: any) {
       <Text
         size={11}
         weight="700"
-        color={active ? '#0A66C2' : '#7D7D7D'}
+        color={active ? theme.primary : theme.textSecondary}
         style={{ marginTop: 3 }}
       >
         {label}

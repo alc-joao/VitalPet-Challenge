@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconBell from '@/assets/icons/icon-bell.svg';
 import IconHome from '@/assets/icons/icon-home.svg';
@@ -32,8 +33,10 @@ const pets = [
 ];
 
 export default function ScoreHome() {
+  const { theme } = useAppTheme();
+
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -44,11 +47,11 @@ export default function ScoreHome() {
       >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <View>
-            <Text size={28} weight="700" color="#111827">
+            <Text size={28} weight="700" color={theme.text}>
               Score de Saúde
             </Text>
 
-            <Text size={18} color="#6B7280">
+            <Text size={18} color={theme.textSecondary}>
               Veja a saúde geral dos seus pets
             </Text>
           </View>
@@ -61,7 +64,7 @@ export default function ScoreHome() {
         <Text
           size={22}
           weight="700"
-          color="#111827"
+          color={theme.text}
           style={{ marginTop: 34, marginBottom: 20 }}
         >
           Meus pets
@@ -78,6 +81,8 @@ export default function ScoreHome() {
 }
 
 function PetScoreCard({ pet }: any) {
+  const { theme } = useAppTheme();
+
   const progressColor = pet.score >= 80 ? '#16A34A' : '#EAB308';
 
   return (
@@ -92,9 +97,9 @@ function PetScoreCard({ pet }: any) {
       style={{
         height: 122,
         borderWidth: 1,
-        borderColor: '#E5E7EB',
+        borderColor: theme.border,
         borderRadius: 18,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16,
@@ -122,11 +127,11 @@ function PetScoreCard({ pet }: any) {
       </View>
 
       <View style={{ flex: 1, marginLeft: 14 }}>
-        <Text size={22} weight="700" color="#111827">
+        <Text size={22} weight="700" color={theme.text}>
           {pet.name}
         </Text>
 
-        <Text size={15} color="#6B7280">
+        <Text size={15} color={theme.textSecondary}>
           {pet.breed}
         </Text>
 
@@ -141,11 +146,11 @@ function PetScoreCard({ pet }: any) {
       </View>
 
       <View style={{ alignItems: 'center' }}>
-        <Text size={30} weight="700" color="#111827">
+        <Text size={30} weight="700" color={theme.text}>
           {pet.score}
         </Text>
 
-        <Text size={13} color="#6B7280">
+        <Text size={13} color={theme.textSecondary}>
           Score
         </Text>
       </View>
@@ -154,6 +159,8 @@ function PetScoreCard({ pet }: any) {
 }
 
 function BottomNav() {
+  const { theme } = useAppTheme();
+
   return (
     <View
       style={{
@@ -162,9 +169,9 @@ function BottomNav() {
         right: 0,
         bottom: 0,
         height: 100,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
+        borderTopColor: theme.border,
         paddingHorizontal: 28,
         paddingTop: 10,
         flexDirection: 'row',
@@ -207,6 +214,8 @@ function BottomNav() {
 }
 
 function TabItem({ icon, label, active, onPress }: any) {
+  const { theme } = useAppTheme();
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -216,7 +225,7 @@ function TabItem({ icon, label, active, onPress }: any) {
         width: 70,
         height: 76,
         borderRadius: 14,
-        backgroundColor: active ? '#E8F1FF' : 'transparent',
+        backgroundColor: active ? theme.surfaceSecondary : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -226,7 +235,7 @@ function TabItem({ icon, label, active, onPress }: any) {
       <Text
         size={12}
         weight="700"
-        color={active ? '#0A66C2' : '#7D7D7D'}
+        color={active ? theme.primary : theme.textSecondary}
         style={{ marginTop: 4 }}
       >
         {label}

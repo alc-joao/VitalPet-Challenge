@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconHome from '@/assets/icons/icon-home.svg';
 import IconScore from '@/assets/icons/icon-score.svg';
@@ -55,8 +56,10 @@ const historyItems = [
 ];
 
 export default function HistoryHome() {
+  const { theme } = useAppTheme();
+
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -65,11 +68,15 @@ export default function HistoryHome() {
           paddingBottom: 140,
         }}
       >
-        <Text size={28} weight="700" color="#0F172A">
+        <Text size={28} weight="700" color={theme.text}>
           Histórico de Saúde
         </Text>
 
-        <Text size={19} color="#7D7D7D" style={{ marginTop: 4 }}>
+        <Text
+          size={19}
+          color={theme.textSecondary}
+          style={{ marginTop: 4 }}
+        >
           Acompanhe todo o histórico do Iron
         </Text>
 
@@ -100,14 +107,14 @@ export default function HistoryHome() {
         <TouchableOpacity
           style={{
             height: 66,
-            backgroundColor: '#0A66C2',
+            backgroundColor: theme.primary,
             borderRadius: 18,
             alignItems: 'center',
             justifyContent: 'center',
             marginTop: 42,
           }}
         >
-          <Text size={22} weight="700" color="#FFFFFF">
+          <Text size={22} weight="700" color={theme.primaryText}>
             Exportar Histórico
           </Text>
         </TouchableOpacity>
@@ -125,12 +132,14 @@ function FilterButton({
   label: string;
   active?: boolean;
 }) {
+  const { theme } = useAppTheme();
+
   return (
     <TouchableOpacity
       style={{
-        backgroundColor: active ? '#0A66C2' : '#FFFFFF',
+        backgroundColor: active ? theme.primary : theme.surface,
         borderWidth: active ? 0 : 1,
-        borderColor: '#000000',
+        borderColor: theme.border,
         borderRadius: 18,
         paddingHorizontal: 14,
         height: 32,
@@ -141,7 +150,7 @@ function FilterButton({
       <Text
         size={16}
         weight="700"
-        color={active ? '#FFFFFF' : '#000000'}
+        color={active ? theme.primaryText : theme.text}
       >
         {label}
       </Text>
@@ -156,6 +165,8 @@ function TimelineItem({
   item: any;
   isLast: boolean;
 }) {
+  const { theme } = useAppTheme();
+
   return (
     <View
       style={{
@@ -183,7 +194,7 @@ function TimelineItem({
             borderColor: item.color,
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#FFFFFF',
+            backgroundColor: theme.surface,
           }}
         >
           {item.icon}
@@ -194,7 +205,7 @@ function TimelineItem({
             style={{
               width: 4,
               height: 52,
-              backgroundColor: '#D9D9D9',
+              backgroundColor: theme.border,
               marginTop: 12,
             }}
           />
@@ -202,7 +213,11 @@ function TimelineItem({
       </View>
 
       <View style={{ flex: 1 }}>
-        <Text size={17} color="#7D7D7D" style={{ marginBottom: 22 }}>
+        <Text
+          size={17}
+          color={theme.textSecondary}
+          style={{ marginBottom: 22 }}
+        >
           {item.date}
         </Text>
 
@@ -211,9 +226,9 @@ function TimelineItem({
           style={{
             minHeight: 82,
             borderWidth: 1,
-            borderColor: '#D1D5DB',
+            borderColor: theme.border,
             borderRadius: 14,
-            backgroundColor: '#FFFFFF',
+            backgroundColor: theme.surface,
             paddingHorizontal: 18,
             paddingVertical: 14,
             flexDirection: 'row',
@@ -226,11 +241,15 @@ function TimelineItem({
           }}
         >
           <View style={{ flex: 1 }}>
-            <Text size={20} weight="700" color="#000000">
+            <Text size={20} weight="700" color={theme.text}>
               {item.title}
             </Text>
 
-            <Text size={17} color="#7D7D7D" style={{ marginTop: 4 }}>
+            <Text
+              size={17}
+              color={theme.textSecondary}
+              style={{ marginTop: 4 }}
+            >
               {item.subtitle}
             </Text>
           </View>
@@ -243,6 +262,8 @@ function TimelineItem({
 }
 
 function BottomNav() {
+  const { theme } = useAppTheme();
+
   return (
     <View
       style={{
@@ -251,9 +272,9 @@ function BottomNav() {
         right: 0,
         bottom: 0,
         height: 100,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
+        borderTopColor: theme.border,
         paddingHorizontal: 28,
         paddingTop: 10,
         flexDirection: 'row',
@@ -306,6 +327,8 @@ function TabItem({
   active?: boolean;
   onPress?: () => void;
 }) {
+  const { theme } = useAppTheme();
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -315,7 +338,7 @@ function TabItem({
         width: 70,
         height: 76,
         borderRadius: 14,
-        backgroundColor: active ? '#E8F1FF' : 'transparent',
+        backgroundColor: active ? theme.surfaceSecondary : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -325,7 +348,7 @@ function TabItem({
       <Text
         size={12}
         weight="700"
-        color={active ? '#0A66C2' : '#7D7D7D'}
+        color={active ? theme.primary : theme.textSecondary}
         style={{ marginTop: 4 }}
       >
         {label}
