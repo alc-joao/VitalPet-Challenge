@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconBack from '@/assets/icons/icon-back.svg';
 
@@ -56,8 +57,9 @@ const plans = [
 ];
 
 export default function ClinicPlans() {
+  const { theme } = useAppTheme();
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -78,14 +80,14 @@ export default function ClinicPlans() {
           <IconBack width={24} height={24} />
         </TouchableOpacity>
 
-        <Text size={30} weight="700" color="#111827">
+        <Text size={30} weight="700" color={theme.text}>
           Planos e assinaturas
         </Text>
 
         <Text
           size={15}
           weight="600"
-          color="#6B7280"
+          color={theme.textSecondary}
           style={{
             marginTop: 12,
             lineHeight: 22,
@@ -103,26 +105,27 @@ export default function ClinicPlans() {
 }
 
 function PlanCard({ plan }: any) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
         borderWidth: 1,
-        borderColor: '#D1D5DB',
+        borderColor: theme.border,
         borderRadius: 18,
         padding: 20,
         marginTop: 26,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
       }}
     >
       <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-        <Text size={42} weight="700" color="#111827">
+        <Text size={42} weight="700" color={theme.text}>
           {plan.price}
         </Text>
 
         <Text
           size={14}
           weight="600"
-          color="#111827"
+          color={theme.text}
           style={{ marginBottom: 9, marginLeft: 6 }}
         >
           /mês
@@ -141,7 +144,7 @@ function PlanCard({ plan }: any) {
       <Text
         size={14}
         weight="500"
-        color="#111827"
+        color={theme.text}
         style={{
           marginTop: 10,
           lineHeight: 21,
@@ -172,7 +175,7 @@ function PlanCard({ plan }: any) {
             ✓
           </Text>
 
-          <Text size={14} weight="500" color="#111827">
+          <Text size={14} weight="500" color={theme.text}>
             {feature}
           </Text>
         </View>

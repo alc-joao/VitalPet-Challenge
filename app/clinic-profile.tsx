@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconHome from '@/assets/icons/icon-home.svg';
 import IconPets from '@/assets/icons/icon-pets.svg';
@@ -14,8 +15,9 @@ import IconVaccine from '@/assets/icons/icon-vaccine.svg';
 import IconMedicine from '@/assets/icons/icon-medicine.svg';
 
 export default function ClinicProfile() {
+  const { theme } = useAppTheme();
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -24,11 +26,11 @@ export default function ClinicProfile() {
           paddingBottom: 130,
         }}
       >
-        <Text size={34} weight="700" color="#111827">
+        <Text size={34} weight="700" color={theme.text}>
           Mais
         </Text>
 
-        <Text size={16} weight="600" color="#7D7D7D" style={{ marginTop: 6 }}>
+        <Text size={16} weight="600" color={theme.textSecondary} style={{ marginTop: 6 }}>
           Configurações da clínica
         </Text>
 
@@ -56,7 +58,7 @@ export default function ClinicProfile() {
         <Text
           size={21}
           weight="700"
-          color="#111827"
+          color={theme.text}
           style={{ marginTop: 28, marginBottom: 14 }}
         >
           Administrativo
@@ -99,7 +101,7 @@ export default function ClinicProfile() {
         <Text
           size={21}
           weight="700"
-          color="#111827"
+          color={theme.text}
           style={{ marginTop: 26, marginBottom: 14 }}
         >
           Atendimento
@@ -136,7 +138,7 @@ export default function ClinicProfile() {
         <Text
           size={21}
           weight="700"
-          color="#111827"
+          color={theme.text}
           style={{ marginTop: 26, marginBottom: 14 }}
         >
           Sistema
@@ -192,6 +194,7 @@ export default function ClinicProfile() {
 }
 
 function MenuCard({ icon, title, description, onPress }: any) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       activeOpacity={0.85}
@@ -199,11 +202,11 @@ function MenuCard({ icon, title, description, onPress }: any) {
       style={{
         minHeight: 82,
         borderWidth: 1,
-        borderColor: '#E5E7EB',
+        borderColor: theme.border,
         borderRadius: 18,
         padding: 16,
         marginBottom: 12,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         flexDirection: 'row',
         alignItems: 'center',
       }}
@@ -213,7 +216,7 @@ function MenuCard({ icon, title, description, onPress }: any) {
           width: 48,
           height: 48,
           borderRadius: 15,
-          backgroundColor: '#F1E8FF',
+          backgroundColor: theme.surfaceSecondary,
           alignItems: 'center',
           justifyContent: 'center',
           marginRight: 14,
@@ -223,16 +226,16 @@ function MenuCard({ icon, title, description, onPress }: any) {
       </View>
 
       <View style={{ flex: 1 }}>
-        <Text size={16} weight="700" color="#111827">
+        <Text size={16} weight="700" color={theme.text}>
           {title}
         </Text>
 
-        <Text size={13} weight="600" color="#7D7D7D" style={{ marginTop: 4 }}>
+        <Text size={13} weight="600" color={theme.textSecondary} style={{ marginTop: 4 }}>
           {description}
         </Text>
       </View>
 
-      <Text size={22} weight="700" color="#9CA3AF">
+      <Text size={22} weight="700" color={theme.textSecondary}>
         ›
       </Text>
     </TouchableOpacity>
@@ -240,6 +243,7 @@ function MenuCard({ icon, title, description, onPress }: any) {
 }
 
 function BottomNav() {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -248,9 +252,9 @@ function BottomNav() {
         right: 0,
         bottom: 0,
         height: 86,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
+        borderTopColor: theme.border,
         paddingHorizontal: 24,
         paddingTop: 8,
         flexDirection: 'row',
@@ -287,6 +291,7 @@ function BottomNav() {
 }
 
 function TabItem({ icon, label, active, onPress }: any) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -296,7 +301,7 @@ function TabItem({ icon, label, active, onPress }: any) {
         width: 68,
         height: 70,
         borderRadius: 12,
-        backgroundColor: active ? '#F1E8FF' : 'transparent',
+        backgroundColor: active ? theme.surfaceSecondary : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -306,7 +311,7 @@ function TabItem({ icon, label, active, onPress }: any) {
       <Text
         size={11}
         weight="700"
-        color={active ? '#6D28D9' : '#7D7D7D'}
+        color={active ? '#6D28D9' : theme.textSecondary}
         style={{ marginTop: 3 }}
       >
         {label}

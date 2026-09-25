@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconBack from '@/assets/icons/icon-back.svg';
 import IconHome from '@/assets/icons/icon-home.svg';
@@ -17,8 +18,9 @@ import IconMedicine from '@/assets/icons/icon-medicine.svg';
 const PetThor = require('@/assets/images/pitbul.png');
 
 export default function ClinicPatientDetail() {
+  const { theme } = useAppTheme();
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -46,7 +48,7 @@ export default function ClinicPatientDetail() {
               height: 118,
               borderRadius: 59,
               overflow: 'hidden',
-              backgroundColor: '#E5E7EB',
+              backgroundColor: theme.surfaceSecondary,
             }}
           >
             <Image
@@ -59,11 +61,11 @@ export default function ClinicPatientDetail() {
             />
           </View>
 
-          <Text size={34} weight="700" color="#111827" style={{ marginTop: 14 }}>
+          <Text size={34} weight="700" color={theme.text} style={{ marginTop: 14 }}>
             Thor
           </Text>
 
-          <Text size={17} weight="600" color="#6B7280" style={{ marginTop: 4 }}>
+          <Text size={17} weight="600" color={theme.textSecondary} style={{ marginTop: 4 }}>
             Golden Retriever • 5 anos
           </Text>
         </View>
@@ -95,13 +97,13 @@ export default function ClinicPatientDetail() {
             style={{
               flex: 2,
               height: 42,
-              backgroundColor: '#F3F4F6',
+              backgroundColor: theme.surfaceSecondary,
               borderRadius: 12,
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <Text size={14} weight="700" color="#6B7280">
+            <Text size={14} weight="700" color={theme.textSecondary}>
               Paciente desde 10/02/2024
             </Text>
           </View>
@@ -114,7 +116,7 @@ export default function ClinicPatientDetail() {
             marginTop: 28,
             paddingBottom: 12,
             borderBottomWidth: 1,
-            borderBottomColor: '#E5E7EB',
+            borderBottomColor: theme.border,
           }}
         >
           <TabLabel label="Resumo" active />
@@ -162,7 +164,7 @@ export default function ClinicPatientDetail() {
         <Text
           size={18}
           weight="700"
-          color="#111827"
+          color={theme.text}
           style={{ marginTop: 24, marginBottom: 12 }}
         >
           Responsável
@@ -171,7 +173,7 @@ export default function ClinicPatientDetail() {
         <View
           style={{
             borderWidth: 1,
-            borderColor: '#E5E7EB',
+            borderColor: theme.border,
             borderRadius: 16,
             padding: 16,
             flexDirection: 'row',
@@ -184,7 +186,7 @@ export default function ClinicPatientDetail() {
               height: 54,
               borderRadius: 27,
               overflow: 'hidden',
-              backgroundColor: '#E5E7EB',
+              backgroundColor: theme.surfaceSecondary,
               marginRight: 14,
             }}
           >
@@ -199,11 +201,11 @@ export default function ClinicPatientDetail() {
           </View>
 
           <View>
-            <Text size={18} weight="700" color="#111827">
+            <Text size={18} weight="700" color={theme.text}>
               João Martins
             </Text>
 
-            <Text size={15} weight="600" color="#6B7280" style={{ marginTop: 4 }}>
+            <Text size={15} weight="600" color={theme.textSecondary} style={{ marginTop: 4 }}>
               (11) 99999-1134
             </Text>
           </View>
@@ -238,6 +240,7 @@ export default function ClinicPatientDetail() {
 }
 
 function TabLabel({ label, active }: { label: string; active?: boolean }) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -246,7 +249,7 @@ function TabLabel({ label, active }: { label: string; active?: boolean }) {
         borderBottomColor: '#6D28D9',
       }}
     >
-      <Text size={15} weight="700" color={active ? '#6D28D9' : '#6B7280'}>
+      <Text size={15} weight="700" color={active ? '#6D28D9' : theme.textSecondary}>
         {label}
       </Text>
     </View>
@@ -262,25 +265,26 @@ function InfoCard({
   title: string;
   value: string;
 }) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
         flex: 1,
         minHeight: 112,
         borderWidth: 1,
-        borderColor: '#E5E7EB',
+        borderColor: theme.border,
         borderRadius: 16,
         padding: 14,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
       }}
     >
       <View style={{ marginBottom: 12 }}>{icon}</View>
 
-      <Text size={14} weight="700" color="#6B7280">
+      <Text size={14} weight="700" color={theme.textSecondary}>
         {title}
       </Text>
 
-      <Text size={22} weight="700" color="#111827" style={{ marginTop: 8 }}>
+      <Text size={22} weight="700" color={theme.text} style={{ marginTop: 8 }}>
         {value}
       </Text>
     </View>
@@ -288,6 +292,7 @@ function InfoCard({
 }
 
 function BottomNav() {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -296,9 +301,9 @@ function BottomNav() {
         right: 0,
         bottom: 0,
         height: 86,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
+        borderTopColor: theme.border,
         paddingHorizontal: 24,
         paddingTop: 8,
         flexDirection: 'row',
@@ -335,6 +340,7 @@ function BottomNav() {
 }
 
 function TabItem({ icon, label, active, onPress }: any) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -344,7 +350,7 @@ function TabItem({ icon, label, active, onPress }: any) {
         width: 68,
         height: 70,
         borderRadius: 12,
-        backgroundColor: active ? '#F1E8FF' : 'transparent',
+        backgroundColor: active ? theme.surfaceSecondary : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -354,7 +360,7 @@ function TabItem({ icon, label, active, onPress }: any) {
       <Text
         size={11}
         weight="700"
-        color={active ? '#6D28D9' : '#7D7D7D'}
+        color={active ? '#6D28D9' : theme.textSecondary}
         style={{ marginTop: 3 }}
       >
         {label}

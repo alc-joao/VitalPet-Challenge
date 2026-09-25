@@ -1,11 +1,13 @@
 import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconBack from '@/assets/icons/icon-back.svg';
 import IconVaccine from '@/assets/icons/icon-vaccine.svg';
 
 export default function ClinicExams() {
+  const { theme } = useAppTheme();
   const exams = [
     {
       name: 'Hemograma',
@@ -41,7 +43,7 @@ export default function ClinicExams() {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         paddingHorizontal: 24,
         paddingTop: 56,
       }}
@@ -62,7 +64,7 @@ export default function ClinicExams() {
         style={{
           fontSize: 30,
           fontWeight: '700',
-          color: '#1F1B2D',
+          color: theme.text,
           marginBottom: 24,
         }}
       >
@@ -72,7 +74,7 @@ export default function ClinicExams() {
       <View
         style={{
           flexDirection: 'row',
-          backgroundColor: '#F8F7FC',
+          backgroundColor: theme.surfaceSecondary,
           borderRadius: 22,
           padding: 4,
           marginBottom: 28,
@@ -81,7 +83,7 @@ export default function ClinicExams() {
         <TouchableOpacity
           style={{
             flex: 1,
-            backgroundColor: '#EEE9FF',
+            backgroundColor: theme.surfaceSecondary,
             paddingVertical: 12,
             borderRadius: 18,
             alignItems: 'center',
@@ -108,7 +110,7 @@ export default function ClinicExams() {
         >
           <Text
             style={{
-              color: '#8A8499',
+              color: theme.textSecondary,
               fontSize: 15,
               fontWeight: '700',
             }}
@@ -127,7 +129,7 @@ export default function ClinicExams() {
         >
           <Text
             style={{
-              color: '#8A8499',
+              color: theme.textSecondary,
               fontSize: 15,
               fontWeight: '700',
             }}
@@ -148,12 +150,12 @@ export default function ClinicExams() {
             key={index}
             activeOpacity={0.8}
             style={{
-              backgroundColor: '#FFFFFF',
+              backgroundColor: theme.surface,
               borderRadius: 18,
               padding: 18,
               marginBottom: 14,
               borderWidth: 1,
-              borderColor: '#F0EDF7',
+              borderColor: theme.border,
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -179,7 +181,7 @@ export default function ClinicExams() {
                   width: 34,
                   height: 34,
                   borderRadius: 10,
-                  backgroundColor: '#F1EDFF',
+                  backgroundColor: theme.surfaceSecondary,
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginRight: 14,
@@ -193,7 +195,7 @@ export default function ClinicExams() {
                   style={{
                     fontSize: 16,
                     fontWeight: '700',
-                    color: '#29243A',
+                    color: theme.text,
                     marginBottom: 4,
                   }}
                 >
@@ -204,7 +206,7 @@ export default function ClinicExams() {
                   style={{
                     fontSize: 14,
                     fontWeight: '600',
-                    color: '#8A8499',
+                    color: theme.textSecondary,
                     marginBottom: 4,
                   }}
                 >
@@ -215,7 +217,7 @@ export default function ClinicExams() {
                   style={{
                     fontSize: 13,
                     fontWeight: '500',
-                    color: '#B3AFC0',
+                    color: theme.textSecondary,
                   }}
                 >
                   {exam.date}

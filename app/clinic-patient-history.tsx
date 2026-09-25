@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconBack from '@/assets/icons/icon-back.svg';
 import IconHome from '@/assets/icons/icon-home.svg';
@@ -43,8 +44,9 @@ const historyItems = [
 ];
 
 export default function ClinicPatientHistory() {
+  const { theme } = useAppTheme();
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -65,7 +67,7 @@ export default function ClinicPatientHistory() {
           <IconBack width={24} height={24} />
         </TouchableOpacity>
 
-        <Text size={34} weight="700" color="#111827">
+        <Text size={34} weight="700" color={theme.text}>
           Histórico de Thor
         </Text>
 
@@ -111,7 +113,7 @@ export default function ClinicPatientHistory() {
                   style={{
                     width: 3,
                     flex: 1,
-                    backgroundColor: '#E5E7EB',
+                    backgroundColor: theme.surfaceSecondary,
                     marginTop: 4,
                   }}
                 />
@@ -122,7 +124,7 @@ export default function ClinicPatientHistory() {
               <Text
                 size={13}
                 weight="700"
-                color="#6B7280"
+                color={theme.textSecondary}
                 style={{ marginBottom: 6 }}
               >
                 {item.date}
@@ -132,19 +134,19 @@ export default function ClinicPatientHistory() {
                 activeOpacity={0.85}
                 style={{
                   borderWidth: 1,
-                  borderColor: '#E5E7EB',
+                  borderColor: theme.border,
                   borderRadius: 16,
                   padding: 16,
                 }}
               >
-                <Text size={18} weight="700" color="#111827">
+                <Text size={18} weight="700" color={theme.text}>
                   {item.title}
                 </Text>
 
                 <Text
                   size={14}
                   weight="600"
-                  color="#6B7280"
+                  color={theme.textSecondary}
                   style={{ marginTop: 6 }}
                 >
                   {item.subtitle}
@@ -178,6 +180,7 @@ export default function ClinicPatientHistory() {
 }
 
 function FilterButton({ label, active }: any) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       style={{
@@ -199,6 +202,7 @@ function FilterButton({ label, active }: any) {
 }
 
 function BottomNav() {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -207,9 +211,9 @@ function BottomNav() {
         right: 0,
         bottom: 0,
         height: 86,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
+        borderTopColor: theme.border,
         paddingHorizontal: 24,
         paddingTop: 8,
         flexDirection: 'row',
@@ -246,6 +250,7 @@ function BottomNav() {
 }
 
 function TabItem({ icon, label, active, onPress }: any) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -254,7 +259,7 @@ function TabItem({ icon, label, active, onPress }: any) {
         width: 68,
         height: 70,
         borderRadius: 12,
-        backgroundColor: active ? '#F1E8FF' : 'transparent',
+        backgroundColor: active ? theme.surfaceSecondary : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -264,7 +269,7 @@ function TabItem({ icon, label, active, onPress }: any) {
       <Text
         size={11}
         weight="700"
-        color={active ? '#6D28D9' : '#7D7D7D'}
+        color={active ? '#6D28D9' : theme.textSecondary}
         style={{ marginTop: 4 }}
       >
         {label}

@@ -1,12 +1,14 @@
 import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconBack from '@/assets/icons/icon-back.svg';
 import IconAlert from '@/assets/icons/icon-alert.svg';
 import IconPets from '@/assets/icons/icon-pets.svg';
 
 export default function ClinicEmergency() {
+  const { theme } = useAppTheme();
   const emergencies = [
     {
       pet: 'Thor',
@@ -38,7 +40,7 @@ export default function ClinicEmergency() {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         paddingHorizontal: 24,
         paddingTop: 56,
       }}
@@ -55,14 +57,14 @@ export default function ClinicEmergency() {
         <IconBack width={24} height={24} />
       </TouchableOpacity>
 
-      <Text size={30} weight="700" color="#1F1B2D">
+      <Text size={30} weight="700" color={theme.text}>
         Emergência
       </Text>
 
       <Text
         size={16}
         weight="700"
-        color="#8A8499"
+        color={theme.textSecondary}
         style={{ marginTop: 6 }}
       >
         Acesso rápido 24h
@@ -84,7 +86,7 @@ export default function ClinicEmergency() {
         <Text
           size={15}
           weight="700"
-          color="#8A8499"
+          color={theme.textSecondary}
           style={{
             marginTop: 12,
             textAlign: 'center',
@@ -129,7 +131,7 @@ export default function ClinicEmergency() {
           marginBottom: 14,
         }}
       >
-        <Text size={21} weight="700" color="#1F1B2D">
+        <Text size={21} weight="700" color={theme.text}>
           Emergências recentes
         </Text>
 
@@ -151,12 +153,12 @@ export default function ClinicEmergency() {
             key={index}
             activeOpacity={0.85}
             style={{
-              backgroundColor: '#FFFFFF',
+              backgroundColor: theme.surface,
               borderRadius: 18,
               padding: 16,
               marginBottom: 12,
               borderWidth: 1,
-              borderColor: '#F0EDF7',
+              borderColor: theme.border,
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -182,7 +184,7 @@ export default function ClinicEmergency() {
                   width: 36,
                   height: 36,
                   borderRadius: 12,
-                  backgroundColor: '#F4F2FF',
+                  backgroundColor: theme.surfaceSecondary,
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginRight: 14,
@@ -192,14 +194,14 @@ export default function ClinicEmergency() {
               </View>
 
               <View style={{ flex: 1 }}>
-                <Text size={16} weight="700" color="#29243A">
+                <Text size={16} weight="700" color={theme.text}>
                   {item.pet}
                 </Text>
 
                 <Text
                   size={14}
                   weight="600"
-                  color="#8A8499"
+                  color={theme.textSecondary}
                   style={{ marginTop: 4 }}
                 >
                   {item.reason}
@@ -208,7 +210,7 @@ export default function ClinicEmergency() {
                 <Text
                   size={13}
                   weight="600"
-                  color="#B3AFC0"
+                  color={theme.textSecondary}
                   style={{ marginTop: 4 }}
                 >
                   {item.date} • {item.time}

@@ -1,6 +1,7 @@
 import { View, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconHome from '@/assets/icons/icon-home.svg';
 import IconPets from '@/assets/icons/icon-pets.svg';
@@ -12,8 +13,9 @@ import IconMedicine from '@/assets/icons/icon-medicine.svg';
 import IconConsult from '@/assets/icons/icon-consult.svg';
 
 export default function ClinicFinance() {
+  const { theme } = useAppTheme();
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <View
         style={{
           flex: 1,
@@ -30,7 +32,7 @@ export default function ClinicFinance() {
             marginBottom: 28,
           }}
         >
-          <Text size={30} weight="700" color="#1F1B2D">
+          <Text size={30} weight="700" color={theme.text}>
             Financeiro
           </Text>
 
@@ -41,12 +43,12 @@ export default function ClinicFinance() {
               paddingHorizontal: 16,
               borderRadius: 12,
               borderWidth: 1,
-              borderColor: '#ECEAF3',
+              borderColor: theme.border,
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <Text size={14} weight="700" color="#7D7D7D">
+            <Text size={14} weight="700" color={theme.textSecondary}>
               Maio 2025
             </Text>
           </TouchableOpacity>
@@ -94,10 +96,10 @@ export default function ClinicFinance() {
           style={{
             marginTop: 26,
             borderWidth: 1,
-            borderColor: '#ECEAF3',
+            borderColor: theme.border,
             borderRadius: 22,
             overflow: 'hidden',
-            backgroundColor: '#FFFFFF',
+            backgroundColor: theme.surface,
           }}
         >
           <FinanceRow
@@ -165,6 +167,7 @@ function FinanceRow({
   green,
   last,
 }: any) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -173,7 +176,7 @@ function FinanceRow({
         flexDirection: 'row',
         alignItems: 'center',
         borderBottomWidth: last ? 0 : 1,
-        borderBottomColor: '#F1EFF6',
+        borderBottomColor: theme.border,
       }}
     >
       <View
@@ -181,7 +184,7 @@ function FinanceRow({
           width: 42,
           height: 42,
           borderRadius: 14,
-          backgroundColor: '#F4F2FF',
+          backgroundColor: theme.surfaceSecondary,
           alignItems: 'center',
           justifyContent: 'center',
           marginRight: 14,
@@ -193,7 +196,7 @@ function FinanceRow({
       <Text
         size={16}
         weight="700"
-        color="#2B243D"
+        color={theme.text}
         style={{ flex: 1 }}
       >
         {title}
@@ -211,6 +214,7 @@ function FinanceRow({
 }
 
 function BottomNav() {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -219,9 +223,9 @@ function BottomNav() {
         right: 0,
         bottom: 0,
         height: 86,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
+        borderTopColor: theme.border,
         paddingHorizontal: 24,
         paddingTop: 8,
         flexDirection: 'row',
@@ -262,6 +266,7 @@ function BottomNav() {
 }
 
 function TabItem({ icon, label, active, onPress }: any) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -271,7 +276,7 @@ function TabItem({ icon, label, active, onPress }: any) {
         width: 68,
         height: 70,
         borderRadius: 12,
-        backgroundColor: active ? '#F1E8FF' : 'transparent',
+        backgroundColor: active ? theme.surfaceSecondary : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -281,7 +286,7 @@ function TabItem({ icon, label, active, onPress }: any) {
       <Text
         size={11}
         weight="700"
-        color={active ? '#6D28D9' : '#7D7D7D'}
+        color={active ? '#6D28D9' : theme.textSecondary}
         style={{ marginTop: 3 }}
       >
         {label}

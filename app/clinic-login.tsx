@@ -3,6 +3,7 @@ import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import LogoBlue from '@/assets/logos/logo-blue.svg';
 import ClinicIcon from '@/assets/icons/profile-clinic.svg';
@@ -12,6 +13,7 @@ import GoogleIcon from '@/assets/icons/google.svg';
 import EyeClosed from '@/assets/icons/eye-closed.svg';
 
 export default function ClinicLogin() {
+  const { theme } = useAppTheme();
   const [cnpj, setCnpj] = useState('');
   const [senha, setSenha] = useState('');
 
@@ -68,7 +70,7 @@ export default function ClinicLogin() {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#FCFCFC',
+        backgroundColor: theme.surface,
         paddingHorizontal: 28,
         paddingTop: 20,
         paddingBottom: 26,
@@ -81,7 +83,7 @@ export default function ClinicLogin() {
       <Text
         size={30}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{
           lineHeight: 34,
           marginBottom: 8,
@@ -92,7 +94,7 @@ export default function ClinicLogin() {
 
       <Text
         size={16}
-        color="#111827"
+        color={theme.text}
         style={{
           lineHeight: 21,
           marginBottom: 22,
@@ -101,7 +103,7 @@ export default function ClinicLogin() {
         Centralize pacientes, agendamentos,{'\n'}alertas e retenção em um só lugar
       </Text>
 
-      <Text size={15} weight="700" color="#111827" style={{ marginBottom: 8 }}>
+      <Text size={15} weight="700" color={theme.text} style={{ marginBottom: 8 }}>
         CNPJ
       </Text>
 
@@ -119,13 +121,13 @@ export default function ClinicLogin() {
           paddingHorizontal: 16,
           fontSize: 16,
           fontWeight: '600',
-          color: '#111827',
-          backgroundColor: '#FFFFFF',
+          color: theme.text,
+          backgroundColor: theme.surface,
           marginBottom: 14,
         }}
       />
 
-      <Text size={15} weight="700" color="#111827" style={{ marginBottom: 8 }}>
+      <Text size={15} weight="700" color={theme.text} style={{ marginBottom: 8 }}>
         Senha
       </Text>
 
@@ -136,7 +138,7 @@ export default function ClinicLogin() {
           borderColor: '#BDBDBD',
           borderRadius: 12,
           paddingHorizontal: 16,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.surface,
           marginBottom: 16,
           flexDirection: 'row',
           alignItems: 'center',
@@ -152,7 +154,7 @@ export default function ClinicLogin() {
             flex: 1,
             fontSize: 16,
             fontWeight: '600',
-            color: '#111827',
+            color: theme.text,
           }}
         />
 
@@ -259,7 +261,7 @@ export default function ClinicLogin() {
           borderWidth: 1.3,
           borderColor: '#C9C9C9',
           borderRadius: 14,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.surface,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
@@ -271,7 +273,7 @@ export default function ClinicLogin() {
         <Text
           size={17}
           weight="700"
-          color="#111827"
+          color={theme.text}
           style={{ marginLeft: 14 }}
         >
           Continue com Google Workspace
@@ -285,7 +287,7 @@ export default function ClinicLogin() {
           marginTop: 4,
         }}
       >
-        <Text size={14} weight="700" color="#111827">
+        <Text size={14} weight="700" color={theme.text}>
           Ainda não tem conta?{' '}
           <Text size={14} weight="700" color="#0A66C2">
             inscrever-se

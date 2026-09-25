@@ -7,8 +7,10 @@ import {
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 export default function ClinicNewAppointment() {
+  const { theme } = useAppTheme();
   const [paciente, setPaciente] = useState('Thor');
   const [tipo, setTipo] = useState('Consulta');
   const [data, setData] = useState('20/05/2025');
@@ -20,7 +22,7 @@ export default function ClinicNewAppointment() {
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: '#FFFFFF' }}
+      style={{ flex: 1, backgroundColor: theme.background }}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{
         paddingHorizontal: 28,
@@ -28,7 +30,7 @@ export default function ClinicNewAppointment() {
         paddingBottom: 34,
       }}
     >
-      <Text size={26} weight="700" color="#111827">
+      <Text size={26} weight="700" color={theme.text}>
         Novo Atendimento
       </Text>
 
@@ -64,13 +66,13 @@ export default function ClinicNewAppointment() {
           style={{
             minHeight: 120,
             borderWidth: 1,
-            borderColor: '#E5E7EB',
+            borderColor: theme.border,
             borderRadius: 12,
             paddingHorizontal: 16,
             paddingTop: 16,
             fontSize: 15,
-            color: '#111827',
-            backgroundColor: '#FFFFFF',
+            color: theme.text,
+            backgroundColor: theme.surface,
           }}
         />
       </Field>
@@ -106,12 +108,13 @@ function Field({
   label: string;
   children: React.ReactNode;
 }) {
+  const { theme } = useAppTheme();
   return (
     <View style={{ marginTop: 22 }}>
       <Text
         size={15}
         weight="700"
-        color="#6B7280"
+        color={theme.textSecondary}
         style={{ marginBottom: 8 }}
       >
         {label}
@@ -131,6 +134,7 @@ function Input({
   onChangeText: (text: string) => void;
   small?: boolean;
 }) {
+  const { theme } = useAppTheme();
   return (
     <TextInput
       value={value}
@@ -139,12 +143,12 @@ function Input({
         flex: small ? 1 : undefined,
         height: 52,
         borderWidth: 1,
-        borderColor: '#E5E7EB',
+        borderColor: theme.border,
         borderRadius: 12,
         paddingHorizontal: 16,
         fontSize: 15,
-        color: '#111827',
-        backgroundColor: '#FFFFFF',
+        color: theme.text,
+        backgroundColor: theme.surface,
       }}
     />
   );

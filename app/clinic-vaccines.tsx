@@ -1,11 +1,13 @@
 import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconBack from '@/assets/icons/icon-back.svg';
 import IconVaccine from '@/assets/icons/icon-vaccine.svg';
 
 export default function ClinicVaccines() {
+  const { theme } = useAppTheme();
   const vaccines = [
     {
       title: 'Próxima vacina',
@@ -26,7 +28,7 @@ export default function ClinicVaccines() {
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: '#FFFFFF' }}
+      style={{ flex: 1, backgroundColor: theme.background }}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{
         paddingHorizontal: 24,
@@ -46,7 +48,7 @@ export default function ClinicVaccines() {
         <IconBack width={24} height={24} />
       </TouchableOpacity>
 
-      <Text size={28} weight="700" color="#111827">
+      <Text size={28} weight="700" color={theme.text}>
         Vacinas e Protocolos
       </Text>
 
@@ -54,7 +56,7 @@ export default function ClinicVaccines() {
         style={{
           height: 42,
           borderRadius: 18,
-          backgroundColor: '#F3F4F6',
+          backgroundColor: theme.surfaceSecondary,
           flexDirection: 'row',
           marginTop: 20,
           marginBottom: 28,
@@ -71,9 +73,9 @@ export default function ClinicVaccines() {
           style={{
             minHeight: 78,
             borderWidth: 1,
-            borderColor: '#E5E7EB',
+            borderColor: theme.border,
             borderRadius: 16,
-            backgroundColor: '#FFFFFF',
+            backgroundColor: theme.surface,
             flexDirection: 'row',
             alignItems: 'center',
             paddingHorizontal: 14,
@@ -85,7 +87,7 @@ export default function ClinicVaccines() {
               width: 40,
               height: 40,
               borderRadius: 10,
-              backgroundColor: '#F1E8FF',
+              backgroundColor: theme.surfaceSecondary,
               alignItems: 'center',
               justifyContent: 'center',
               marginRight: 14,
@@ -103,7 +105,7 @@ export default function ClinicVaccines() {
               <Text
                 size={14}
                 weight="600"
-                color="#6B7280"
+                color={theme.textSecondary}
                 style={{ marginTop: 4 }}
               >
                 {item.subtitle}
@@ -111,7 +113,7 @@ export default function ClinicVaccines() {
             ) : null}
           </View>
 
-          <Text size={14} weight="700" color="#6B7280">
+          <Text size={14} weight="700" color={theme.textSecondary}>
             {item.date}
           </Text>
         </View>
@@ -136,20 +138,20 @@ export default function ClinicVaccines() {
       <View
         style={{
           borderWidth: 1,
-          borderColor: '#E5E7EB',
+          borderColor: theme.border,
           borderRadius: 16,
           padding: 16,
           marginTop: 30,
         }}
       >
-        <Text size={16} weight="700" color="#111827">
+        <Text size={16} weight="700" color={theme.text}>
           Protocolo vigente
         </Text>
 
         <Text
           size={15}
           weight="700"
-          color="#111827"
+          color={theme.text}
           style={{ marginTop: 14 }}
         >
           Protocolo anual
@@ -158,7 +160,7 @@ export default function ClinicVaccines() {
         <Text
           size={14}
           weight="600"
-          color="#6B7280"
+          color={theme.textSecondary}
           style={{ marginTop: 4, lineHeight: 20 }}
         >
           V8 • Raiva • Gripe{'\n'}Iniciado em 20/04/2025
@@ -169,6 +171,7 @@ export default function ClinicVaccines() {
 }
 
 function TabButton({ label, active }: { label: string; active?: boolean }) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       activeOpacity={0.85}
@@ -176,12 +179,12 @@ function TabButton({ label, active }: { label: string; active?: boolean }) {
         flex: 1,
         height: 34,
         borderRadius: 16,
-        backgroundColor: active ? '#F1E8FF' : 'transparent',
+        backgroundColor: active ? theme.surfaceSecondary : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
-      <Text size={14} weight="700" color={active ? '#6D28D9' : '#6B7280'}>
+      <Text size={14} weight="700" color={active ? '#6D28D9' : theme.textSecondary}>
         {label}
       </Text>
     </TouchableOpacity>

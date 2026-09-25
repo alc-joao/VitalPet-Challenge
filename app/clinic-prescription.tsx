@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconBack from '@/assets/icons/icon-back.svg';
 import IconMedicine from '@/assets/icons/icon-medicine.svg';
@@ -23,9 +24,10 @@ const medicines = [
 ];
 
 export default function ClinicPrescription() {
+  const { theme } = useAppTheme();
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: '#FFFFFF' }}
+      style={{ flex: 1, backgroundColor: theme.background }}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{
         paddingHorizontal: 28,
@@ -45,18 +47,18 @@ export default function ClinicPrescription() {
         <IconBack width={24} height={24} />
       </TouchableOpacity>
 
-      <Text size={28} weight="700" color="#111827">
+      <Text size={28} weight="700" color={theme.text}>
         Prescrição
       </Text>
 
       <Field label="Paciente">
-        <TextInput value="Thor" editable={false} style={inputStyle} />
+        <TextInput value="Thor" editable={false} style={getInputStyle(theme)} />
       </Field>
 
       <Text
         size={15}
         weight="700"
-        color="#6B7280"
+        color={theme.textSecondary}
         style={{ marginTop: 30, marginBottom: 12 }}
       >
         Medicamentos
@@ -65,10 +67,10 @@ export default function ClinicPrescription() {
       <View
         style={{
           borderWidth: 1,
-          borderColor: '#E5E7EB',
+          borderColor: theme.border,
           borderRadius: 14,
           overflow: 'hidden',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.surface,
         }}
       >
         {medicines.map((item, index) => (
@@ -85,7 +87,7 @@ export default function ClinicPrescription() {
         style={{
           height: 52,
           borderRadius: 12,
-          backgroundColor: '#F4F0FF',
+          backgroundColor: theme.surfaceSecondary,
           alignItems: 'center',
           justifyContent: 'center',
           marginTop: 18,
@@ -103,7 +105,7 @@ export default function ClinicPrescription() {
           multiline
           textAlignVertical="top"
           style={[
-            inputStyle,
+            getInputStyle(theme),
             {
               minHeight: 112,
               paddingTop: 16,
@@ -139,12 +141,13 @@ function Field({
   label: string;
   children: React.ReactNode;
 }) {
+  const { theme } = useAppTheme();
   return (
     <View style={{ marginTop: 26 }}>
       <Text
         size={15}
         weight="700"
-        color="#6B7280"
+        color={theme.textSecondary}
         style={{ marginBottom: 8 }}
       >
         {label}
@@ -165,6 +168,7 @@ function MedicineCard({
   };
   last?: boolean;
 }) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -173,7 +177,7 @@ function MedicineCard({
         alignItems: 'center',
         paddingHorizontal: 14,
         borderBottomWidth: last ? 0 : 1,
-        borderBottomColor: '#E5E7EB',
+        borderBottomColor: theme.border,
       }}
     >
       <View
@@ -181,7 +185,7 @@ function MedicineCard({
           width: 44,
           height: 44,
           borderRadius: 10,
-          backgroundColor: '#F1E8FF',
+          backgroundColor: theme.surfaceSecondary,
           alignItems: 'center',
           justifyContent: 'center',
           marginRight: 14,
@@ -191,14 +195,14 @@ function MedicineCard({
       </View>
 
       <View style={{ flex: 1 }}>
-        <Text size={15} weight="700" color="#111827">
+        <Text size={15} weight="700" color={theme.text}>
           {item.name}
         </Text>
 
         <Text
           size={13}
           weight="600"
-          color="#6B7280"
+          color={theme.textSecondary}
           style={{ marginTop: 4 }}
         >
           {item.description}
@@ -210,14 +214,16 @@ function MedicineCard({
   );
 }
 
-const inputStyle = {
+const getInputStyle = (
+  theme: ReturnType<typeof useAppTheme>['theme']
+) => ({
   height: 54,
   borderWidth: 1,
-  borderColor: '#E5E7EB',
+  borderColor: theme.border,
   borderRadius: 12,
   paddingHorizontal: 16,
   fontSize: 15,
   fontWeight: '600' as const,
-  color: '#111827',
-  backgroundColor: '#FFFFFF',
-};
+  color: theme.text,
+  backgroundColor: theme.surface,
+});

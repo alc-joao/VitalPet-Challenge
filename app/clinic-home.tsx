@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconBell from '@/assets/icons/icon-bell.svg';
 
@@ -51,8 +52,9 @@ const appointments = [
 ];
 
 export default function ClinicHome() {
+  const { theme } = useAppTheme();
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -69,11 +71,11 @@ export default function ClinicHome() {
           }}
         >
           <View>
-            <Text size={24} weight="700" color="#111827">
+            <Text size={24} weight="700" color={theme.text}>
               Olá, Vet Care! 👋
             </Text>
 
-            <Text size={15} weight="600" color="#7D7D7D" style={{ marginTop: 4 }}>
+            <Text size={15} weight="600" color={theme.textSecondary} style={{ marginTop: 4 }}>
               Quinta, 20 de Maio
             </Text>
           </View>
@@ -130,18 +132,18 @@ export default function ClinicHome() {
         <View
           style={{
             borderWidth: 1,
-            borderColor: '#E5E7EB',
+            borderColor: theme.border,
             borderRadius: 16,
             padding: 18,
             marginTop: 18,
-            backgroundColor: '#FFFFFF',
+            backgroundColor: theme.surface,
           }}
         >
-          <Text size={17} weight="700" color="#111827">
+          <Text size={17} weight="700" color={theme.text}>
             Faturamento hoje
           </Text>
 
-          <Text size={30} weight="700" color="#111827" style={{ marginTop: 12 }}>
+          <Text size={30} weight="700" color={theme.text} style={{ marginTop: 12 }}>
             R$ 4.320,00
           </Text>
 
@@ -153,7 +155,7 @@ export default function ClinicHome() {
         <Text
           size={21}
           weight="700"
-          color="#111827"
+          color={theme.text}
           style={{ marginTop: 24, marginBottom: 14 }}
         >
           Indicadores rápidos
@@ -174,17 +176,17 @@ export default function ClinicHome() {
               flex: 1,
               height: 84,
               borderWidth: 1,
-              borderColor: '#E5E7EB',
+              borderColor: theme.border,
               borderRadius: 14,
               padding: 14,
-              backgroundColor: '#FFFFFF',
+              backgroundColor: theme.surface,
             }}
           >
-            <Text size={13} weight="700" color="#7D7D7D">
+            <Text size={13} weight="700" color={theme.textSecondary}>
               Exames realizados
             </Text>
 
-            <Text size={24} weight="700" color="#111827" style={{ marginTop: 8 }}>
+            <Text size={24} weight="700" color={theme.text} style={{ marginTop: 8 }}>
               11
             </Text>
           </TouchableOpacity>
@@ -193,7 +195,7 @@ export default function ClinicHome() {
         <Text
           size={21}
           weight="700"
-          color="#111827"
+          color={theme.text}
           style={{ marginTop: 26, marginBottom: 14 }}
         >
           Atendimentos de hoje
@@ -202,9 +204,9 @@ export default function ClinicHome() {
         <View
           style={{
             borderWidth: 1,
-            borderColor: '#E5E7EB',
+            borderColor: theme.border,
             borderRadius: 16,
-            backgroundColor: '#FFFFFF',
+            backgroundColor: theme.surface,
             paddingVertical: 10,
           }}
         >
@@ -228,6 +230,7 @@ function SmallMetric({
   label: string;
   value: string;
 }) {
+  const { theme } = useAppTheme();
   return (
     <View style={{ alignItems: 'center' }}>
       <View
@@ -252,23 +255,24 @@ function SmallMetric({
 }
 
 function IndicatorCard({ title, value }: { title: string; value: string }) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
         flex: 1,
         height: 84,
         borderWidth: 1,
-        borderColor: '#E5E7EB',
+        borderColor: theme.border,
         borderRadius: 14,
         padding: 14,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
       }}
     >
-      <Text size={13} weight="700" color="#7D7D7D">
+      <Text size={13} weight="700" color={theme.textSecondary}>
         {title}
       </Text>
 
-      <Text size={24} weight="700" color="#111827" style={{ marginTop: 8 }}>
+      <Text size={24} weight="700" color={theme.text} style={{ marginTop: 8 }}>
         {value}
       </Text>
     </View>
@@ -276,6 +280,7 @@ function IndicatorCard({ title, value }: { title: string; value: string }) {
 }
 
 function AppointmentRow({ item }: { item: any }) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       activeOpacity={0.85}
@@ -286,7 +291,7 @@ function AppointmentRow({ item }: { item: any }) {
         paddingHorizontal: 14,
       }}
     >
-      <Text size={14} weight="700" color="#111827" style={{ width: 54 }}>
+      <Text size={14} weight="700" color={theme.text} style={{ width: 54 }}>
         {item.time}
       </Text>
 
@@ -296,7 +301,7 @@ function AppointmentRow({ item }: { item: any }) {
           height: 30,
           borderRadius: 15,
           overflow: 'hidden',
-          backgroundColor: '#E5E7EB',
+          backgroundColor: theme.surfaceSecondary,
           marginRight: 12,
         }}
       >
@@ -310,13 +315,13 @@ function AppointmentRow({ item }: { item: any }) {
       <Text
         size={15}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{ flex: 1 }}
       >
         {item.name}
       </Text>
 
-      <Text size={13} weight="600" color="#7D7D7D">
+      <Text size={13} weight="600" color={theme.textSecondary}>
         {item.type}
       </Text>
     </TouchableOpacity>
@@ -324,6 +329,7 @@ function AppointmentRow({ item }: { item: any }) {
 }
 
 function BottomNav() {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -332,9 +338,9 @@ function BottomNav() {
         right: 0,
         bottom: 0,
         height: 86,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
+        borderTopColor: theme.border,
         paddingHorizontal: 24,
         paddingTop: 8,
         flexDirection: 'row',
@@ -371,6 +377,7 @@ function BottomNav() {
 }
 
 function TabItem({ icon, label, active, onPress }: any) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -380,7 +387,7 @@ function TabItem({ icon, label, active, onPress }: any) {
         width: 68,
         height: 70,
         borderRadius: 12,
-        backgroundColor: active ? '#F1E8FF' : 'transparent',
+        backgroundColor: active ? theme.surfaceSecondary : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -390,7 +397,7 @@ function TabItem({ icon, label, active, onPress }: any) {
       <Text
         size={11}
         weight="700"
-        color={active ? '#6D28D9' : '#7D7D7D'}
+        color={active ? '#6D28D9' : theme.textSecondary}
         style={{ marginTop: 3 }}
       >
         {label}

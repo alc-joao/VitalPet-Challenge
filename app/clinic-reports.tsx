@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconBack from '@/assets/icons/icon-back.svg';
 
@@ -11,11 +12,12 @@ import IconVaccine from '@/assets/icons/icon-vaccine.svg';
 import IconMedicine from '@/assets/icons/icon-medicine.svg';
 
 export default function ClinicReports() {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         paddingHorizontal: 24,
         paddingTop: 56,
       }}
@@ -32,7 +34,7 @@ export default function ClinicReports() {
         <IconBack width={24} height={24} />
       </TouchableOpacity>
 
-      <Text size={32} weight="700" color="#1F1B2D">
+      <Text size={32} weight="700" color={theme.text}>
         Relatórios
       </Text>
 
@@ -111,6 +113,7 @@ function ReportCard({
   description,
   onPress,
 }: any) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       activeOpacity={0.85}
@@ -118,13 +121,13 @@ function ReportCard({
       style={{
         height: 92,
         borderWidth: 1,
-        borderColor: '#F0EDF7',
+        borderColor: theme.border,
         borderRadius: 20,
         paddingHorizontal: 18,
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 16,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
       }}
     >
       <View
@@ -142,14 +145,14 @@ function ReportCard({
       </View>
 
       <View style={{ flex: 1 }}>
-        <Text size={18} weight="700" color="#1F1B2D">
+        <Text size={18} weight="700" color={theme.text}>
           {title}
         </Text>
 
         <Text
           size={14}
           weight="600"
-          color="#8A8499"
+          color={theme.textSecondary}
           style={{ marginTop: 4 }}
         >
           {description}

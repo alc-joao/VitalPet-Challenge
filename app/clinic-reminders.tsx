@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconBack from '@/assets/icons/icon-back.svg';
 import IconVaccine from '@/assets/icons/icon-vaccine.svg';
@@ -35,9 +36,10 @@ const reminders = [
 ];
 
 export default function ClinicReminders() {
+  const { theme } = useAppTheme();
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: '#FFFFFF' }}
+      style={{ flex: 1, backgroundColor: theme.background }}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{
         paddingHorizontal: 28,
@@ -57,7 +59,7 @@ export default function ClinicReminders() {
         <IconBack width={24} height={24} />
       </TouchableOpacity>
 
-      <Text size={30} weight="700" color="#111827">
+      <Text size={30} weight="700" color={theme.text}>
         Lembretes
       </Text>
 
@@ -65,7 +67,7 @@ export default function ClinicReminders() {
         style={{
           height: 42,
           borderRadius: 18,
-          backgroundColor: '#F3F4F6',
+          backgroundColor: theme.surfaceSecondary,
           flexDirection: 'row',
           marginTop: 20,
           marginBottom: 28,
@@ -82,9 +84,9 @@ export default function ClinicReminders() {
           style={{
             minHeight: 82,
             borderWidth: 1,
-            borderColor: '#E5E7EB',
+            borderColor: theme.border,
             borderRadius: 16,
-            backgroundColor: '#FFFFFF',
+            backgroundColor: theme.surface,
             flexDirection: 'row',
             alignItems: 'center',
             paddingHorizontal: 14,
@@ -96,7 +98,7 @@ export default function ClinicReminders() {
               width: 42,
               height: 42,
               borderRadius: 10,
-              backgroundColor: '#F1E8FF',
+              backgroundColor: theme.surfaceSecondary,
               alignItems: 'center',
               justifyContent: 'center',
               marginRight: 14,
@@ -106,21 +108,21 @@ export default function ClinicReminders() {
           </View>
 
           <View style={{ flex: 1 }}>
-            <Text size={17} weight="700" color="#111827">
+            <Text size={17} weight="700" color={theme.text}>
               {item.title}
             </Text>
 
             <Text
               size={14}
               weight="600"
-              color="#6B7280"
+              color={theme.textSecondary}
               style={{ marginTop: 4 }}
             >
               {item.pet}
             </Text>
           </View>
 
-          <Text size={14} weight="700" color="#6B7280">
+          <Text size={14} weight="700" color={theme.textSecondary}>
             {item.date}
           </Text>
         </View>
@@ -146,6 +148,7 @@ export default function ClinicReminders() {
 }
 
 function TabButton({ label, active }: { label: string; active?: boolean }) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       activeOpacity={0.85}
@@ -153,12 +156,12 @@ function TabButton({ label, active }: { label: string; active?: boolean }) {
         flex: 1,
         height: 34,
         borderRadius: 16,
-        backgroundColor: active ? '#F1E8FF' : 'transparent',
+        backgroundColor: active ? theme.surfaceSecondary : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
-      <Text size={14} weight="700" color={active ? '#6D28D9' : '#6B7280'}>
+      <Text size={14} weight="700" color={active ? '#6D28D9' : theme.textSecondary}>
         {label}
       </Text>
     </TouchableOpacity>

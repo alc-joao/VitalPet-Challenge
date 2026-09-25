@@ -9,6 +9,7 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import LogoIconBlue from '@/assets/logos/logo-icon-blue.svg';
 import CheckIcon from '@/assets/icons/check-green.svg';
@@ -16,6 +17,7 @@ import EyeClosed from '@/assets/icons/eye-closed.svg';
 import EyeOpen from '@/assets/icons/eye-open.svg';
 
 export default function ClinicCreate() {
+  const { theme } = useAppTheme();
   const [nomeClinica, setNomeClinica] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [responsavel, setResponsavel] = useState('');
@@ -110,7 +112,7 @@ export default function ClinicCreate() {
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: '#FCFCFC' }}
+      style={{ flex: 1, backgroundColor: theme.background }}
       contentContainerStyle={{
         paddingHorizontal: 28,
         paddingTop: 54,
@@ -122,13 +124,13 @@ export default function ClinicCreate() {
         <LogoIconBlue width={72} height={72} />
       </View>
 
-      <Text size={28} weight="700" color="#111827">
+      <Text size={28} weight="700" color={theme.text}>
         Criar sua Conta
       </Text>
 
       <Text
         size={16}
-        color="#111827"
+        color={theme.text}
         style={{
           marginTop: 8,
           lineHeight: 19,
@@ -212,7 +214,7 @@ export default function ClinicCreate() {
         onPress={() => router.push('/clinic-login')}
         style={{ alignItems: 'center', marginTop: 20 }}
       >
-        <Text size={15} weight="700" color="#111827">
+        <Text size={15} weight="700" color={theme.text}>
           Já tem conta?{' '}
           <Text size={15} weight="700" color="#0A66C2">
             Entre
@@ -223,7 +225,7 @@ export default function ClinicCreate() {
       <Text
         size={14}
         weight="700"
-        color="#8A8A8A"
+        color={theme.textSecondary}
         align="center"
         style={{ marginTop: 34, lineHeight: 19 }}
       >
@@ -265,9 +267,10 @@ function Input({
   onToggleEye,
   showEye,
 }: InputProps) {
+  const { theme } = useAppTheme();
   return (
     <View style={{ marginBottom: 14 }}>
-      <Text size={14} weight="700" color="#111827" style={{ marginBottom: 6 }}>
+      <Text size={14} weight="700" color={theme.text} style={{ marginBottom: 6 }}>
         {label}
       </Text>
 
@@ -275,9 +278,9 @@ function Input({
         style={{
           height: 48,
           borderWidth: 1.2,
-          borderColor: '#C7C7C7',
+          borderColor: theme.border,
           borderRadius: 10,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.surface,
           flexDirection: 'row',
           alignItems: 'center',
           paddingHorizontal: 14,
@@ -287,14 +290,14 @@ function Input({
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
-          placeholderTextColor="#777777"
+          placeholderTextColor={theme.textSecondary}
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
           style={{
             flex: 1,
             fontSize: 16,
             fontWeight: '600',
-            color: '#777777',
+            color: theme.textSecondary,
           }}
         />
 

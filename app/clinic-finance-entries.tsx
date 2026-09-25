@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconBack from '@/assets/icons/icon-back.svg';
 import IconVaccine from '@/assets/icons/icon-vaccine.svg';
@@ -42,11 +43,12 @@ const payables = [
 ];
 
 export default function ClinicFinanceEntries() {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         paddingHorizontal: 24,
         paddingTop: 56,
       }}
@@ -66,7 +68,7 @@ export default function ClinicFinanceEntries() {
       <View
         style={{
           flexDirection: 'row',
-          backgroundColor: '#F8F7FC',
+          backgroundColor: theme.surfaceSecondary,
           borderRadius: 20,
           padding: 4,
           marginBottom: 30,
@@ -76,7 +78,7 @@ export default function ClinicFinanceEntries() {
           activeOpacity={0.8}
           style={{
             flex: 1,
-            backgroundColor: '#EEE9FF',
+            backgroundColor: theme.surfaceSecondary,
             paddingVertical: 12,
             borderRadius: 16,
             alignItems: 'center',
@@ -96,7 +98,7 @@ export default function ClinicFinanceEntries() {
             alignItems: 'center',
           }}
         >
-          <Text size={15} weight="700" color="#1F1B2D">
+          <Text size={15} weight="700" color={theme.text}>
             A Pagar
           </Text>
         </TouchableOpacity>
@@ -108,7 +110,7 @@ export default function ClinicFinanceEntries() {
           paddingBottom: 110,
         }}
       >
-        <Text size={22} weight="700" color="#1F1B2D">
+        <Text size={22} weight="700" color={theme.text}>
           A receber
         </Text>
 
@@ -116,10 +118,10 @@ export default function ClinicFinanceEntries() {
           style={{
             marginTop: 16,
             borderWidth: 1,
-            borderColor: '#F0EDF7',
+            borderColor: theme.border,
             borderRadius: 18,
             overflow: 'hidden',
-            backgroundColor: '#FFFFFF',
+            backgroundColor: theme.surface,
           }}
         >
           {receivables.map((item, index) => (
@@ -131,7 +133,7 @@ export default function ClinicFinanceEntries() {
                 flexDirection: 'row',
                 alignItems: 'center',
                 borderBottomWidth: index === receivables.length - 1 ? 0 : 1,
-                borderBottomColor: '#F1EFF6',
+                borderBottomColor: theme.border,
               }}
             >
               <View
@@ -140,7 +142,7 @@ export default function ClinicFinanceEntries() {
                   height: 44,
                   borderRadius: 22,
                   overflow: 'hidden',
-                  backgroundColor: '#E5E7EB',
+                  backgroundColor: theme.surfaceSecondary,
                   marginRight: 14,
                 }}
               >
@@ -152,14 +154,14 @@ export default function ClinicFinanceEntries() {
               </View>
 
               <View style={{ flex: 1 }}>
-                <Text size={16} weight="700" color="#29243A">
+                <Text size={16} weight="700" color={theme.text}>
                   {item.name}
                 </Text>
 
                 <Text
                   size={14}
                   weight="600"
-                  color="#8A8499"
+                  color={theme.textSecondary}
                   style={{ marginTop: 4 }}
                 >
                   {item.pet}
@@ -167,14 +169,14 @@ export default function ClinicFinanceEntries() {
               </View>
 
               <View style={{ alignItems: 'flex-end' }}>
-                <Text size={16} weight="700" color="#29243A">
+                <Text size={16} weight="700" color={theme.text}>
                   {item.value}
                 </Text>
 
                 <Text
                   size={13}
                   weight="700"
-                  color="#8A8499"
+                  color={theme.textSecondary}
                   style={{ marginTop: 5 }}
                 >
                   {item.due}
@@ -199,7 +201,7 @@ export default function ClinicFinanceEntries() {
         <Text
           size={22}
           weight="700"
-          color="#1F1B2D"
+          color={theme.text}
           style={{ marginTop: 32 }}
         >
           A pagar
@@ -209,10 +211,10 @@ export default function ClinicFinanceEntries() {
           style={{
             marginTop: 16,
             borderWidth: 1,
-            borderColor: '#F0EDF7',
+            borderColor: theme.border,
             borderRadius: 18,
             overflow: 'hidden',
-            backgroundColor: '#FFFFFF',
+            backgroundColor: theme.surface,
           }}
         >
           {payables.map((item, index) => (
@@ -230,7 +232,7 @@ export default function ClinicFinanceEntries() {
                   width: 42,
                   height: 42,
                   borderRadius: 12,
-                  backgroundColor: '#F1EDFF',
+                  backgroundColor: theme.surfaceSecondary,
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginRight: 14,
@@ -240,14 +242,14 @@ export default function ClinicFinanceEntries() {
               </View>
 
               <View style={{ flex: 1 }}>
-                <Text size={16} weight="700" color="#29243A">
+                <Text size={16} weight="700" color={theme.text}>
                   {item.name}
                 </Text>
 
                 <Text
                   size={14}
                   weight="600"
-                  color="#8A8499"
+                  color={theme.textSecondary}
                   style={{ marginTop: 4 }}
                 >
                   {item.description}
@@ -255,14 +257,14 @@ export default function ClinicFinanceEntries() {
               </View>
 
               <View style={{ alignItems: 'flex-end' }}>
-                <Text size={16} weight="700" color="#29243A">
+                <Text size={16} weight="700" color={theme.text}>
                   {item.value}
                 </Text>
 
                 <Text
                   size={13}
                   weight="700"
-                  color="#8A8499"
+                  color={theme.textSecondary}
                   style={{ marginTop: 5 }}
                 >
                   {item.due}

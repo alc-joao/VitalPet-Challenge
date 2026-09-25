@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconHome from '@/assets/icons/icon-home.svg';
 import IconPets from '@/assets/icons/icon-pets.svg';
@@ -27,8 +28,9 @@ const appointments = [
 ];
 
 export default function ClinicSchedule() {
+  const { theme } = useAppTheme();
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -37,14 +39,14 @@ export default function ClinicSchedule() {
           paddingBottom: 140,
         }}
       >
-        <Text size={34} weight="700" color="#111827">
+        <Text size={34} weight="700" color={theme.text}>
           Agenda de hoje
         </Text>
 
         <Text
           size={16}
           weight="500"
-          color="#6B7280"
+          color={theme.textSecondary}
           style={{ marginTop: 6 }}
         >
           Quinta, 20 de Maio
@@ -55,7 +57,7 @@ export default function ClinicSchedule() {
             flexDirection: 'row',
             justifyContent: 'space-between',
             marginTop: 24,
-            backgroundColor: '#F9FAFB',
+            backgroundColor: theme.surfaceSecondary,
             borderRadius: 18,
             padding: 8,
           }}
@@ -102,7 +104,7 @@ export default function ClinicSchedule() {
                 flexDirection: 'row',
                 alignItems: 'center',
                 borderWidth: 1,
-                borderColor: '#E5E7EB',
+                borderColor: theme.border,
                 borderRadius: 18,
                 padding: 14,
                 marginBottom: 14,
@@ -111,7 +113,7 @@ export default function ClinicSchedule() {
               <Text
                 size={16}
                 weight="700"
-                color="#111827"
+                color={theme.text}
                 style={{ width: 58 }}
               >
                 {item.hour}
@@ -124,7 +126,7 @@ export default function ClinicSchedule() {
                   borderRadius: 26,
                   overflow: 'hidden',
                   marginRight: 14,
-                  backgroundColor: '#E5E7EB',
+                  backgroundColor: theme.surfaceSecondary,
                 }}
               >
                 <Image
@@ -135,21 +137,21 @@ export default function ClinicSchedule() {
               </View>
 
               <View style={{ flex: 1 }}>
-                <Text size={17} weight="700" color="#111827">
+                <Text size={17} weight="700" color={theme.text}>
                   {item.pet}
                 </Text>
 
                 <Text
                   size={14}
                   weight="600"
-                  color="#6B7280"
+                  color={theme.textSecondary}
                   style={{ marginTop: 4 }}
                 >
                   {item.type}
                 </Text>
               </View>
 
-              <Text size={14} weight="700" color="#9CA3AF">
+              <Text size={14} weight="700" color={theme.textSecondary}>
                 {item.type}
               </Text>
             </TouchableOpacity>
@@ -180,6 +182,7 @@ export default function ClinicSchedule() {
 }
 
 function BottomNav() {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -188,9 +191,9 @@ function BottomNav() {
         right: 0,
         bottom: 0,
         height: 86,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
+        borderTopColor: theme.border,
         paddingHorizontal: 24,
         paddingTop: 8,
         flexDirection: 'row',
@@ -231,6 +234,7 @@ function BottomNav() {
 }
 
 function TabItem({ icon, label, active, onPress }: any) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -240,7 +244,7 @@ function TabItem({ icon, label, active, onPress }: any) {
         width: 68,
         height: 70,
         borderRadius: 12,
-        backgroundColor: active ? '#F1E8FF' : 'transparent',
+        backgroundColor: active ? theme.surfaceSecondary : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -250,7 +254,7 @@ function TabItem({ icon, label, active, onPress }: any) {
       <Text
         size={11}
         weight="700"
-        color={active ? '#6D28D9' : '#7D7D7D'}
+        color={active ? '#6D28D9' : theme.textSecondary}
         style={{ marginTop: 4 }}
       >
         {label}
