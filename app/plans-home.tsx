@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconBack from '@/assets/icons/icon-back.svg';
 import IconCheck from '@/assets/icons/check-green.svg';
@@ -51,9 +52,10 @@ const plans = [
 ];
 
 export default function PlansHome() {
+  const { theme, isDark } = useAppTheme();
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: '#FFFFFF' }}
+      style={{ flex: 1, backgroundColor: theme.surface }}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{
         paddingHorizontal: 24,
@@ -69,14 +71,14 @@ export default function PlansHome() {
           <IconBack width={16} height={16} />
         </TouchableOpacity>
 
-        <Text size={18} weight="700" color="#111827">
+        <Text size={18} weight="700" color={theme.text}>
           Planos e Assinaturas
         </Text>
       </View>
 
       <Text
         size={14}
-        color="#111827"
+        color={theme.text}
         align="center"
         style={{
           marginTop: 20,
@@ -97,13 +99,14 @@ export default function PlansHome() {
 }
 
 function PlanCard({ plan }: { plan: any }) {
+  const { theme, isDark } = useAppTheme();
   return (
     <View
       style={{
         borderWidth: 1,
-        borderColor: '#D1D5DB',
+        borderColor: theme.border,
         borderRadius: 14,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         paddingHorizontal: 18,
         paddingTop: 18,
         paddingBottom: 16,
@@ -111,13 +114,13 @@ function PlanCard({ plan }: { plan: any }) {
       }}
     >
       <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-        <Text size={36} weight="700" color="#0F172A">
+        <Text size={36} weight="700" color={theme.text}>
           {plan.price}
         </Text>
 
         <Text
           size={13}
-          color="#111827"
+          color={theme.text}
           style={{ marginLeft: 4, marginBottom: 8 }}
         >
           {plan.period}
@@ -135,7 +138,7 @@ function PlanCard({ plan }: { plan: any }) {
 
       <Text
         size={13}
-        color="#111827"
+        color={theme.text}
         style={{
           marginTop: 12,
           lineHeight: 19,
@@ -148,7 +151,7 @@ function PlanCard({ plan }: { plan: any }) {
       <View
         style={{
           height: 1,
-          backgroundColor: '#EFEFEF',
+          backgroundColor: theme.border,
           marginTop: 20,
           marginBottom: 16,
         }}
@@ -167,7 +170,7 @@ function PlanCard({ plan }: { plan: any }) {
 
           <Text
             size={13}
-            color="#111827"
+            color={theme.text}
             style={{
               marginLeft: 10,
               flex: 1,

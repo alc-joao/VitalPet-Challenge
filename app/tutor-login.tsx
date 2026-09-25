@@ -14,6 +14,7 @@ import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 import { loginWithEmail } from '@/src/services/authService';
 import { getTutorByEmail } from '@/src/services/tutorService';
 
@@ -23,6 +24,7 @@ import SecurityLock from '@/assets/icons/security-lock.svg';
 import ShieldIcon from '@/assets/icons/shield.svg';
 
 export default function TutorLogin() {
+  const { theme, isDark } = useAppTheme();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [loading, setLoading] = useState(false);
@@ -128,7 +130,7 @@ export default function TutorLogin() {
     <KeyboardAvoidingView
       style={{
         flex: 1,
-        backgroundColor: '#FCFCFC',
+        backgroundColor: theme.background,
       }}
       behavior={
         Platform.OS === 'ios'
@@ -161,7 +163,7 @@ export default function TutorLogin() {
         <Text
           size={28}
           weight="700"
-          color="#111827"
+          color={theme.text}
           style={{
             lineHeight: 32,
             marginBottom: 8,
@@ -174,7 +176,7 @@ export default function TutorLogin() {
 
         <Text
           size={16}
-          color="#111827"
+          color={theme.text}
           style={{
             lineHeight: 19,
             marginBottom: 18,
@@ -187,7 +189,7 @@ export default function TutorLogin() {
         <Text
           size={15}
           weight="600"
-          color="#111827"
+          color={theme.text}
           style={{
             marginBottom: 8,
           }}
@@ -197,7 +199,7 @@ export default function TutorLogin() {
 
         <TextInput
           placeholder="seuemail@email.com"
-          placeholderTextColor="#8C8C8C"
+          placeholderTextColor={theme.textSecondary}
           keyboardType="email-address"
           autoCapitalize="none"
           value={email}
@@ -206,13 +208,13 @@ export default function TutorLogin() {
           style={{
             height: 48,
             borderWidth: 1.3,
-            borderColor: '#BDBDBD',
+            borderColor: theme.border,
             borderRadius: 16,
             paddingHorizontal: 18,
             fontSize: 17,
             fontWeight: '600',
-            color: '#111827',
-            backgroundColor: '#FFFFFF',
+            color: theme.text,
+            backgroundColor: theme.surface,
             marginBottom: 12,
           }}
         />
@@ -220,7 +222,7 @@ export default function TutorLogin() {
         <Text
           size={15}
           weight="600"
-          color="#111827"
+          color={theme.text}
           style={{
             marginBottom: 8,
           }}
@@ -230,7 +232,7 @@ export default function TutorLogin() {
 
         <TextInput
           placeholder="••••••••"
-          placeholderTextColor="#8C8C8C"
+          placeholderTextColor={theme.textSecondary}
           secureTextEntry
           value={senha}
           editable={!loading}
@@ -238,13 +240,13 @@ export default function TutorLogin() {
           style={{
             height: 48,
             borderWidth: 1.3,
-            borderColor: '#BDBDBD',
+            borderColor: theme.border,
             borderRadius: 16,
             paddingHorizontal: 18,
             fontSize: 17,
             fontWeight: '600',
-            color: '#111827',
-            backgroundColor: '#FFFFFF',
+            color: theme.text,
+            backgroundColor: theme.surface,
             marginBottom: 12,
           }}
         />
@@ -264,7 +266,7 @@ export default function TutorLogin() {
           <Text
             size={15}
             weight="500"
-            color="#7A7A7A"
+            color={theme.textSecondary}
             style={{
               flex: 1,
               marginLeft: 12,
@@ -277,7 +279,7 @@ export default function TutorLogin() {
 
         <View
           style={{
-            backgroundColor: '#DCEBFA',
+            backgroundColor: theme.surfaceSecondary,
             borderRadius: 18,
             paddingVertical: 12,
             paddingHorizontal: 16,
@@ -294,7 +296,7 @@ export default function TutorLogin() {
           <Text
             size={15}
             weight="500"
-            color="#0A66C2"
+            color={theme.primary}
             style={{
               flex: 1,
               marginLeft: 16,
@@ -361,13 +363,13 @@ export default function TutorLogin() {
           <Text
             size={16}
             weight="700"
-            color="#111827"
+            color={theme.text}
           >
             Ainda não tem conta?{' '}
             <Text
               size={16}
               weight="700"
-              color="#0A66C2"
+              color={theme.primary}
             >
               Cadastre-se
             </Text>

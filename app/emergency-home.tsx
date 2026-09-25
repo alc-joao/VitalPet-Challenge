@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconBack from '@/assets/icons/icon-back.svg';
 import IconEmergency from '@/assets/icons/icon-emergency.svg';
@@ -13,8 +14,9 @@ import IconCalendar from '@/assets/icons/icon-calendar.svg';
 import IconMore from '@/assets/icons/icon-more.svg';
 
 export default function EmergencyHome() {
+  const { theme, isDark } = useAppTheme();
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.surface }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -30,11 +32,11 @@ export default function EmergencyHome() {
           <IconBack width={18} height={18} />
         </TouchableOpacity>
 
-        <Text size={28} weight="700" color="#0F172A">
+        <Text size={28} weight="700" color={theme.text}>
           Emergência
         </Text>
 
-        <Text size={17} color="#7D7D7D" style={{ marginTop: 4 }}>
+        <Text size={17} color={theme.textSecondary} style={{ marginTop: 4 }}>
           Acesse ajuda rápida para o seu pet
         </Text>
 
@@ -62,11 +64,11 @@ export default function EmergencyHome() {
             <IconEmergency width={34} height={34} />
           </View>
 
-          <Text size={22} weight="700" color="#000000">
+          <Text size={22} weight="700" color={theme.text}>
             Situação de risco?
           </Text>
 
-          <Text size={16} color="#7D7D7D" style={{ marginTop: 8, lineHeight: 24 }}>
+          <Text size={16} color={theme.textSecondary} style={{ marginTop: 8, lineHeight: 24 }}>
             Se o seu pet está com falta de ar, sangramento, convulsões ou dor intensa,
             procure atendimento veterinário imediatamente.
           </Text>
@@ -88,13 +90,13 @@ export default function EmergencyHome() {
         <View
           style={{
             borderWidth: 1,
-            borderColor: '#D1D5DB',
+            borderColor: theme.border,
             borderRadius: 16,
             padding: 18,
             marginTop: 12,
           }}
         >
-          <Text size={20} weight="700" color="#000000">
+          <Text size={20} weight="700" color={theme.text}>
             Telefones úteis
           </Text>
 
@@ -139,6 +141,7 @@ function EmergencyAction({
   subtitle: string;
   onPress?: () => void;
 }) {
+  const { theme } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -146,9 +149,9 @@ function EmergencyAction({
       style={{
         minHeight: 84,
         borderWidth: 1,
-        borderColor: '#D1D5DB',
+        borderColor: theme.border,
         borderRadius: 16,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 18,
@@ -160,7 +163,7 @@ function EmergencyAction({
           width: 50,
           height: 50,
           borderRadius: 8,
-          backgroundColor: '#D7E9FF',
+          backgroundColor: theme.surfaceSecondary,
           alignItems: 'center',
           justifyContent: 'center',
           marginRight: 16,
@@ -170,11 +173,11 @@ function EmergencyAction({
       </View>
 
       <View style={{ flex: 1 }}>
-        <Text size={18} weight="700" color="#000000">
+        <Text size={18} weight="700" color={theme.text}>
           {title}
         </Text>
 
-        <Text size={14} color="#7D7D7D" style={{ marginTop: 4 }}>
+        <Text size={14} color={theme.textSecondary} style={{ marginTop: 4 }}>
           {subtitle}
         </Text>
       </View>
@@ -183,6 +186,7 @@ function EmergencyAction({
 }
 
 function InfoRow({ title, value }: { title: string; value: string }) {
+  const { theme, isDark } = useAppTheme();
   return (
     <View
       style={{
@@ -191,11 +195,11 @@ function InfoRow({ title, value }: { title: string; value: string }) {
         justifyContent: 'space-between',
       }}
     >
-      <Text size={15} weight="700" color="#7D7D7D">
+      <Text size={15} weight="700" color={theme.textSecondary}>
         {title}
       </Text>
 
-      <Text size={15} weight="700" color="#000000">
+      <Text size={15} weight="700" color={theme.text}>
         {value}
       </Text>
     </View>
@@ -203,6 +207,7 @@ function InfoRow({ title, value }: { title: string; value: string }) {
 }
 
 function BottomNav() {
+  const { theme, isDark } = useAppTheme();
   return (
     <View
       style={{
@@ -211,9 +216,9 @@ function BottomNav() {
         right: 0,
         bottom: 0,
         height: 86,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
+        borderTopColor: theme.border,
         paddingHorizontal: 28,
         paddingTop: 8,
         flexDirection: 'row',
@@ -230,6 +235,7 @@ function BottomNav() {
 }
 
 function TabItem({ icon, label, active, onPress }: any) {
+  const { theme, isDark } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -239,14 +245,14 @@ function TabItem({ icon, label, active, onPress }: any) {
         width: 60,
         height: 70,
         borderRadius: 12,
-        backgroundColor: active ? '#E8F1FF' : 'transparent',
+        backgroundColor: active ? theme.surfaceSecondary : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
       {icon}
 
-      <Text size={11} weight="700" color={active ? '#0A66C2' : '#7D7D7D'} style={{ marginTop: 3 }}>
+      <Text size={11} weight="700" color={active ? theme.primary : theme.textSecondary} style={{ marginTop: 3 }}>
         {label}
       </Text>
     </TouchableOpacity>

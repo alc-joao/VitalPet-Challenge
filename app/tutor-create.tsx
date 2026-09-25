@@ -11,6 +11,7 @@ import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 import { useCreateTutor } from '@/src/hooks/useTutors';
 import { registerWithEmail } from '@/src/services/authService';
 import { deleteUser } from 'firebase/auth';
@@ -21,6 +22,7 @@ import EyeOpen from '@/assets/icons/eye-open.svg';
 import EyeClosed from '@/assets/icons/eye-closed.svg';
 
 export default function TutorCreate() {
+  const { theme, isDark } = useAppTheme();
   const [nome, setNome] = useState('');
   const [cpf, setCpf] = useState('');
   const [email, setEmail] = useState('');
@@ -224,7 +226,7 @@ export default function TutorCreate() {
     <ScrollView
       style={{
         flex: 1,
-        backgroundColor: '#FCFCFC',
+        backgroundColor: theme.background,
       }}
       contentContainerStyle={{
         paddingHorizontal: 28,
@@ -245,14 +247,14 @@ export default function TutorCreate() {
       <Text
         size={30}
         weight="700"
-        color="#111827"
+        color={theme.text}
       >
         Criar sua Conta
       </Text>
 
       <Text
         size={17}
-        color="#111827"
+        color={theme.text}
         style={{
           marginTop: 12,
           lineHeight: 21,
@@ -389,13 +391,13 @@ export default function TutorCreate() {
         <Text
           size={16}
           weight="700"
-          color="#111827"
+          color={theme.text}
         >
           Já tem conta?{' '}
           <Text
             size={16}
             weight="700"
-            color="#0A66C2"
+            color={theme.primary}
           >
             Entre
           </Text>
@@ -430,12 +432,13 @@ function Input({
   onToggleEye,
   showEye,
 }: InputProps) {
+  const { theme, isDark } = useAppTheme();
   return (
     <View style={{ marginBottom: 18 }}>
       <Text
         size={16}
         weight="700"
-        color="#111827"
+        color={theme.text}
         style={{ marginBottom: 8 }}
       >
         {label}
@@ -445,9 +448,9 @@ function Input({
         style={{
           height: 52,
           borderWidth: 1.3,
-          borderColor: '#C7C7C7',
+          borderColor: theme.border,
           borderRadius: 12,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.surface,
           flexDirection: 'row',
           alignItems: 'center',
           paddingHorizontal: 16,
@@ -457,7 +460,7 @@ function Input({
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
-          placeholderTextColor="#777777"
+          placeholderTextColor={theme.textSecondary}
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
           autoCapitalize="none"
@@ -465,7 +468,7 @@ function Input({
             flex: 1,
             fontSize: 18,
             fontWeight: '600',
-            color: '#111827',
+            color: theme.text,
           }}
         />
 

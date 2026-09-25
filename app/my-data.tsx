@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconBack from '@/assets/icons/icon-back.svg';
 import IconArrowRight from '@/assets/icons/icon-arrow-right.svg';
@@ -27,6 +28,7 @@ type TutorData = {
 };
 
 export default function MyData() {
+  const { theme, isDark } = useAppTheme();
   const [lembretes, setLembretes] = useState(true);
   const [promocoes, setPromocoes] = useState(true);
 
@@ -62,7 +64,7 @@ export default function MyData() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.surface }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -85,7 +87,7 @@ export default function MyData() {
           <Text
             size={26}
             weight="700"
-            color="#0F172A"
+            color={theme.text}
             style={{ marginLeft: 18 }}
           >
             Meus dados
@@ -95,7 +97,7 @@ export default function MyData() {
         <Text
           size={20}
           weight="700"
-          color="#000000"
+          color={theme.text}
           style={{ marginBottom: 14 }}
         >
           Conta
@@ -129,7 +131,7 @@ export default function MyData() {
         <Text
           size={20}
           weight="700"
-          color="#000000"
+          color={theme.text}
           style={{ marginTop: 22, marginBottom: 14 }}
         >
           Notificações
@@ -153,7 +155,7 @@ export default function MyData() {
         <Text
           size={20}
           weight="700"
-          color="#000000"
+          color={theme.text}
           style={{ marginTop: 22, marginBottom: 14 }}
         >
           Preferências
@@ -179,14 +181,15 @@ export default function MyData() {
 }
 
 function SectionBox({ children }: { children: React.ReactNode }) {
+  const { theme, isDark } = useAppTheme();
   return (
     <View
       style={{
         borderWidth: 1,
-        borderColor: '#D1D5DB',
+        borderColor: theme.border,
         borderRadius: 10,
         overflow: 'hidden',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
       }}
     >
       {children}
@@ -203,6 +206,7 @@ function RowItem({
   value: string;
   border?: boolean;
 }) {
+  const { theme, isDark } = useAppTheme();
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -212,13 +216,13 @@ function RowItem({
         alignItems: 'center',
         paddingHorizontal: 14,
         borderBottomWidth: border ? 1 : 0,
-        borderBottomColor: '#D1D5DB',
+        borderBottomColor: theme.border,
       }}
     >
       <Text
         size={16}
         weight="700"
-        color="#7D7D7D"
+        color={theme.textSecondary}
         style={{ flex: 1 }}
       >
         {label}
@@ -228,7 +232,7 @@ function RowItem({
         <Text
           size={14}
           weight="500"
-          color="#7D7D7D"
+          color={theme.textSecondary}
           style={{
             marginRight: 12,
             maxWidth: 180,
@@ -255,6 +259,7 @@ function SwitchRow({
   onValueChange: (value: boolean) => void;
   border?: boolean;
 }) {
+  const { theme } = useAppTheme();
   return (
     <View
       style={{
@@ -263,13 +268,13 @@ function SwitchRow({
         alignItems: 'center',
         paddingHorizontal: 14,
         borderBottomWidth: border ? 1 : 0,
-        borderBottomColor: '#D1D5DB',
+        borderBottomColor: theme.border,
       }}
     >
       <Text
         size={16}
         weight="700"
-        color="#7D7D7D"
+        color={theme.textSecondary}
         style={{ flex: 1 }}
       >
         {label}
@@ -279,8 +284,8 @@ function SwitchRow({
         value={value}
         onValueChange={onValueChange}
         trackColor={{
-          false: '#D1D5DB',
-          true: '#0A66C2',
+          false: theme.tabInactive,
+          true: theme.primary,
         }}
         thumbColor="#FFFFFF"
       />
@@ -289,6 +294,7 @@ function SwitchRow({
 }
 
 function BottomNav() {
+  const { theme, isDark } = useAppTheme();
   return (
     <View
       style={{
@@ -297,9 +303,9 @@ function BottomNav() {
         right: 0,
         bottom: 0,
         height: 86,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
+        borderTopColor: theme.border,
         paddingHorizontal: 28,
         paddingTop: 8,
         flexDirection: 'row',
@@ -343,6 +349,7 @@ function BottomNav() {
 }
 
 function TabItem({ icon, label, active, onPress }: any) {
+  const { theme, isDark } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -352,7 +359,7 @@ function TabItem({ icon, label, active, onPress }: any) {
         width: 60,
         height: 70,
         borderRadius: 12,
-        backgroundColor: active ? '#E8F1FF' : 'transparent',
+        backgroundColor: active ? theme.surfaceSecondary : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -362,7 +369,7 @@ function TabItem({ icon, label, active, onPress }: any) {
       <Text
         size={11}
         weight="700"
-        color={active ? '#0A66C2' : '#7D7D7D'}
+        color={active ? theme.primary : theme.textSecondary}
         style={{ marginTop: 3 }}
       >
         {label}

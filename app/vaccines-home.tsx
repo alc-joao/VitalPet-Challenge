@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconBack from '@/assets/icons/icon-back.svg';
 import IconVaccine from '@/assets/icons/icon-vaccine.svg';
@@ -33,8 +34,9 @@ const vaccines = [
 ];
 
 export default function VaccinesHome() {
+  const { theme, isDark } = useAppTheme();
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.surface }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -50,11 +52,11 @@ export default function VaccinesHome() {
           <IconBack width={18} height={18} />
         </TouchableOpacity>
 
-        <Text size={28} weight="700" color="#0F172A">
+        <Text size={28} weight="700" color={theme.text}>
           Vacinas
         </Text>
 
-        <Text size={17} color="#7D7D7D" style={{ marginTop: 4 }}>
+        <Text size={17} color={theme.textSecondary} style={{ marginTop: 4 }}>
           Controle de vacinas Rex
         </Text>
 
@@ -83,7 +85,7 @@ export default function VaccinesHome() {
           right: 28,
           bottom: 116,
           height: 58,
-          backgroundColor: '#0A66C2',
+          backgroundColor: theme.primary,
           borderRadius: 14,
           alignItems: 'center',
           justifyContent: 'center',
@@ -100,6 +102,7 @@ export default function VaccinesHome() {
 }
 
 function TabButton({ label, active }: { label: string; active?: boolean }) {
+  const { theme, isDark } = useAppTheme();
   return (
     <TouchableOpacity
       activeOpacity={0.85}
@@ -107,12 +110,12 @@ function TabButton({ label, active }: { label: string; active?: boolean }) {
         width: '48%',
         height: 42,
         borderRadius: 14,
-        backgroundColor: active ? '#0A66C2' : '#D9D9D9',
+        backgroundColor: active ? theme.primary : theme.tabInactive,
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
-      <Text size={16} color={active ? '#FFFFFF' : '#000000'}>
+      <Text size={16} color={active ? theme.primaryText : theme.text}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -129,14 +132,15 @@ function VaccineCard({
     days: string;
   };
 }) {
+  const { theme, isDark } = useAppTheme();
   return (
     <View
       style={{
         minHeight: 126,
         borderWidth: 1,
-        borderColor: '#D1D5DB',
+        borderColor: theme.border,
         borderRadius: 16,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         flexDirection: 'row',
         alignItems: 'flex-start',
         paddingHorizontal: 20,
@@ -149,7 +153,7 @@ function VaccineCard({
           width: 50,
           height: 50,
           borderRadius: 6,
-          backgroundColor: '#D7E9FF',
+          backgroundColor: theme.surfaceSecondary,
           alignItems: 'center',
           justifyContent: 'center',
           marginRight: 22,
@@ -160,19 +164,19 @@ function VaccineCard({
       </View>
 
       <View style={{ flex: 1 }}>
-        <Text size={21} weight="700" color="#000000">
+        <Text size={21} weight="700" color={theme.text}>
           {item.title}
         </Text>
 
-        <Text size={16} weight="700" color="#7D7D7D" style={{ marginTop: 4 }}>
+        <Text size={16} weight="700" color={theme.textSecondary} style={{ marginTop: 4 }}>
           {item.subtitle}
         </Text>
 
-        <Text size={16} weight="700" color="#7D7D7D" style={{ marginTop: 8 }}>
+        <Text size={16} weight="700" color={theme.textSecondary} style={{ marginTop: 8 }}>
           {item.date}
         </Text>
 
-        <Text size={16} weight="700" color="#7D7D7D" style={{ marginTop: 8 }}>
+        <Text size={16} weight="700" color={theme.textSecondary} style={{ marginTop: 8 }}>
           {item.days}
         </Text>
       </View>
@@ -194,6 +198,7 @@ function VaccineCard({
 }
 
 function BottomNav() {
+  const { theme, isDark } = useAppTheme();
   return (
     <View
       style={{
@@ -202,9 +207,9 @@ function BottomNav() {
         right: 0,
         bottom: 0,
         height: 86,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
+        borderTopColor: theme.border,
         paddingHorizontal: 28,
         paddingTop: 8,
         flexDirection: 'row',
@@ -245,6 +250,7 @@ function BottomNav() {
 }
 
 function TabItem({ icon, label, active, onPress }: any) {
+  const { theme, isDark } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -254,7 +260,7 @@ function TabItem({ icon, label, active, onPress }: any) {
         width: 60,
         height: 70,
         borderRadius: 12,
-        backgroundColor: active ? '#E8F1FF' : 'transparent',
+        backgroundColor: active ? theme.surfaceSecondary : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -264,7 +270,7 @@ function TabItem({ icon, label, active, onPress }: any) {
       <Text
         size={11}
         weight="700"
-        color={active ? '#0A66C2' : '#7D7D7D'}
+        color={active ? theme.primary : theme.textSecondary}
         style={{ marginTop: 3 }}
       >
         {label}

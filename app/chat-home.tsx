@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import IconHome from '@/assets/icons/icon-home.svg';
 import IconScore from '@/assets/icons/icon-score.svg';
@@ -12,8 +13,9 @@ import IconSend from '@/assets/icons/icon-send.svg';
 import IconChatBubble from '@/assets/icons/icon-chat-bubble.svg';
 
 export default function ChatHome() {
+  const { theme, isDark } = useAppTheme();
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.surface }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -22,11 +24,11 @@ export default function ChatHome() {
           paddingBottom: 250,
         }}
       >
-        <Text size={24} weight="700" color="#0F172A">
+        <Text size={24} weight="700" color={theme.text}>
           Assistente VitalPet
         </Text>
 
-        <Text size={16} color="#7D7D7D" style={{ marginTop: 6 }}>
+        <Text size={16} color={theme.textSecondary} style={{ marginTop: 6 }}>
           Tire dúvidas sobre a saúde do seu pet
         </Text>
 
@@ -72,9 +74,9 @@ export default function ChatHome() {
           bottom: 106,
           height: 54,
           borderWidth: 1,
-          borderColor: '#BDBDBD',
+          borderColor: theme.border,
           borderRadius: 28,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: theme.surface,
           flexDirection: 'row',
           alignItems: 'center',
           paddingLeft: 20,
@@ -84,11 +86,11 @@ export default function ChatHome() {
       >
         <TextInput
           placeholder="Digite sua mensagem..."
-          placeholderTextColor="#8A8A8A"
+          placeholderTextColor={theme.textSecondary}
           style={{
             flex: 1,
             fontSize: 15,
-            color: '#111827',
+            color: theme.text,
           }}
         />
 
@@ -97,7 +99,7 @@ export default function ChatHome() {
             width: 46,
             height: 46,
             borderRadius: 23,
-            backgroundColor: '#0A66C2',
+            backgroundColor: theme.primary,
             alignItems: 'center',
             justifyContent: 'center',
           }}
@@ -120,6 +122,7 @@ function BotMessage({
   time: string;
   large?: boolean;
 }) {
+  const { theme, isDark } = useAppTheme();
   return (
     <View
       style={{
@@ -133,7 +136,7 @@ function BotMessage({
           width: 42,
           height: 42,
           borderRadius: 21,
-          backgroundColor: '#E8F1FF',
+          backgroundColor: theme.surfaceSecondary,
           alignItems: 'center',
           justifyContent: 'center',
           marginRight: 8,
@@ -146,7 +149,7 @@ function BotMessage({
         style={{
           width: large ? 264 : 264,
           minHeight: large ? 238 : 80,
-          backgroundColor: '#E6F3FF',
+          backgroundColor: theme.surfaceSecondary,
           borderRadius: 16,
           paddingHorizontal: 14,
           paddingTop: 12,
@@ -158,11 +161,11 @@ function BotMessage({
           elevation: 5,
         }}
       >
-        <Text size={14} weight="600" color="#000000" style={{ lineHeight: 20 }}>
+        <Text size={14} weight="600" color={theme.text} style={{ lineHeight: 20 }}>
           {text}
         </Text>
 
-        <Text size={13} color="#7D7D7D" style={{ marginTop: 8 }}>
+        <Text size={13} color={theme.textSecondary} style={{ marginTop: 8 }}>
           {time}
         </Text>
       </View>
@@ -171,6 +174,7 @@ function BotMessage({
 }
 
 function UserMessage({ text, time }: { text: string; time: string }) {
+  const { theme, isDark } = useAppTheme();
   return (
     <View
       style={{
@@ -181,7 +185,7 @@ function UserMessage({ text, time }: { text: string; time: string }) {
       <View
         style={{
           width: 265,
-          backgroundColor: '#0A66C2',
+          backgroundColor: theme.primary,
           borderRadius: 16,
           paddingHorizontal: 18,
           paddingTop: 14,
@@ -206,14 +210,15 @@ function UserMessage({ text, time }: { text: string; time: string }) {
 }
 
 function Suggestion({ label }: { label: string }) {
+  const { theme, isDark } = useAppTheme();
   return (
     <TouchableOpacity
       style={{
         height: 26,
         borderWidth: 1,
-        borderColor: '#CFCFCF',
+        borderColor: theme.border,
         borderRadius: 7,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         paddingHorizontal: 8,
         alignItems: 'center',
         justifyContent: 'center',
@@ -224,7 +229,7 @@ function Suggestion({ label }: { label: string }) {
         elevation: 4,
       }}
     >
-      <Text size={11} weight="700" color="#0A66C2">
+      <Text size={11} weight="700" color={theme.primary}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -232,6 +237,7 @@ function Suggestion({ label }: { label: string }) {
 }
 
 function BottomNav() {
+  const { theme, isDark } = useAppTheme();
   return (
     <View
       style={{
@@ -240,9 +246,9 @@ function BottomNav() {
         right: 0,
         bottom: 0,
         height: 86,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
         borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
+        borderTopColor: theme.border,
         paddingHorizontal: 28,
         paddingTop: 8,
         flexDirection: 'row',
@@ -281,6 +287,7 @@ function BottomNav() {
 }
 
 function TabItem({ icon, label, active, onPress }: any) {
+  const { theme, isDark } = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -290,7 +297,7 @@ function TabItem({ icon, label, active, onPress }: any) {
         width: 60,
         height: 70,
         borderRadius: 12,
-        backgroundColor: active ? '#E8F1FF' : 'transparent',
+        backgroundColor: active ? theme.surfaceSecondary : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -300,7 +307,7 @@ function TabItem({ icon, label, active, onPress }: any) {
       <Text
         size={11}
         weight="700"
-        color={active ? '#0A66C2' : '#7D7D7D'}
+        color={active ? theme.primary : theme.textSecondary}
         style={{ marginTop: 3 }}
       >
         {label}

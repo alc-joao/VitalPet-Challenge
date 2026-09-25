@@ -1,17 +1,19 @@
 import { View, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 import LogoBlue from '@/assets/logos/logo-blue.svg';
 import TutorIcon from '@/assets/icons/profile-tutor.svg';
 import ClinicIcon from '@/assets/icons/profile-clinic.svg';
 import ChangeLaterIcon from '@/assets/icons/change-later.svg';
 
 export default function ChooseProfile() {
+  const { theme, isDark } = useAppTheme();
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: '#FCFCFC',
+        backgroundColor: theme.background,
         paddingTop: 62,
         paddingHorizontal: 22,
         paddingBottom: 34,
@@ -20,13 +22,13 @@ export default function ChooseProfile() {
       <View style={{ alignItems: 'center', marginBottom: 34 }}>
         <LogoBlue width={165} height={110} />
 
-        <Text size={31} weight="700" color="#111827" align="center">
+        <Text size={31} weight="700" color={theme.text} align="center">
           Como você deseja{'\n'}usar o VitalPet?
         </Text>
 
         <Text
           size={17}
-          color="#111827"
+          color={theme.text}
           align="center"
           style={{ marginTop: 14, opacity: 0.85 }}
         >
@@ -67,7 +69,7 @@ export default function ChooseProfile() {
         <Text
           size={16}
           weight="600"
-          color="#0A66C2"
+          color={theme.primary}
           style={{ marginLeft: 10 }}
         >
           Posso mudar depois
@@ -92,6 +94,7 @@ function ProfileCard({
   buttonText,
   onPress,
 }: ProfileCardProps) {
+  const { theme, isDark } = useAppTheme();
   return (
     <View
       style={{
@@ -99,7 +102,7 @@ function ProfileCard({
         borderColor: '#3B82F6',
         borderRadius: 24,
         padding: 20,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.surface,
       }}
     >
       <View
@@ -114,7 +117,7 @@ function ProfileCard({
             width: 70,
             height: 70,
             borderRadius: 18,
-            backgroundColor: '#EEF4FF',
+            backgroundColor: theme.surfaceSecondary,
             alignItems: 'center',
             justifyContent: 'center',
             marginRight: 18,
@@ -124,13 +127,13 @@ function ProfileCard({
         </View>
 
         <View style={{ flex: 1 }}>
-          <Text size={23} weight="700" color="#111827">
+          <Text size={23} weight="700" color={theme.text}>
             {title}
           </Text>
 
           <Text
             size={15}
-            color="#111827"
+            color={theme.text}
             style={{ marginTop: 8, lineHeight: 24, opacity: 0.9 }}
           >
             {description}
@@ -143,7 +146,7 @@ function ProfileCard({
         onPress={onPress}
         style={{
           height: 60,
-          backgroundColor: '#0A66C2',
+          backgroundColor: theme.primary,
           borderRadius: 20,
           flexDirection: 'row',
           alignItems: 'center',

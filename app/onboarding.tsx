@@ -2,12 +2,14 @@ import { View, Image, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Text } from '@/src/components/atoms/Text';
+import { useAppTheme } from '@/src/hooks/useAppTheme';
 
 import LogoWhite from '@/assets/logos/logo-white.svg';
 
 export default function Onboarding() {
+  const { theme, isDark } = useAppTheme();
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: theme.surface }}>
       <View style={{ flex: 1, position: 'relative' }}>
         <Image
           source={require('@/assets/images/background.png')}
@@ -19,12 +21,21 @@ export default function Onboarding() {
         />
 
         <LinearGradient
-          colors={[
-            'rgba(255,255,255,0)',
-            'rgba(255,255,255,0.55)',
-            '#FFFFFF',
-            '#FFFFFF',
-          ]}
+          colors={
+            isDark
+              ? [
+                  'rgba(11,18,32,0)',
+                  'rgba(11,18,32,0.55)',
+                  theme.background,
+                  theme.background,
+                ]
+              : [
+                  'rgba(255,255,255,0)',
+                  'rgba(255,255,255,0.55)',
+                  theme.background,
+                  theme.background,
+                ]
+          }
           locations={[0, 0.58, 0.72, 1]}
           style={{
             position: 'absolute',
@@ -62,7 +73,7 @@ export default function Onboarding() {
 
           <Text
             size={21}
-            color="#0A66C2"
+            color={theme.primary}
             align="center"
             style={{ marginTop: 8, marginBottom: 34 }}
           >
@@ -75,7 +86,7 @@ export default function Onboarding() {
             style={{
               width: '100%',
               height: 60,
-              backgroundColor: '#0A66C2',
+              backgroundColor: theme.primary,
               borderRadius: 20,
               alignItems: 'center',
               justifyContent: 'center',
