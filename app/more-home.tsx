@@ -288,7 +288,8 @@ export default function MoreHome() {
             />
           }
           label="Sobre o App"
-          rightText="Versão 1.00"
+          rightText="Versão 4.0.0"
+          onPress={() => router.push('/about')}
         />
 
         <Divider />

@@ -165,7 +165,8 @@ export default function ClinicProfile() {
         <MenuCard
           icon={<IconMore width={24} height={24} />}
           title="Sobre o app"
-          description="VitalPet • Versão 1.0.0"
+          description="VitalPet • Versão 4.0.0"
+          onPress={() => router.push('/about')}
         />
 
         <TouchableOpacity

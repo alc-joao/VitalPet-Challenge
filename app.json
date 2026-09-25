@@ -1,9 +1,8 @@
-
 {
   "expo": {
     "name": "VitalPet",
     "slug": "VitalPet",
-    "version": "1.0.0",
+    "version": "4.0.0",
     "orientation": "portrait",
     "icon": "./assets/favicon.png",
     "scheme": "vitalpet",
