@@ -96,8 +96,8 @@ export default function About() {
       />
 
       <InfoCard
-        title="Commit da versão"
-        value="8913d66"
+        title="Commit de referência"
+        value="b93826a"
         mono
       />
 
