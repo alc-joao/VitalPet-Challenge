@@ -4,6 +4,7 @@ import {
   View,
 } from 'react-native';
 import { router } from 'expo-router';
+import Constants from 'expo-constants';
 
 import { Text } from '@/src/components/atoms/Text';
 import { useAppTheme } from '@/src/hooks/useAppTheme';
@@ -96,8 +97,8 @@ export default function About() {
       />
 
       <InfoCard
-        title="Commit de referência"
-        value="b93826a"
+        title="Commit da versão"
+        value={Constants.expoConfig?.extra?.commitHash?.slice(0, 7) ?? 'indisponível'}
         mono
       />
 
